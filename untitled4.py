@@ -384,7 +384,7 @@ def main():
     task=st.sidebar.selectbox("Different tasks", ("categorise", "Sentiment", "Influencer"))
     # display the front end aspect
     
-    data_load= st.file_uploader("Tweet Data",type=‘xlsx’)
+    data_load= st.file_uploader("Tweet Data",type=["xlsx"])
     data = pd.read_excel(data_file)
     if data is not none:
         predata=preprocess(data)

@@ -181,6 +181,22 @@ def TweetId(Final_Dataset):
 
 
 def influncerModel(Final_Dataset):
+    
+  def C(row):
+    if(row['statuses_retweeted_status_user_followers_count']>1000000):
+       val="Mega Influence"
+    
+    elif(row['statuses_retweeted_status_user_followers_count']<1000000 and row['statuses_retweeted_status_user_followers_count']>40000):
+       val="Macro Influencer"
+      
+    elif(row['statuses_retweeted_status_user_followers_count']<40000 and row['statuses_retweeted_status_user_followers_count']>2000):
+      val="Micro Influencer"
+  
+    else:
+      val="Non influencer"
+        
+    return val  
+  Final_Dataset['Influencer_Cat']=Final_Dataset.apply(C,axis=1)
 
   df_influencer=Final_Dataset[['statuses_retweeted_status_user_followers_count','statuses_retweeted_status_user_friends_count','statuses_user_statuses_count','statuses_retweeted_status_user_listed_count','statuses_retweeted_status_favorite_count','statuses_retweet_count','Influencer_Cat']]
   df_influencer=df_influencer.fillna(0)

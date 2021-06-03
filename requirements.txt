@@ -10,3 +10,4 @@ matplotlib==3.4.1
 langdetect
 deep_translator
 nltk
+xlrd==1.0.0

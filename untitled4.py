@@ -384,7 +384,8 @@ def main():
     
     # display the front end aspect
     
-    data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+    #data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+    data_load = st.file_picker("Choose a XLSX file",folder="my_folder",type="xlsx")
     
     if data_load:
         data = pd.read_excel(data_load)

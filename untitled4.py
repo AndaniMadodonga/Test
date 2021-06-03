@@ -237,7 +237,7 @@ def influncerModel(Final_Dataset):
 
   grid_xgb = GridSearchCV(pipe_xgb,param_grid=parameters_xgb,scoring='f1_macro',cv=5,refit=True) 
   best_model_xgb = grid_xgb.fit(train_X,train_y)
-  best_model_xgb.best_estimator_.get_params()['clf']
+  #best_model_xgb.best_estimator_.get_params()['clf']
   #best_pred_xgb=best_model_xgb.predict(test_X)
 
   import pickle
@@ -451,7 +451,7 @@ def main():
                  
                 influence_model=influncerModel(predata)
                 inf_pred=influence_model[0].predict(influence_model[1])
-                k=pd.DataFrame(inf_pred,columns="Influnecer_cat")
+                k=pd.DataFrame(inf_pred,columns=["Influnecer_cat"])
                 st.bar_chart(k)
 if __name__ == '__main__':
     main()

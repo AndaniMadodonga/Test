@@ -53,16 +53,16 @@ nltk.download('wordnet')
 
 
 
-def dataload():
-  drive.mount('/content/drive')
-  data = pd.read_excel("/content/drive/Shareddrives/Capstone Project/EDA_sample4.xlsx")
-  data=data.sample(n=800,random_state=7)
-  labels = pd.read_excel("/content/drive/Shareddrives/Capstone Project/23_03_2021_Library.xlsx")
-  Label_list=labels["field_name"].values.tolist() 
-  data_heading=data
-  data_heading.columns=Label_list
+# def dataload():
+#   drive.mount('/content/drive')
+#   data = pd.read_excel("/content/drive/Shareddrives/Capstone Project/EDA_sample4.xlsx")
+#   data=data.sample(n=800,random_state=7)
+#   labels = pd.read_excel("/content/drive/Shareddrives/Capstone Project/23_03_2021_Library.xlsx")
+#   Label_list=labels["field_name"].values.tolist() 
+#   data_heading=data
+#   data_heading.columns=Label_list
 
-  return data_heading
+#   return data_heading
 
 
 
@@ -393,23 +393,23 @@ def main():
     #SA and Golbal tweets
         pred=CategoriseSA(predata)
         if task=='categorise':
-        keyin_text = st.text_input("type or paste a tweet")
-        if st.button("Categorise"):
+            keyin_text = st.text_input("type or paste a tweet")
+            if st.button("Categorise"):
         
-            pred_model=pred[0]
-            pred_result=pred_model.predict(keyin_text)
-            if pred_result == 1:
-                result = 'South African tweet'
-            else:
-                result = 'Global tweet'
-            st.success('The tweet falls under {}'.format(result))
+                pred_model=pred[0]
+                pred_result=pred_model.predict(keyin_text)
+                if pred_result == 1:
+                     result = 'South African tweet'
+                else:
+                    result = 'Global tweet'
+                st.success('The tweet falls under {}'.format(result))
 
         data_model=pred[1]
         if task=="sentiment":
             if st.button('sentiment'):
-            senti=Sent(data_model)
-            st.bar_chart(senti[0].sentiment_class.value_counts())
-            st.bar_chart(senti[1].sentiment_class.value_counts())
+                senti=Sent(data_model)
+                st.bar_chart(senti[0].sentiment_class.value_counts())
+                st.bar_chart(senti[1].sentiment_class.value_counts())
   #predata=preprocess(data)
         st.markdown(html_temp2, unsafe_allow_html = True) 
         if task=="influencer":

@@ -238,7 +238,7 @@ def influncerModel(Final_Dataset):
   grid_xgb = GridSearchCV(pipe_xgb,param_grid=parameters_xgb,scoring='f1_macro',cv=5,refit=True) 
   best_model_xgb = grid_xgb.fit(train_X,train_y)
   best_model_xgb.best_estimator_.get_params()['clf']
-  best_pred_xgb=best_model_xgb.predict(test_X)
+  #best_pred_xgb=best_model_xgb.predict(test_X)
 
   import pickle
   pickle_out = open("classifier_xgb.pkl", mode = "wb") 
@@ -445,11 +445,12 @@ def main():
   #predata=preprocess(data)
         
         if task=="Influencer":
+            st.markdown(html_temp3, unsafe_allow_html = True)
             if st.button('Influencers'):
             
-                st.markdown(html_temp3, unsafe_allow_html = True) 
+                 
                 influence_model=influncerModel(predata)
                 inf_pred=influence_model[0].predict(influence_model[1])
-                st.bar_chart(inf_pred)
+                st.bar_chart(inf_pred.value_counts())
 if __name__ == '__main__':
     main()

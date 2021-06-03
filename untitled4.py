@@ -383,36 +383,37 @@ def main():
     st.sidebar.subheader("Choose Task")
     task=st.sidebar.selectbox("Different tasks", ("categorise", "Sentiment", "Influencer"))
     # display the front end aspect
-    st.markdown(html_temp1, unsafe_allow_html = True) 
-    data=dataload()
-    predata=preprocess(data)
     
-    result =""
+    data= st.file_uploader(‘Tweet Data’,type=[‘xlsx’])
+    if data is not none:
+        predata=preprocess(data)
+        st.markdown(html_temp1, unsafe_allow_html = True )
+        result =""
     #SA and Golbal tweets
-    pred=CategoriseSA(predata)
-    if task=='categorise':
-      keyin_text = st.text_input("type or paste a tweet")
-      if st.button("Categorise"):
+        pred=CategoriseSA(predata)
+        if task=='categorise':
+        keyin_text = st.text_input("type or paste a tweet")
+        if st.button("Categorise"):
         
-        pred_model=pred[0]
-        pred_result=pred_model.predict(keyin_text)
-        if pred_result == 1:
-          result = 'South African tweet'
-        else:
-          result = 'Global tweet'
-        st.success('The tweet falls under {}'.format(result))
+            pred_model=pred[0]
+            pred_result=pred_model.predict(keyin_text)
+            if pred_result == 1:
+                result = 'South African tweet'
+            else:
+                result = 'Global tweet'
+            st.success('The tweet falls under {}'.format(result))
 
-    data_model=pred[1]
-    if task=="sentiment":
-      if st.button('sentiment'):
-         senti=Sent(data_model)
-         st.bar_chart(senti[0].sentiment_class.value_counts())
-         st.bar_chart(senti[1].sentiment_class.value_counts())
+        data_model=pred[1]
+        if task=="sentiment":
+            if st.button('sentiment'):
+            senti=Sent(data_model)
+            st.bar_chart(senti[0].sentiment_class.value_counts())
+            st.bar_chart(senti[1].sentiment_class.value_counts())
   #predata=preprocess(data)
-    st.markdown(html_temp2, unsafe_allow_html = True) 
-    if task=="influencer":
-      influence_model=influncerModel(predata)
-      inf_pred=influence_model.predict(predata.sample(n=100))
-      st.bar_chart(inf_pred)
+        st.markdown(html_temp2, unsafe_allow_html = True) 
+        if task=="influencer":
+            influence_model=influncerModel(predata)
+            inf_pred=influence_model.predict(predata.sample(n=100))
+            st.bar_chart(inf_pred)
 if __name__ == '__main__':
     main()

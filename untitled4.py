@@ -451,6 +451,6 @@ def main():
                  
                 influence_model=influncerModel(predata)
                 inf_pred=influence_model[0].predict(influence_model[1])
-                st.bar_chart(inf_pred.value_counts())
+                st.bar_chart(str(inf_pred))
 if __name__ == '__main__':
     main()

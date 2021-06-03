@@ -244,7 +244,7 @@ def influncerModel(Final_Dataset):
   pickle_out = open("classifier_xgb.pkl", mode = "wb") 
   pickle.dump(best_model_xgb, pickle_out) 
   pickle_out.close()
-  return best_model_xgb,df_normal
+  return best_model_xgb,df_normal.iloc[:,:5]
 
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
@@ -445,9 +445,11 @@ def main():
   #predata=preprocess(data)
         
         if task=="Influencer":
-            st.markdown(html_temp3, unsafe_allow_html = True) 
-            influence_model=influncerModel(predata)
-            inf_pred=influence_model[0].predict(influence_model[1])
-            st.bar_chart(inf_pred)
+            if st.button('Influencers'):
+            
+                st.markdown(html_temp3, unsafe_allow_html = True) 
+                influence_model=influncerModel(predata)
+                inf_pred=influence_model[0].predict(influence_model[1])
+                st.bar_chart(inf_pred)
 if __name__ == '__main__':
     main()

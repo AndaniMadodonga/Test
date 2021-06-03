@@ -18,11 +18,10 @@ Original file is located at
 #
 import altair as alt
 from sklearn import preprocessing
-from google.colab import drive
 import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs
 import numpy as np
-import seaborn as sns
+#import seaborn as sns
 import missingno
 # %matplotlib inline
 from langdetect import detect
@@ -35,12 +34,12 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import nltk
 import re
-from sklearn.linear_model import LogisticRegression
+#from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-from sklearn.naive_bayes import MultinomialNB
+#from sklearn.svm import LinearSVC
+#from sklearn.naive_bayes import MultinomialNB
 import sklearn.metrics as metrics
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split

@@ -244,7 +244,7 @@ def influncerModel(Final_Dataset):
   pickle_out = open("classifier_xgb.pkl", mode = "wb") 
   pickle.dump(best_model_xgb, pickle_out) 
   pickle_out.close()
-  return best_model_xgb
+  return best_model_xgb,df_normal
 
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
@@ -293,8 +293,8 @@ def CategoriseSA(Final_Dataset):
   S=SA_tweets[['statuses_without_stopwords','Class']]
   G=global_tweets[['statuses_without_stopwords','Class']]
 
-  Data_Models=S.append(G,ignore_index=True)
 #Data_Models=Data_Models.replace(r"_", "", regex=True)
+  Data_Models=S.append(G,ignore_index=True)
 
   documents = []
   from nltk.stem import WordNetLemmatizer
@@ -447,7 +447,7 @@ def main():
         if task=="Influencer":
             st.markdown(html_temp3, unsafe_allow_html = True) 
             influence_model=influncerModel(predata)
-            inf_pred=influence_model.predict(predata)
+            inf_pred=influence_model[0].predict(influence_model[1])
             st.bar_chart(inf_pred)
 if __name__ == '__main__':
     main()

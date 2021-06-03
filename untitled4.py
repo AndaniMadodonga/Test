@@ -398,7 +398,7 @@ def main():
     #SA and Golbal tweets
         pred=CategoriseSA(predata)
         task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
-        if task=='categorise':
+        if task=='Categorise':
             st.markdown(html_temp1, unsafe_allow_html = True )
             result =""
             keyin_text = st.text_input("type or paste a tweet")
@@ -413,7 +413,7 @@ def main():
                 st.success('The tweet falls under {}'.format(result))
 
         data_model=pred[1]
-        if task=="sentiment":
+        if task=="Sentiment":
             st.markdown(html_temp3, unsafe_allow_html = True) 
             if st.button('sentiment'):
                 senti=Sent(data_model)
@@ -421,7 +421,7 @@ def main():
                 st.bar_chart(senti[1].sentiment_class.value_counts())
   #predata=preprocess(data)
         
-        if task=="influencer":
+        if task=="Influencer":
             st.markdown(html_temp2, unsafe_allow_html = True) 
             influence_model=influncerModel(predata)
             inf_pred=influence_model.predict(predata.sample(n=100))

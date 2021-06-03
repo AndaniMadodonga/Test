@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt # to plot graphs
 import numpy as np
 #import seaborn as sns
 #import missingno
-%matplotlib inline
+#%matplotlib inline
 from langdetect import detect
 from deep_translator import GoogleTranslator
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer

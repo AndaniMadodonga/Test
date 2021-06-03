@@ -379,20 +379,22 @@ def main():
     <h1 style =""color:black;text-align:right;">Choose task</h1>
     </div> 
     """
-    st.markdown(html_temp4, unsafe_allow_html = True) 
-    st.sidebar.subheader("Choose Task")
+    #st.markdown(html_temp4, unsafe_allow_html = True) 
+    #st.sidebar.subheader("Choose Task")
     task=st.sidebar.selectbox("Different tasks", ("categorise", "Sentiment", "Influencer"))
     # display the front end aspect
     
-    data_load= st.file_uploader("Tweet Data",type=["xlsx"])
-    data = pd.read_excel(data_load)
-    if data is not none:
+    data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+    
+    if data_load:
+        data = pd.read_excel(data_load)
         predata=preprocess(data)
-        st.markdown(html_temp1, unsafe_allow_html = True )
-        result =""
+       
     #SA and Golbal tweets
         pred=CategoriseSA(predata)
         if task=='categorise':
+            st.markdown(html_temp1, unsafe_allow_html = True )
+            result =""
             keyin_text = st.text_input("type or paste a tweet")
             if st.button("Categorise"):
         
@@ -406,13 +408,15 @@ def main():
 
         data_model=pred[1]
         if task=="sentiment":
+            st.markdown(html_temp3, unsafe_allow_html = True) 
             if st.button('sentiment'):
                 senti=Sent(data_model)
                 st.bar_chart(senti[0].sentiment_class.value_counts())
                 st.bar_chart(senti[1].sentiment_class.value_counts())
   #predata=preprocess(data)
-        st.markdown(html_temp2, unsafe_allow_html = True) 
+        
         if task=="influencer":
+            st.markdown(html_temp2, unsafe_allow_html = True) 
             influence_model=influncerModel(predata)
             inf_pred=influence_model.predict(predata.sample(n=100))
             st.bar_chart(inf_pred)

@@ -451,8 +451,9 @@ def main():
                  
                 influence_model=influncerModel(predata)
                 inf_pred=influence_model[0].predict(influence_model[1])
-                k=pd.DataFrame(inf_pred,columns=["Influnecer_cat"])
-                k=k["Influnecer_cat"].astype('category')
+                inf_pred=inf_predtolist() 
+                k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
+                k=k["Influencer_cat"].astype('category')
                 st.bar_chart(k.value_counts())
 if __name__ == '__main__':
     main()

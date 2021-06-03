@@ -447,7 +447,7 @@ def main():
         if task=="Influencer":
             st.markdown(html_temp3, unsafe_allow_html = True) 
             influence_model=influncerModel(predata)
-            inf_pred=influence_model.predict(predata.sample(n=100))
+            inf_pred=influence_model.predict(predata)
             st.bar_chart(inf_pred)
 if __name__ == '__main__':
     main()

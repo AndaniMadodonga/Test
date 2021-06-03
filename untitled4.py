@@ -451,6 +451,7 @@ def main():
                  
                 influence_model=influncerModel(predata)
                 inf_pred=influence_model[0].predict(influence_model[1])
-                st.bar_chart(str(inf_pred))
+                k=pd.DataFrame(inf_pred,columns="Influnecer_cat")
+                st.bar_chart(k)
 if __name__ == '__main__':
     main()

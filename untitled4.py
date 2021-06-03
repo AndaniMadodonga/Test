@@ -406,9 +406,9 @@ def main():
             if st.button("Categorise"):
                 from sklearn.feature_extraction.text import TfidfVectorizer
 
-                tfidf  = TfidfVectorizer()
+                #tfidf  = TfidfVectorizer()
                 keyin_text=[keyin_text]
-                keyin_text = tfidf.fit_transform(keyin_text)
+                #keyin_text = tfidf.fit_transform(keyin_text)
                 pred_model=pred[0]
                 pred_result=pred_model.predict(str(keyin_text))
                 if pred_result == 1:

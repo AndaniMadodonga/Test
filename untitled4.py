@@ -381,7 +381,7 @@ def main():
     """
     #st.markdown(html_temp4, unsafe_allow_html = True) 
     #st.sidebar.subheader("Choose Task")
-    task=st.sidebar.selectbox("Different tasks", ("categorise", "Sentiment", "Influencer"))
+    task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
     # display the front end aspect
     
     data_load= st.file_uploader("Choose a XLSX file",type="xlsx")

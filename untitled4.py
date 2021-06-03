@@ -385,7 +385,7 @@ def main():
     # display the front end aspect
     
     data_load= st.file_uploader("Tweet Data",type=["xlsx"])
-    data = pd.read_excel(data_file)
+    data = pd.read_excel(data_load)
     if data is not none:
         predata=preprocess(data)
         st.markdown(html_temp1, unsafe_allow_html = True )

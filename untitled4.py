@@ -309,7 +309,7 @@ def CategoriseSA(Final_Dataset):
   df_lem = pd.DataFrame(documents, columns=["clean_text"])
   Data_Models['clean_text']=df_lem['clean_text']
 
-split the data
+#split the data
 
   X_train, X_test, y_train, y_test  = train_test_split(Data_Models.clean_text, Data_Models.Class, test_size=0.2, random_state=1)
 

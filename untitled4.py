@@ -410,7 +410,7 @@ def main():
                 keyin_text=[keyin_text]
                 #keyin_text = tfidf.fit_transform(keyin_text)
                 pred_model=pred[0]
-                pred_result=pred_model.predict(str(keyin_text))
+                pred_result=pred_model.predict(keyin_text)
                 if pred_result == 1:
                      result = 'South African tweet'
                 else:

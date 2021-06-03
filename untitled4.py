@@ -421,7 +421,7 @@ def main():
 
         data_model=pred[1]
         if task=="Sentiment":
-            st.markdown(html_temp3, unsafe_allow_html = True) 
+            st.markdown(html_temp2, unsafe_allow_html = True) 
             if st.button('sentiment'):
                 senti=Sent(data_model)
                 st.bar_chart(senti[0].sentiment_class.value_counts())
@@ -429,7 +429,7 @@ def main():
   #predata=preprocess(data)
         
         if task=="Influencer":
-            st.markdown(html_temp2, unsafe_allow_html = True) 
+            st.markdown(html_temp3, unsafe_allow_html = True) 
             influence_model=influncerModel(predata)
             inf_pred=influence_model.predict(predata.sample(n=100))
             st.bar_chart(inf_pred)

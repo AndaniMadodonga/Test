@@ -384,7 +384,7 @@ def main():
     
     # display the front end aspect
     
-    data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+    data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
     #data_load = st.file_picker("Choose a XLSX file",folder="https://github.com/AndaniMadodonga/Test/blob/main/",type="xlsx")
     #Label_list=labels["field_name"].values.tolist() 
     
@@ -403,9 +403,12 @@ def main():
             result =""
             keyin_text = st.text_input("type or paste a tweet")
             if st.button("Categorise"):
-        
+                from sklearn.feature_extraction.text import TfidfVectorizer
+
+                tfidf  = TfidfVectorizer()
+                keyin_text = tfidf.fit_transform(keyin_text)
                 pred_model=pred[0]
-                pred_result=pred_model.predict(keyin_text)
+                pred_result=pred_model.predict(str(keyin_text))
                 if pred_result == 1:
                      result = 'South African tweet'
                 else:

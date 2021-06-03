@@ -338,7 +338,7 @@ def CategoriseSA(Final_Dataset):
 
 def Sent(Data_Models):
   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-    analyser = SentimentIntensityAnalyzer()
+  analyser = SentimentIntensityAnalyzer()
   text_sent=Data_Models.clean_text
   scores_sent=[]
   for sentence in text_sent:

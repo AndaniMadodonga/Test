@@ -22,7 +22,7 @@ import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs
 import numpy as np
 #import seaborn as sns
-import missingno
+#import missingno
 # %matplotlib inline
 from langdetect import detect
 from deep_translator import GoogleTranslator

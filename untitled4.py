@@ -381,7 +381,7 @@ def main():
     """
     #st.markdown(html_temp4, unsafe_allow_html = True) 
     #st.sidebar.subheader("Choose Task")
-    task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
+    
     # display the front end aspect
     
     data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
@@ -392,6 +392,7 @@ def main():
        
     #SA and Golbal tweets
         pred=CategoriseSA(predata)
+        task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
         if task=='categorise':
             st.markdown(html_temp1, unsafe_allow_html = True )
             result =""

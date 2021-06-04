@@ -215,36 +215,36 @@ def influncerModel(Final_Dataset):
   df_normal1 = pd.DataFrame(x_scaled,columns=cols)
   df_normal=pd.concat([df_normal1,yy],axis=1)
 
-  train_X, test_X, train_y, test_y  = train_test_split(df_normal.iloc[:,:5], df_normal.Influencer_class, test_size=0.2, random_state=1)
+#   train_X, test_X, train_y, test_y  = train_test_split(df_normal.iloc[:,:5], df_normal.Influencer_class, test_size=0.2, random_state=1)
 
-  train_X, X_val, train_y, y_val = train_test_split(train_X, train_y, test_size=0.2, random_state=1)
+#   train_X, X_val, train_y, y_val = train_test_split(train_X, train_y, test_size=0.2, random_state=1)
 
-#train Xgboost
-  import xgboost as xgb
-  params = {
-     'max_depth': 6,
-     'objective': 'multi:softprob',
-      'num_class': 4,
-     'n_gpus': 0}
-  pipe_xgb = Pipeline([('clf', xgb.XGBClassifier(**params))])
+# #train Xgboost
+#   import xgboost as xgb
+#   params = {
+#      'max_depth': 6,
+#      'objective': 'multi:softprob',
+#       'num_class': 4,
+#      'n_gpus': 0}
+#   pipe_xgb = Pipeline([('clf', xgb.XGBClassifier(**params))])
 
-  parameters_xgb = {
-          'clf__n_estimators':[30,40], 
-          'clf__criterion':['entropy'], 
-          'clf__min_samples_split':[15,20], 
-          'clf__min_samples_leaf':[3,4]
-     }
+#   parameters_xgb = {
+#           'clf__n_estimators':[30,40], 
+#           'clf__criterion':['entropy'], 
+#           'clf__min_samples_split':[15,20], 
+#           'clf__min_samples_leaf':[3,4]
+#      }
 
-  grid_xgb = GridSearchCV(pipe_xgb,param_grid=parameters_xgb,scoring='f1_macro',cv=5,refit=True) 
-  best_model_xgb = grid_xgb.fit(train_X,train_y)
-  #best_model_xgb.best_estimator_.get_params()['clf']
-  #best_pred_xgb=best_model_xgb.predict(test_X)
+#   grid_xgb = GridSearchCV(pipe_xgb,param_grid=parameters_xgb,scoring='f1_macro',cv=5,refit=True) 
+#   best_model_xgb = grid_xgb.fit(train_X,train_y)
+#   #best_model_xgb.best_estimator_.get_params()['clf']
+#   #best_pred_xgb=best_model_xgb.predict(test_X)
 
-  import pickle
-  pickle_out = open("classifier_xgb.pkl", mode = "wb") 
-  pickle.dump(best_model_xgb, pickle_out) 
-  pickle_out.close()
-  return best_model_xgb,df_normal.iloc[:,:5]
+#   import pickle
+#   pickle_out = open("classifier_xgb.pkl", mode = "wb") 
+#   pickle.dump(best_model_xgb, pickle_out) 
+#   pickle_out.close()
+  return df_normal.iloc[:,:5] #best_model_xgb
 
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
@@ -326,28 +326,28 @@ def CategoriseSA(Final_Dataset):
 
 #split the data
 
-  X_train, X_test, y_train, y_test  = train_test_split(Data_Models.clean_text, Data_Models.Class, test_size=0.2, random_state=1)
+#   X_train, X_test, y_train, y_test  = train_test_split(Data_Models.clean_text, Data_Models.Class, test_size=0.2, random_state=1)
 
-  #X_train, val_X, y_train, val_y = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
+#   #X_train, val_X, y_train, val_y = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
 
-  pipe = Pipeline(steps=[('TF-IDF_vectorization',TfidfVectorizer()),('classifier', MultinomialNB())])
+#   pipe = Pipeline(steps=[('TF-IDF_vectorization',TfidfVectorizer()),('classifier', MultinomialNB())])
 
-# Create space of candidate learning algorithms and their hyperparameters
-  search_space = [{'classifier': [RandomForestClassifier()],
-                 'classifier__n_estimators': [10, 100, 1000]}]
+# # Create space of candidate learning algorithms and their hyperparameters
+#   search_space = [{'classifier': [RandomForestClassifier()],
+#                  'classifier__n_estimators': [10, 100, 1000]}]
 
-  scoring={'AUC':'roc_auc','accuracy':metrics.make_scorer(metrics.accuracy_score) }
-  clf = GridSearchCV(pipe, search_space,scoring=scoring ,cv=10,n_jobs=-1,return_train_score=True,refit='AUC')
-  best_model = clf.fit(X_train, y_train)
+#   scoring={'AUC':'roc_auc','accuracy':metrics.make_scorer(metrics.accuracy_score) }
+#   clf = GridSearchCV(pipe, search_space,scoring=scoring ,cv=10,n_jobs=-1,return_train_score=True,refit='AUC')
+#   best_model = clf.fit(X_train, y_train)
 
-  #bestModelPred=best_model.predict(X_test)
+#   #bestModelPred=best_model.predict(X_test)
 
-  import pickle 
-  pickle_out = open("classifier.pkl", mode = "wb") 
-  pickle.dump(best_model, pickle_out) 
-  pickle_out.close()
+#   import pickle 
+#   pickle_out = open("classifier.pkl", mode = "wb") 
+#   pickle.dump(best_model, pickle_out) 
+#   pickle_out.close()
 
-  return best_model, Data_Models
+  return  Data_Models #best_model
 
 
 
@@ -414,7 +414,7 @@ def main():
         predata=preprocess(data)
        
     #SA and Golbal tweets
-        pred=CategoriseSA(predata)
+        pred_cat=CategoriseSA(predata)
         task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
         if task=='Categorise':
             st.markdown(html_temp1, unsafe_allow_html = True )
@@ -422,12 +422,11 @@ def main():
             keyin_text = st.text_input("type or paste a tweet")
             
             if st.button("Categorise"):
-                from sklearn.feature_extraction.text import TfidfVectorizer
-
-                #tfidf  = TfidfVectorizer()
+                                
                 keyin_text=[keyin_text]
-                #keyin_text = tfidf.fit_transform(keyin_text)
-                pred_model=pred[0]
+                
+                #pred_model=pred[0]
+                ##insert pickle model
                 pred_result=pred_model.predict(keyin_text)
                 if pred_result == 1:
                      result = 'South African tweet'
@@ -435,22 +434,30 @@ def main():
                     result = 'Global tweet'
                 st.success('The tweet falls under {}'.format(result))
 
-        data_model=pred[1]
+        data_model=pred
         if task=="Sentiment":
             st.markdown(html_temp2, unsafe_allow_html = True) 
-            if st.button('sentiment'):
-                senti=Sent(data_model)
-                st.bar_chart(senti[0].sentiment_class.value_counts())
-                st.bar_chart(senti[1].sentiment_class.value_counts())
+            st.Write("Perform bulk or individual text sentiment")
+            sent_choice.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
+            if sent_choice=='Bulk':
+                if st.button('Bulk sentiment'):
+                
+                    senti=Sent(data_model)
+                    st.bar_chart(senti[0].sentiment_class.value_counts())
+                    st.bar_chart(senti[1].sentiment_class.value_counts())
+             if sent_choice=='Text':
+                if st.button('Text sentiment'):
+                
   #predata=preprocess(data)
         
         if task=="Influencer":
             st.markdown(html_temp3, unsafe_allow_html = True)
             if st.button('Influencers'):
             
-                 
+                
                 influence_model=influncerModel(predata)
-                inf_pred=influence_model[0].predict(influence_model[1])
+                #insert pickle model
+                inf_pred=classifier_pickle.predict(influence_model[1])
                 inf_pred=inf_pred.tolist() 
                 k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
                 k=k["Influencer_cat"].astype('category')

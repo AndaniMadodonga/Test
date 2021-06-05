@@ -386,7 +386,7 @@ def Sent_text(text):
   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
   Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
   Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
-  return Df_sent["sentiment_class"].astype(str)
+  return Df_sent["sentiment_class"].loc[0]
 
 
 def main():

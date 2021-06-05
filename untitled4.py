@@ -456,7 +456,7 @@ def main():
         #data_model=pred
         if task=="Sentiment":
             st.markdown(html_temp2, unsafe_allow_html = True) 
-            st.Write("Perform bulk or individual text sentiment")
+            st.write("Perform bulk or individual text sentiment")
             sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
             if sent_choice=='Bulk':
                 if st.button('Bulk sentiment'):

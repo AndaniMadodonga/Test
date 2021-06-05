@@ -345,23 +345,6 @@ def Sent(Data_Models):
   else: 
     return Df_sent["sentiment_class"].loc[0]
 
-# def Sent_text(text):
-#   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-#   analyser = SentimentIntensityAnalyzer()
-#   text_sent=text
-#   scores_sent=[]
-#   for sentence in text_sent:
-#      score = analyser.polarity_scores(sentence)
-#      scores_sent.append(score)
-#   dfSentiment= pd.DataFrame(scores_sent)
-#   text_sent=pd.DataFrame(text_sent)
-#   Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
-#   Df_sent['sentiment_class']=''
-#   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
-#   Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
-#   Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
-#   return Df_sent["sentiment_class"].loc[0]
-
 
 def main():
     import streamlit as st       
@@ -431,7 +414,7 @@ def main():
         #data_model=pred
         if task=="Sentiment":
             st.markdown(html_temp2, unsafe_allow_html = True) 
-            st.write("Perform bulk or individual text sentiment")
+            st.write("**Select the option below to perform bulk or Single tweet sentiment**")
             sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
             if sent_choice=='Bulk':
                 if st.button('Bulk sentiment'):
@@ -439,12 +422,14 @@ def main():
                     senti=Sent(data_model)
                     st.bar_chart(senti[0].sentiment_class.value_counts())
                     st.bar_chart(senti[1].sentiment_class.value_counts())
+                    #text_Sent_SA.sentiment_class.value_counts().plot(kind='bar',title="sentiment analysis for SA tweets")
+                    senti[1].sentiment_class.value_counts().plot(kind='bar',title="sentiment analysis for Global tweets")
                    
             if sent_choice=='Text':
                 keyin_text_sent = st.text_input("type or paste a tweet")
                 
                     
-                if st.button('Text sentiment'):
+                if st.button('Check Sentiment'):
                      senti=Sent([keyin_text_sent])  
                      
                      st.success('The Sentiment of the tweet is-{}'.format(senti))

@@ -393,70 +393,70 @@ def main():
        
 # #     #SA and Golbal tweets
     
-    task1=st.sidebar.radio("Perform analysis",("Yes","No"))
-    if task1=="Yes":
-        task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
-        if task=='Categorise':
-            st.markdown(html_temp1, unsafe_allow_html = True )
-            result =""
-            keyin_text = st.text_input("type or paste a tweet")
+        task1=st.sidebar.radio("Perform analysis",("Yes","No"))
+        if task1=="Yes":
+             task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
+             if task=='Categorise':
+                st.markdown(html_temp1, unsafe_allow_html = True )
+                result =""
+                keyin_text = st.text_input("type or paste a tweet")
             
-            if st.button("Categorise"):
+                if st.button("Categorise"):
                                 
-                keyin_text=[keyin_text]
+                    keyin_text=[keyin_text]
                 
                 #pred_model=pred[0]
                 ##insert pickle model
-                pred_result=pred_model.predict(keyin_text)
-                if pred_result == 1:
-                     result = 'South African tweet'
-                else:
-                    result = 'Global tweet'
-                st.success('The tweet falls under {}'.format(result))
+                    pred_result=pred_model.predict(keyin_text)
+                    if pred_result == 1:
+                         result = 'South African tweet'
+                    else:
+                         result = 'Global tweet'
+                    st.success('The tweet falls under {}'.format(result))
 
         #
-        if task=="Sentiment":
-            st.markdown(html_temp2, unsafe_allow_html = True) 
-            st.write("**Select the option below to perform bulk or Single tweet sentiment**")
-            sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
-            if sent_choice=='Bulk':
-                if st.button('Bulk sentiment'):
+            if task=="Sentiment":
+                st.markdown(html_temp2, unsafe_allow_html = True) 
+                st.write("**Select the option below to perform bulk or Single tweet sentiment**")
+                sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
+                if sent_choice=='Bulk':
+                    if st.button('Bulk sentiment'):
                 
                     
 #                     st.title("sentiment analysis for SA tweets")
 #                     st.bar_chart(senti[0].sentiment_class.value_counts())
 #                     st.title("sentiment analysis for International tweets")
 #                     st.bar_chart(senti[1].sentiment_class.value_counts())
-                 with st.echo(code_location='below'):
-                     data_model=pred_cat  
-                     senti=Sent(data_model)
-                     st.write("SA and Global tweet Sentiment analysis Bar graphs")
-                     senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
-                     senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
+                    with st.echo(code_location='below'):
+                        pred_cat  
+                        senti=Sent(pred_cat)
+                        st.write("SA and Global tweet Sentiment analysis Bar graphs")
+                        senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
+                        senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
                    
-            if sent_choice=='Text':
-                keyin_text_sent = st.text_input("type or paste a tweet")
+                if sent_choice=='Text':
+                    keyin_text_sent = st.text_input("type or paste a tweet")
                 
                     
-                if st.button('Check Sentiment'):
-                     senti=Sent([keyin_text_sent])  
+                    if st.button('Check Sentiment'):
+                         senti=Sent([keyin_text_sent])  
                      
-                     st.success('The Sentiment of the tweet is-{}'.format(senti))
+                         st.success('The Sentiment of the tweet is-{}'.format(senti))
                             
                 
   #predata=preprocess(data)
         
-        if task=="Influencer":
-            st.markdown(html_temp3, unsafe_allow_html = True)
-            if st.button('Influencers'):
+            if task=="Influencer":
+                st.markdown(html_temp3, unsafe_allow_html = True)
+                if st.button('Influencers'):
             
                 
-                influence_model=influncerModel(predata)
+                    influence_model=influncerModel(predata)
                 #insert pickle model
-                inf_pred=classifier_pickle.predict(influence_model[1])
-                inf_pred=inf_pred.tolist() 
-                k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
-                k=k["Influencer_cat"].astype('category')
-                st.bar_chart(k.value_counts())
+                    inf_pred=classifier_pickle.predict(influence_model[1])
+                    inf_pred=inf_pred.tolist() 
+                    k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
+                    k=k["Influencer_cat"].astype('category')
+                    st.bar_chart(k.value_counts())
 if __name__ == '__main__':
     main()

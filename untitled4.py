@@ -320,7 +320,7 @@ def Sent(Data_Models):
   if len(Data_Models)==1:
     text_sent=Data_Models
   else:
-  text_sent=Data_Models.clean_text
+    text_sent=Data_Models.clean_text
 
   scores_sent=[]
   for sentence in text_sent:
@@ -341,7 +341,7 @@ def Sent(Data_Models):
     text_Sent_SA=Df_sent[Df_sent['Class']==1]
     text_Sent_GL=Df_sent[Df_sent['Class']==0]
     return text_Sent_SA, text_Sent_GL
- else 
+ else: 
     return Df_sent["sentiment_class"].loc[0]
 @st.cache()
 # def Sent_text(text):

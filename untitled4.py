@@ -380,6 +380,7 @@ def Sent_text(text):
      score = analyser.polarity_scores(sentence)
      scores_sent.append(score)
   dfSentiment= pd.DataFrame(scores_sent)
+  text_sent=pd.Dataframe(text_sent)
   Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
   Df_sent['sentiment_class']=''
   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'

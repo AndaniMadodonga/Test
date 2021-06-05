@@ -435,7 +435,7 @@ def main():
                                 #st.write(senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets"))
                                 #st.write(senti[1].sentiment_class.value_counts().plt(kind='bar',color='red',title="sentiment analysis for Global tweets"))
                                 chart = alt.Chart(senti[1]).mark_bar().encode(alt.X("senti[1].sentiment_class",y='count()',).interactive()
-                                st.altair_chart(chart)
+                                st.write(chart)
                                 
                                                                             
                                                         

@@ -436,7 +436,7 @@ def main():
                                 #st.write(senti[1].sentiment_class.value_counts().plt(kind='bar',color='red',title="sentiment analysis for Global tweets"))
                                 fig = plt.figure()
 
-                                plt.hist(senti[1].sentiment_class.value_counts(),color='red',title="sentiment analysis for Global tweets")
+                                plt.bar(senti[1].sentiment_class.value_counts(),color='red',title="sentiment analysis for Global tweets")
 
                                 st.plotly_chart(fig)
                    

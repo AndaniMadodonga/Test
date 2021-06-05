@@ -361,7 +361,7 @@ def Sent(Data_Models):
 #   Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
 #   return Df_sent["sentiment_class"].loc[0]
 
-@st.cache()
+
 def main():
     import streamlit as st       
     # front end elements of the web page 

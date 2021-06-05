@@ -66,7 +66,7 @@ nltk.download('wordnet')
 
 
 
-
+@st.cache()
 def preprocess(data_heading):
   null_dict={}
   nulls_all=data_heading.isnull().sum().to_frame()
@@ -141,45 +141,7 @@ def preprocess(data_heading):
 
   return Final_Dataset
 
-
-def TweetId(Final_Dataset):
-  def C(row):
-    if(row['statuses_retweeted_status_user_followers_count']>1000000):
-       val="Mega Influence"
-    
-    elif(row['statuses_retweeted_status_user_followers_count']<1000000 and row['statuses_retweeted_status_user_followers_count']>40000):
-       val="Macro Influencer"
-      
-    elif(row['statuses_retweeted_status_user_followers_count']<40000 and row['statuses_retweeted_status_user_followers_count']>2000):
-      val="Micro Influencer"
-  
-    else:
-      val="Non influencer"
-        
-    return val
-
-  Final_Dataset['Influencer_Cat']=Final_Dataset.apply(C,axis=1)
-
-  from collections import Counter
-#status_user_id case--To determine the user with the highest retweets
-  MyList = Final_Dataset['statuses_retweeted_status_user_id']
-  c = Counter(MyList)
-# status_id -- To determine the tweets with the highest retweets
-  MyList_tweet = Final_Dataset['statuses_retweeted_status_id']
-  k=Counter(MyList_tweet)
-
-  DuplicateTweets=pd.DataFrame.from_dict(c, orient='index').reset_index() 
-  D_Tweet_id=pd.DataFrame.from_dict(k, orient='index').reset_index()
-
-  DuplicateTweets.columns=["statuses_retweeted_status_user_id","value"]
-  D_Tweet_id.columns=["statuses_retweeted_status_id","value"]
-
-#sort the values
-  return D_Tweet_id
-
-
-
-
+@st.cache()
 def influncerModel(Final_Dataset):
     
   def C(row):
@@ -245,7 +207,7 @@ def influncerModel(Final_Dataset):
 #   pickle.dump(best_model_xgb, pickle_out) 
 #   pickle_out.close()
   return df_normal.iloc[:,:5] #best_model_xgb
-
+@st.cache()
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
   Categorisation_dataset=Final_Dataset[(Final_Dataset['input_query']!='nfsas') & (Final_Dataset['input_query']!='#openthechurches')]
@@ -351,44 +313,55 @@ def CategoriseSA(Final_Dataset):
 
 
 
-
+@st.cache()
 def Sent(Data_Models):
   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
   analyser = SentimentIntensityAnalyzer()
+  if len(Data_Models)==1:
+    text_sent=Data_Models
+  else:
   text_sent=Data_Models.clean_text
+
   scores_sent=[]
   for sentence in text_sent:
      score = analyser.polarity_scores(sentence)
      scores_sent.append(score)
 
   dfSentiment= pd.DataFrame(scores_sent)
-  Df_sent=pd.concat([text_sent,dfSentiment,Data_Models.Class],axis=1)
+  if len(Data_Models)==1:
+        Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
+  else:      
+        Df_sent=pd.concat([text_sent,dfSentiment,Data_Models.Class],axis=1)
+        
   Df_sent['sentiment_class']=''
   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
   Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
   Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
-  text_Sent_SA=Df_sent[Df_sent['Class']==1]
-  text_Sent_GL=Df_sent[Df_sent['Class']==0]
-  return text_Sent_SA, text_Sent_GL
+  if len(Data_Models)>1:  
+    text_Sent_SA=Df_sent[Df_sent['Class']==1]
+    text_Sent_GL=Df_sent[Df_sent['Class']==0]
+    return text_Sent_SA, text_Sent_GL
+ else 
+    return Df_sent["sentiment_class"].loc[0]
+@st.cache()
+# def Sent_text(text):
+#   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+#   analyser = SentimentIntensityAnalyzer()
+#   text_sent=text
+#   scores_sent=[]
+#   for sentence in text_sent:
+#      score = analyser.polarity_scores(sentence)
+#      scores_sent.append(score)
+#   dfSentiment= pd.DataFrame(scores_sent)
+#   text_sent=pd.DataFrame(text_sent)
+#   Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
+#   Df_sent['sentiment_class']=''
+#   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
+#   Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
+#   Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
+#   return Df_sent["sentiment_class"].loc[0]
 
-def Sent_text(text):
-  from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-  analyser = SentimentIntensityAnalyzer()
-  text_sent=text
-  scores_sent=[]
-  for sentence in text_sent:
-     score = analyser.polarity_scores(sentence)
-     scores_sent.append(score)
-  dfSentiment= pd.DataFrame(scores_sent)
-  text_sent=pd.DataFrame(text_sent)
-  Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
-  Df_sent['sentiment_class']=''
-  Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
-  Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
-  Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
-  return Df_sent["sentiment_class"].loc[0]
-
-
+@st.cache()
 def main():
     import streamlit as st       
     # front end elements of the web page 
@@ -471,7 +444,7 @@ def main():
                 
                     
                 if st.button('Text sentiment'):
-                     senti=Sent_text([keyin_text_sent])  
+                     senti=Sent([keyin_text_sent])  
                      
                      st.success('The Sentiment of the tweet is-{}'.format(senti))
                             

@@ -424,7 +424,7 @@ def main():
 #                     st.bar_chart(senti[0].sentiment_class.value_counts())
 #                     st.title("sentiment analysis for International tweets")
 #                     st.bar_chart(senti[1].sentiment_class.value_counts())
-                 with st.echo(code_location='below'):
+                with st.echo(code_location='below'):
                             st.write("SA and Global tweet Sentiment analysis Bar graphs")
                             senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
                             senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")

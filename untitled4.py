@@ -473,7 +473,7 @@ def main():
                 if st.button('Text sentiment'):
                      senti=Sent_text([keyin_text_sent])  
                      
-                     st.success('The Sentiment of the tweet is'.format(str(senti)))
+                     st.success('The Sentiment of the tweet is-{}'.format(senti))
                             
                 
   #predata=preprocess(data)

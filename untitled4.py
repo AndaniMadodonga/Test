@@ -387,8 +387,8 @@ def main():
         data.columns=Label_list
         predata=preprocess(data)
         pred_cat=CategoriseSA(predata)
-    else:
-        pass
+    
+        
         #predata=preprocess(data)
        
 # #     #SA and Golbal tweets

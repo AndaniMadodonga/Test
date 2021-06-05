@@ -341,7 +341,7 @@ def Sent(Data_Models):
   if len(Data_Models)>1:  
     text_Sent_SA=Df_sent[Df_sent['Class']==1]
     text_Sent_GL=Df_sent[Df_sent['Class']==0]
-    return text_Sent_SA, text_Sent_GL
+    return text_Sent_SA, text_Sent_GL,Df_sent
   else: 
     return Df_sent["sentiment_class"].loc[0]
 
@@ -430,16 +430,16 @@ def main():
                             
                                 #pred_cat.head()  
                                 senti=Sent(pred_cat)
-                                st.write(senti[1].head())
-                                st.write("SA and Global tweet Sentiment analysis Bar graphs")
+                                st.write(senti[2].head())
+                                st.write("SA tweet Sentiment analysis Bar graphs")
                                 #st.write(senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets"))
                                 #st.write(senti[1].sentiment_class.value_counts().plt(kind='bar',color='red',title="sentiment analysis for Global tweets"))
-                                chart = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
-                                st.write(chart)
-                                
-                                                                            
-                                                        
-
+                                chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                                st.write(chart2)
+                                st.write("Global tweet Sentiment analysis Bar graphs")
+                                chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                                st.write(chart2)
+                                                                                                                                                                
                    
                     if sent_choice=='Text':
                         keyin_text_sent = st.text_input("type or paste a tweet")

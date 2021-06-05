@@ -388,7 +388,7 @@ def main():
         predata=preprocess(data)
         pred_cat=CategoriseSA(predata)
     else:
-        continue
+        pass
         #predata=preprocess(data)
        
 # #     #SA and Golbal tweets

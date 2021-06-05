@@ -466,11 +466,12 @@ def main():
                     st.bar_chart(senti[1].sentiment_class.value_counts())
                    
             if sent_choice=='Text':
+                keyin_text_sent = st.text_input("type or paste a tweet")
+                
                     
                 if st.button('Text sentiment'):
-                        
-                     keyin_text_sent = st.text_input("type or paste a tweet")
-                     senti=Sent([keyin_text_sent])
+                     senti=Sent_text([keyin_text_sent])  
+                     
                      st.success('The Sentiment of the tweet is'.format(senti))
                             
                 

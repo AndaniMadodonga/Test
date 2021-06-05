@@ -329,6 +329,7 @@ def Sent(Data_Models):
 
   dfSentiment= pd.DataFrame(scores_sent)
   if len(Data_Models)==1:
+        text_sent=pd.DataFrame(text_sent)
         Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
   else:      
        Df_sent=pd.concat([text_sent,dfSentiment,Data_Models.Class],axis=1)

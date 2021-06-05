@@ -331,7 +331,7 @@ def Sent(Data_Models):
   if len(Data_Models)==1:
         Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
   else:      
-        Df_sent=pd.concat([text_sent,dfSentiment,Data_Models.Class],axis=1)
+       Df_sent=pd.concat([text_sent,dfSentiment,Data_Models.Class],axis=1)
         
   Df_sent['sentiment_class']=''
   Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
@@ -341,7 +341,7 @@ def Sent(Data_Models):
     text_Sent_SA=Df_sent[Df_sent['Class']==1]
     text_Sent_GL=Df_sent[Df_sent['Class']==0]
     return text_Sent_SA, text_Sent_GL
- else: 
+  else: 
     return Df_sent["sentiment_class"].loc[0]
 @st.cache()
 # def Sent_text(text):

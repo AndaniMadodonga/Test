@@ -431,7 +431,7 @@ def main():
 #     #SA and Golbal tweets
 #         pred_cat=CategoriseSA(predata)
     task1=st.sidebar.radiobutton("Yes","No")
-      if task1=="Yes":
+    if task1=="Yes":
         task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
         if task=='Categorise':
             st.markdown(html_temp1, unsafe_allow_html = True )

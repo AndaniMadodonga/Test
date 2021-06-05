@@ -415,33 +415,33 @@ def main():
                     st.success('The tweet falls under {}'.format(result))
 
         #
-            if task=="Sentiment":
-                st.markdown(html_temp2, unsafe_allow_html = True) 
-                st.write("**Select the option below to perform bulk or Single tweet sentiment**")
-                sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
-                if sent_choice=='Bulk':
-                    if st.button('Bulk sentiment'):
+                if task=="Sentiment":
+                    st.markdown(html_temp2, unsafe_allow_html = True) 
+                    st.write("**Select the option below to perform bulk or Single tweet sentiment**")
+                    sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
+                    if sent_choice=='Bulk':
+                        if st.button('Bulk sentiment'):
                 
                     
 #                     st.title("sentiment analysis for SA tweets")
 #                     st.bar_chart(senti[0].sentiment_class.value_counts())
 #                     st.title("sentiment analysis for International tweets")
 #                     st.bar_chart(senti[1].sentiment_class.value_counts())
-                    with st.echo(code_location='below'):
-                        pred_cat  
-                        senti=Sent(pred_cat)
-                        st.write("SA and Global tweet Sentiment analysis Bar graphs")
-                        senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
-                        senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
+                        with st.echo(code_location='below'):
+                            pred_cat  
+                            senti=Sent(pred_cat)
+                            st.write("SA and Global tweet Sentiment analysis Bar graphs")
+                            senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
+                            senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
                    
-                if sent_choice=='Text':
-                    keyin_text_sent = st.text_input("type or paste a tweet")
+                    if sent_choice=='Text':
+                        keyin_text_sent = st.text_input("type or paste a tweet")
                 
                     
-                    if st.button('Check Sentiment'):
-                         senti=Sent([keyin_text_sent])  
+                        if st.button('Check Sentiment'):
+                            senti=Sent([keyin_text_sent])  
                      
-                         st.success('The Sentiment of the tweet is-{}'.format(senti))
+                            st.success('The Sentiment of the tweet is-{}'.format(senti))
                             
                 
   #predata=preprocess(data)

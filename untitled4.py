@@ -430,7 +430,7 @@ def main():
        
 #     #SA and Golbal tweets
 #         pred_cat=CategoriseSA(predata)
-    task1=st.sidebar.radio("Yes","No")
+    task1=st.sidebar.radio("Perform analysis","Yes","No")
     if task1=="Yes":
         task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
         if task=='Categorise':

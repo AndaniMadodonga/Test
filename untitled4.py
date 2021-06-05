@@ -415,7 +415,7 @@ def main():
                     st.success('The tweet falls under {}'.format(result))
 
         #
-                if task=="Sentiment":
+               if task=="Sentiment":
                     st.markdown(html_temp2, unsafe_allow_html = True) 
                     st.write("**Select the option below to perform bulk or Single tweet sentiment**")
                     sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))

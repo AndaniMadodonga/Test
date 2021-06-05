@@ -446,17 +446,17 @@ def main():
                 
   #predata=preprocess(data)
         
-            if task=="Influencer":
-                st.markdown(html_temp3, unsafe_allow_html = True)
-                if st.button('Influencers'):
+                if task=="Influencer":
+                    st.markdown(html_temp3, unsafe_allow_html = True)
+                    if st.button('Influencers'):
             
                 
-                    influence_model=influncerModel(predata)
+                        influence_model=influncerModel(predata)
                 #insert pickle model
-                    inf_pred=classifier_pickle.predict(influence_model[1])
-                    inf_pred=inf_pred.tolist() 
-                    k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
-                    k=k["Influencer_cat"].astype('category')
-                    st.bar_chart(k.value_counts())
+                        inf_pred=classifier_pickle.predict(influence_model[1])
+                        inf_pred=inf_pred.tolist() 
+                        k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
+                        k=k["Influencer_cat"].astype('category')
+                        st.bar_chart(k.value_counts())
 if __name__ == '__main__':
     main()

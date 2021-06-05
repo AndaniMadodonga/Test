@@ -430,10 +430,10 @@ def main():
                             
                                 #pred_cat.head()  
                                 senti=Sent(pred_cat)
-                                senti[1].head()
+                                write(senti[1].head())
                                 st.write("SA and Global tweet Sentiment analysis Bar graphs")
                                 #senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
-                                senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
+                                write(senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets"))
                    
                     if sent_choice=='Text':
                         keyin_text_sent = st.text_input("type or paste a tweet")

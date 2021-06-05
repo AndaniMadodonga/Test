@@ -67,7 +67,7 @@ nltk.download('wordnet')
 
 
 
-@st.cache()
+
 def preprocess(data_heading):
   null_dict={}
   nulls_all=data_heading.isnull().sum().to_frame()
@@ -208,7 +208,7 @@ def influncerModel(Final_Dataset):
 #   pickle.dump(best_model_xgb, pickle_out) 
 #   pickle_out.close()
   return df_normal.iloc[:,:5] #best_model_xgb
-@st.cache()
+
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
   Categorisation_dataset=Final_Dataset[(Final_Dataset['input_query']!='nfsas') & (Final_Dataset['input_query']!='#openthechurches')]
@@ -314,7 +314,6 @@ def CategoriseSA(Final_Dataset):
 
 
 
-@st.cache()
 def Sent(Data_Models):
   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
   analyser = SentimentIntensityAnalyzer()
@@ -344,7 +343,7 @@ def Sent(Data_Models):
     return text_Sent_SA, text_Sent_GL
   else: 
     return Df_sent["sentiment_class"].loc[0]
-@st.cache()
+
 # def Sent_text(text):
 #   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 #   analyser = SentimentIntensityAnalyzer()

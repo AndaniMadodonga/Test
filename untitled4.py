@@ -387,7 +387,7 @@ def main():
         data.columns=Label_list
         predata=preprocess(data)
         pred_cat=CategoriseSA(predata)
-     else:
+    else:
         continue
         #predata=preprocess(data)
        

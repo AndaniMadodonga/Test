@@ -388,7 +388,7 @@ def main():
         predata=preprocess(data)
        
 # #     #SA and Golbal tweets
-     predata=preprocess(data)
+     #predata=preprocess(data)
      pred_cat=CategoriseSA(predata)
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":

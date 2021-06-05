@@ -371,6 +371,21 @@ def Sent(Data_Models):
   text_Sent_GL=Df_sent[Df_sent['Class']==0]
   return text_Sent_SA, text_Sent_GL
 
+def Sent_text(text):
+  from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+  analyser = SentimentIntensityAnalyzer()
+  text_sent=text
+  scores_sent=[]
+  for sentence in text_sent:
+     score = analyser.polarity_scores(sentence)
+     scores_sent.append(score)
+  dfSentiment= pd.DataFrame(scores_sent)
+  Df_sent=pd.concat([text_sent,dfSentiment],axis=1)
+  Df_sent['sentiment_class']=''
+  Df_sent.loc[Df_sent.compound>0,'sentiment_class']='positive'
+  Df_sent.loc[Df_sent.compound==0,'sentiment_class']="Neutral"
+  Df_sent.loc[Df_sent.compound<0,'sentiment_class']='Negative'
+  return Df_sent.sentiment_class
 
 
 def main():
@@ -445,8 +460,15 @@ def main():
                     senti=Sent(data_model)
                     st.bar_chart(senti[0].sentiment_class.value_counts())
                     st.bar_chart(senti[1].sentiment_class.value_counts())
-             if sent_choice=='Text':
-                if st.button('Text sentiment'):
+                   
+                if sent_choice=='Text':
+                    
+                    if st.button('Text sentiment'):
+                        
+                        keyin_text_sent = st.text_input("type or paste a tweet")
+                        senti=Sent([keyin_text_sent])
+                        st.success('The Sentiment of the tweet is'.format(senti))
+                            
                 
   #predata=preprocess(data)
         

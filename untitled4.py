@@ -430,7 +430,7 @@ def main():
        
 #     #SA and Golbal tweets
 #         pred_cat=CategoriseSA(predata)
-        task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
+    task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
         if task=='Categorise':
             st.markdown(html_temp1, unsafe_allow_html = True )
             result =""
@@ -453,7 +453,7 @@ def main():
         if task=="Sentiment":
             st.markdown(html_temp2, unsafe_allow_html = True) 
             st.Write("Perform bulk or individual text sentiment")
-            sent_choice.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
+            sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
             if sent_choice=='Bulk':
                 if st.button('Bulk sentiment'):
                 

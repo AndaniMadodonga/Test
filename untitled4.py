@@ -351,18 +351,18 @@ def main():
     # front end elements of the web page 
     html_temp1 = """ 
     <div style ="background-color:yellow;padding:13px"> 
-    <h1 style ="color:black;text-align:left;">Streamlit Tweet Classification</h1> 
+    <h1 style ="color:black;text-align:left;">South African and International Tweet Classification</h1> 
     </div> 
     """
 
     html_temp2 = """ 
     <div style ="background-color:red;padding:13px"> 
-    <h1 style ="color:black;text-align:Center;">Streamlit Tweet Sentiment</h1>
+    <h1 style ="color:black;text-align:Center;">Tweet Sentiment Analysis</h1>
     </div> 
     """
     html_temp3 = """ 
     <div style ="background-color:blue;padding:13px"> 
-    <h1 style =""color:black;text-align:right;">Streamlit Influencer</h1>
+    <h1 style =""color:black;text-align:right;"> Influencer</h1>
     </div> 
     """
     html_temp4 = """ 
@@ -420,10 +420,14 @@ def main():
                 if st.button('Bulk sentiment'):
                 
                     senti=Sent(data_model)
-                    st.bar_chart(senti[0].sentiment_class.value_counts())
-                    st.bar_chart(senti[1].sentiment_class.value_counts())
-                    #text_Sent_SA.sentiment_class.value_counts().plot(kind='bar',title="sentiment analysis for SA tweets")
-                    senti[1].sentiment_class.value_counts().plot(kind='bar',title="sentiment analysis for Global tweets")
+#                     st.title("sentiment analysis for SA tweets")
+#                     st.bar_chart(senti[0].sentiment_class.value_counts())
+#                     st.title("sentiment analysis for International tweets")
+#                     st.bar_chart(senti[1].sentiment_class.value_counts())
+                     with st.echo(code_location='below'):
+                            st.write("SA and Global tweet Sentiment analysis Bar graphs")
+                            senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets")
+                            senti[1].sentiment_class.value_counts().plot(kind='bar',color='red',title="sentiment analysis for Global tweets")
                    
             if sent_choice=='Text':
                 keyin_text_sent = st.text_input("type or paste a tweet")

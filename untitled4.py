@@ -381,7 +381,7 @@ def main():
                                 predata=Bulk_data(data_load)
                                 clean_cat=CategoriseSA(predata)
                                 #insert pickle model
-                                with open('https://github.com/AndaniMadodonga/Test/blob/main/classifier_SACat.pkl', 'rb') as f:
+                                with open('classifier_SACat.pkl', 'rb') as f:
                                     pred_model = pickle.load(f)
                                 categorise=classifier_SACat(clean_cat)
                                 categorise=categorise.tolist()

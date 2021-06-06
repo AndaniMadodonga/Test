@@ -346,6 +346,9 @@ def main():
 #     Label_list=labels["field_name"].values.tolist() 
     
     #data=""
+    def load():
+        data_load= load()
+        return data_load
     def Bulk_data(data_load):
         if data_load is not None:
             data = pd.read_excel(data_load)
@@ -354,10 +357,6 @@ def main():
             predata=preprocess(data)
         
             return predata
-        
-    
-        
-        #predata=preprocess(data)
        
 # #     #SA and Golbal tweets
     
@@ -410,7 +409,7 @@ def main():
                     sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
                     if sent_choice=='Bulk':
                         st.write("**Import XlSX file**")
-                        data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                        data_load= load()
                         
                         if st.button('Check Bulk Sentiment'):
                             
@@ -448,14 +447,14 @@ def main():
         
              if task=="Influencer":
                     st.markdown(html_temp3, unsafe_allow_html = True)
-                    data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                    data_load= load()
                     
                     if st.button('Influencers'):
                        if data_load is None:
                             st.error("Upload XLSX File")
                        else:
                         #st.write("import XLSX file")
-                            data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                            
                                 
                             predata=Bulk_data(data_load)
                             influence_model=influncerModel(predata)

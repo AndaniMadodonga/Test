@@ -51,23 +51,7 @@ import math
 nltk.download('stopwords')
 nltk.download('wordnet')
 
-
-
-
-# def dataload():
-#   drive.mount('/content/drive')
-#   data = pd.read_excel("/content/drive/Shareddrives/Capstone Project/EDA_sample4.xlsx")
-#   data=data.sample(n=800,random_state=7)
-#   labels = pd.read_excel("/content/drive/Shareddrives/Capstone Project/23_03_2021_Library.xlsx")
-#   Label_list=labels["field_name"].values.tolist() 
-#   data_heading=data
-#   data_heading.columns=Label_list
-
-#   return data_heading
-
-
-
-
+# Data Pre-processing
 def preprocess(data_heading):
   null_dict={}
   nulls_all=data_heading.isnull().sum().to_frame()
@@ -143,6 +127,8 @@ def preprocess(data_heading):
   return Final_Dataset
 
 @st.cache()
+
+#Influncer Category
 def influncerModel(Final_Dataset):
     
   def C(row):
@@ -178,37 +164,9 @@ def influncerModel(Final_Dataset):
   df_normal1 = pd.DataFrame(x_scaled,columns=cols)
   df_normal=pd.concat([df_normal1,yy],axis=1)
 
-#   train_X, test_X, train_y, test_y  = train_test_split(df_normal.iloc[:,:5], df_normal.Influencer_class, test_size=0.2, random_state=1)
-
-#   train_X, X_val, train_y, y_val = train_test_split(train_X, train_y, test_size=0.2, random_state=1)
-
-# #train Xgboost
-#   import xgboost as xgb
-#   params = {
-#      'max_depth': 6,
-#      'objective': 'multi:softprob',
-#       'num_class': 4,
-#      'n_gpus': 0}
-#   pipe_xgb = Pipeline([('clf', xgb.XGBClassifier(**params))])
-
-#   parameters_xgb = {
-#           'clf__n_estimators':[30,40], 
-#           'clf__criterion':['entropy'], 
-#           'clf__min_samples_split':[15,20], 
-#           'clf__min_samples_leaf':[3,4]
-#      }
-
-#   grid_xgb = GridSearchCV(pipe_xgb,param_grid=parameters_xgb,scoring='f1_macro',cv=5,refit=True) 
-#   best_model_xgb = grid_xgb.fit(train_X,train_y)
-#   #best_model_xgb.best_estimator_.get_params()['clf']
-#   #best_pred_xgb=best_model_xgb.predict(test_X)
-
-#   import pickle
-#   pickle_out = open("classifier_xgb.pkl", mode = "wb") 
-#   pickle.dump(best_model_xgb, pickle_out) 
-#   pickle_out.close()
   return df_normal.iloc[:,:5] #best_model_xgb
 
+#SA and Global Category Data cleaning
 def CategoriseSA(Final_Dataset):
   Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
   Categorisation_dataset=Final_Dataset[(Final_Dataset['input_query']!='nfsas') & (Final_Dataset['input_query']!='#openthechurches')]
@@ -287,33 +245,9 @@ def CategoriseSA(Final_Dataset):
   df_lem = pd.DataFrame(documents, columns=["clean_text"])
   Data_Models['clean_text']=df_lem['clean_text']
 
-#split the data
-
-#   X_train, X_test, y_train, y_test  = train_test_split(Data_Models.clean_text, Data_Models.Class, test_size=0.2, random_state=1)
-
-#   #X_train, val_X, y_train, val_y = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
-
-#   pipe = Pipeline(steps=[('TF-IDF_vectorization',TfidfVectorizer()),('classifier', MultinomialNB())])
-
-# # Create space of candidate learning algorithms and their hyperparameters
-#   search_space = [{'classifier': [RandomForestClassifier()],
-#                  'classifier__n_estimators': [10, 100, 1000]}]
-
-#   scoring={'AUC':'roc_auc','accuracy':metrics.make_scorer(metrics.accuracy_score) }
-#   clf = GridSearchCV(pipe, search_space,scoring=scoring ,cv=10,n_jobs=-1,return_train_score=True,refit='AUC')
-#   best_model = clf.fit(X_train, y_train)
-
-#   #bestModelPred=best_model.predict(X_test)
-
-#   import pickle 
-#   pickle_out = open("classifier.pkl", mode = "wb") 
-#   pickle.dump(best_model, pickle_out) 
-#   pickle_out.close()
-
   return  Data_Models #best_model
 
-
-
+#Sentiment Analysis
 def Sent(Data_Models):
   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
   analyser = SentimentIntensityAnalyzer()
@@ -351,7 +285,7 @@ def main():
     # front end elements of the web page 
     html_temp1 = """ 
     <div style ="background-color:yellow;padding:13px"> 
-    <h1 style ="color:black;text-align:left;">South African and International Tweet Classification</h1> 
+    <h1 style ="color:black;text-align:Center;;">South African and International Tweet Classification</h1> 
     </div> 
     """
 
@@ -362,16 +296,16 @@ def main():
     """
     html_temp3 = """ 
     <div style ="background-color:blue;padding:13px"> 
-    <h1 style =""color:black;text-align:right;"> Influencer</h1>
+    <h1 style =""color:black;text-align:Center;;"> Influencer's Classification</h1>
     </div> 
     """
     html_temp4 = """ 
     <div style ="background-color:blue;padding:13px"> 
-    <h1 style =""color:black;text-align:right;">Choose task</h1>
+    <h1 style =""color:black;text-align:Center;;">Choose task</h1>
     </div> 
     """
     #st.markdown(html_temp4, unsafe_allow_html = True) 
-    st.sidebar.subheader("Choose Task")
+    st.sidebar.subheader("Choose Task to perform")
     
     # display the front end aspect
     
@@ -407,17 +341,19 @@ def main():
                 keyin_text = st.text_input("type or paste a tweet")
             
                 if st.button("Categorise"):
-                                
-                    keyin_text=[keyin_text]
-                    Keyin_text=CategoriseSA(keyin_text)
+                   if  len(keyin_text)<2:
+                        st.error("type or paste a tweet")
+                   else:
+                        keyin_text=[keyin_text]
+                        Keyin_text=CategoriseSA(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-                    pred_result=pred_model.predict(keyin_text)
-                    if pred_result == 1:
-                         result = 'South African tweet'
-                    else:
-                         result = 'Global tweet'
-                    st.success('The tweet falls under {}'.format(result))
+                        pred_result=pred_model.predict(keyin_text)
+                        if pred_result == 1:
+                            result = 'South African tweet'
+                        else:
+                            result = 'Global tweet'
+                        st.success('The tweet falls under {}'.format(result))
 
         #
              if task=="Sentiment":
@@ -463,8 +399,11 @@ def main():
              if task=="Influencer":
                     st.markdown(html_temp3, unsafe_allow_html = True)
                     data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
-                    if data_load is not None:
-                        if st.button('Influencers'):
+                    
+                    if st.button('Influencers'):
+                       if data_load is None:
+                            st.error("Upload XLSX File"):
+                       else:
                         #st.write("import XLSX file")
                             data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                                 

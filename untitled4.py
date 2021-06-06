@@ -468,7 +468,7 @@ def main():
                             influence_model=influncerModel(predata)
                 #insert pickle model
                             inf_model=Inf_Model()
-                            inf_pred=inf_model.predict(influence_model[1])
+                            inf_pred=inf_model.predict(influence_model)
                             inf_pred=inf_pred.tolist() 
                             k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
                             k=k["Influencer_cat"].astype('category')

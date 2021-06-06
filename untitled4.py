@@ -417,7 +417,7 @@ def main():
                                 chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                                 st.write(chart1)
                                 st.write("**Global tweet Sentiment analysis Bar graph**")
-                                chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()',title="SA tweet").interactive()
+                                chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                                 st.write(chart2)
                             
                    

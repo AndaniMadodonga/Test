@@ -363,14 +363,14 @@ def main():
     
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":
-             task=st.sidebar.selectbox("tasks to Perform", ("<Select>","Categorise", "Sentiment", "Influencer"))
+             task=st.sidebar.selectbox("tasks to Perform", ("<Select option>","Categorise", "Sentiment", "Influencer"))
              if task=='Categorise':
                 st.markdown(html_temp1, unsafe_allow_html = True )
-                cat_choice=st.selectbox("Bulk or Text",("<Select>","Bulk", "Text"))
+                cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))
                 if cat_choice=="Text":
                     result =""
                     keyin_text = st.text_input("type or paste a tweet")
-            
+                    st.write(len(keyin_text))
                     if st.button("Categorise"):
                         if  len(keyin_text)<=2:
                             st.error("type or paste a tweet")

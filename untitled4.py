@@ -426,7 +426,7 @@ def main():
                     sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
                     if sent_choice=='Bulk':
                         st.write("**Import XlSX file**")
-                        data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
+                        data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                         if st.button('Bulk sentiment'):
                             
                     
@@ -466,7 +466,7 @@ def main():
                     st.markdown(html_temp3, unsafe_allow_html = True)
                     if st.button('Influencers'):
                         st.write("import XLSX file")
-                        data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
+                        data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                                 
                         predata=Bulk_data(data_load)
                         influence_model=influncerModel(predata)

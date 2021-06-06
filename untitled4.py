@@ -475,7 +475,7 @@ def main():
                             #st.write(best_preds)
                             best_preds=best_preds.tolist() 
                             k=pd.DataFrame(best_preds,columns=["Influencer_cat"])
-                            col=["Influencer_cat"])
+                            col=["Influencer_cat"]
                             conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
                             choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
                             k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)

@@ -247,7 +247,7 @@ def CategoriseSA(Final_Dataset):
 
   return  Data_Models #best_model
 
-def clean_text():
+def clean_text(text):
   documents = []
   from nltk.stem import WordNetLemmatizer
 

@@ -421,7 +421,7 @@ def main():
                                 predata=Bulk_data(data_load)
                                 pred_cat=CategoriseSA(predata)
                                 senti=Sent(pred_cat)
-                                st.write(senti[2][["clean_text","sentiment class"]].head())
+                                st.write(senti[2][["clean_text","sentiment_class"]].head())
                                 st.write("**SA tweet Sentiment analysis Bar graph**")
                                 #st.write(senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets"))
                                 #st.write(senti[1].sentiment_class.value_counts().plt(kind='bar',color='red',title="sentiment analysis for Global tweets"))

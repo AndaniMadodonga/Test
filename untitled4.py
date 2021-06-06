@@ -372,18 +372,18 @@ def main():
                     keyin_text = st.text_input("type or paste a tweet")
             
                     if st.button("Categorise"):
-                        if  len(keyin_text)<2:
+                        if  len(keyin_text)<=2:
                             st.error("type or paste a tweet")
                         else:
                             keyin_text=[keyin_text]
                             Keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-                            pred_result=pred_model.predict(keyin_text.clean_text)
-                            if pred_result == 1:
-                                result = 'South African tweet'
-                            else:
-                                result = 'Global tweet'
+#                             pred_result=pred_model.predict(keyin_text.clean_text)
+#                             if pred_result == 1:
+#                                 result = 'South African tweet'
+#                             else:
+#                                 result = 'Global tweet'
                             st.success('The tweet falls under {}'.format(result))
                 if cat_choice=="Bulk":
                         st.write("**Import XlSX file**")

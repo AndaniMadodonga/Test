@@ -431,7 +431,7 @@ def main():
                         if st.button('Check Bulk Sentiment'):
                             
                             if data_load is None:
-                                st.write("Upload XLSX file")
+                                st.error("Upload XLSX file")
                             else:
                                 #pred_cat.head() 
                                 predata=Bulk_data(data_load)

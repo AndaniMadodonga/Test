@@ -385,7 +385,7 @@ def main():
                             else:
                                 result = 'Global tweet'
                             st.success('The tweet falls under {}'.format(result))
-                   if cat_choice=="Bulk":
+                if cat_choice=="Bulk":
                         st.write("**Import XlSX file**")
                         data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                         if st.button('Perform Categorisation'):

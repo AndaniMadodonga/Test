@@ -450,7 +450,7 @@ def main():
                     
                     if st.button('Influencers'):
                        if data_load is None:
-                            st.error("Upload XLSX File"):
+                            st.error("Upload XLSX File")
                        else:
                         #st.write("import XLSX file")
                             data_load= st.file_uploader("Choose a XLSX file",type="xlsx")

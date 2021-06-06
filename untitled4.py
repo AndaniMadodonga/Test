@@ -384,7 +384,7 @@ def main():
                                 import pickle
                                 with open('classifier_SACat.pkl', 'rb') as f:
                                     pred_model = pickle.load(f)
-                                categorise=classifier_SACat(clean_cat)
+                                categorise=pred_model(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])
                                 df_cat=pd.DataFreame.concat([clean_cat,df_class],axis=1)

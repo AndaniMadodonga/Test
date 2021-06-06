@@ -29,13 +29,9 @@ from langdetect import detect
 from deep_translator import GoogleTranslator
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import string
-#from sklearn.cluster import KMeans
-#from sklearn.cluster import MiniBatchKMeans
-#from sklearn.decomposition import PCA
-#from sklearn.manifold import TSNE
 import nltk
 import re
-#from sklearn.linear_model import LogisticRegression
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -45,7 +41,6 @@ import sklearn.metrics as metrics
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-#from mlxtend.plotting import plot_confusion_matrix
 import math
 
 nltk.download('stopwords')
@@ -366,13 +361,16 @@ def main():
                         else:
                             keyin_text=[keyin_text]
                             Keyin_text=clean_text(keyin_text)
-                #pred_model=pred[0]
+                pred_model=pred[0]
                 ##insert pickle model
-#                             pred_result=pred_model.predict(keyin_text.clean_text)
-#                             if pred_result == 1:
-#                                 result = 'South African tweet'
-#                             else:
-#                                 result = 'Global tweet'
+                            with open('../directory_name/source_object_name.pkl', 'rb') as f:
+                                    pred_model = pickle.load(f)
+                            
+                            pred_result=pred_model.predict(keyin_text.clean_text)
+                            if pred_result == 1:
+                                result = 'South African tweet'
+                            else:
+                                result = 'Global tweet'
                             st.success('The tweet falls under {}'.format(result))
                 if cat_choice=="Bulk":
                         st.write("**Import XlSX file**")

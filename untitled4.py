@@ -400,8 +400,9 @@ def main():
                                 
                                 categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
                                 categorise=categorise.tolist()
-                                df_class=pd.DataFrame(categorise,columns=["Tweet_Category"])
+                                df_class=pd.DataFrame(categorise,columns=["Class_Label"])
                                 df_class=df_class.reset_index(drop=True)
+                                df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                                 df_cat=pd.concat([clean_cat,df_class],axis=1)
                                 st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
                                 chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()

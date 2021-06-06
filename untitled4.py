@@ -361,7 +361,7 @@ def main():
                         else:
                             keyin_text=[keyin_text]
                             Keyin_text=clean_text(keyin_text)
-                pred_model=pred[0]
+                #pred_model=pred[0]
                 ##insert pickle model
                             with open('https://github.com/AndaniMadodonga/Test/blob/main/classifier_SACat.pkl', 'rb') as f:
                                     pred_model = pickle.load(f)

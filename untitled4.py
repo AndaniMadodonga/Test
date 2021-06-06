@@ -73,8 +73,6 @@ def preprocess(data_heading):
   data_non_eng=data_heading[data_heading['statuses_metadata_iso_language_code']!='en']
   data_en=data_heading[data_heading['statuses_metadata_iso_language_code']=='en']
 
-
-
   lang_code=[] # to store detected language iso code
   for i in data_non_eng['statuses_text']:
 
@@ -87,28 +85,20 @@ def preprocess(data_heading):
 
   data_non_eng['LangDet_code']=lang_code #Create a column of the newly detected language iso code
 
-
-
 #Check if the detected iso code are the same as the iso code on the data
   data_non_eng['Iso_Code_Comparison'] = np.where((data_non_eng['LangDet_code'] == data_non_eng['statuses_metadata_iso_language_code']), 'Yes', 'No')
-
-
 
   data_translated=data_non_eng[data_non_eng['LangDet_code']!='und'] #Exclude undetected
   data_translated=data_translated[data_translated['LangDet_code']!='en'] #Excluded detected as English
 
-
-
   data_translate_en=data_non_eng[data_non_eng['LangDet_code']=='en'] # Creat a dataframe of English detected languages [ to be merged with the other data after translation]
   data_translated=data_translated.reset_index(drop=True) #reset index
-
-
 
   translated_text=[] #To store translated text
   for i in data_translated['statuses_text'].index:
      to_translate = data_translated['statuses_text'].iloc[i]
-     translated="text_trans"
-    #translated = GoogleTranslator(source=data_translated['LangDet_code'].iloc[i], target='en').translate(to_translate) #Perform translation
+     #translated="text_trans"
+     translated = GoogleTranslator(source=data_translated['LangDet_code'].iloc[i], target='en').translate(to_translate) #Perform translation
      translated_text.append(translated) #Append translated text
 
   data_translated['Translated_tweet']=translated_text # Translated text Column 

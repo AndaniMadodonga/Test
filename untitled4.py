@@ -441,7 +441,7 @@ def main():
                             senti=Sent(text.clean_text)  
                             
                             st.success('The Sentiment of the tweet is-{}'.format(senti))
-                            st.write("clean text:- {}".format(text))
+                            st.write("**clean text:-** {}".format(text.clean_text))
                             
                 
   #predata=preprocess(data)

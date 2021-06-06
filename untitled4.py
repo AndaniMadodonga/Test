@@ -247,6 +247,37 @@ def CategoriseSA(Final_Dataset):
 
   return  Data_Models #best_model
 
+def clean_text()
+  documents = []
+  from nltk.stem import WordNetLemmatizer
+
+  stemmer = WordNetLemmatizer()
+  for tex in range(0, len(text)):
+    # Remove all the special characters
+      document = re.sub(r'\W', ' ', str(text[tex]))
+    
+    # remove all single characters
+      document = re.sub(r'\s+[a-zA-Z]\s+', ' ', document)
+    
+    # Remove single characters from the start
+      document = re.sub(r'\^[a-zA-Z]\s+', ' ', document) 
+    
+    # Substituting multiple spaces with single space
+      document = re.sub(r'\s+', ' ', document, flags=re.I)    
+    # Lemmatization
+      document = document.split()
+
+      document = [stemmer.lemmatize(word) for word in document]
+      document = ' '.join(document)
+    
+      documents.append(document)
+ 
+#dataframe of clean text
+  df_lem = pd.DataFrame(documents, columns=["clean_text"])
+return df_lem
+
+
+
 #Sentiment Analysis
 def Sent(Data_Models):
   from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -345,7 +376,7 @@ def main():
                             st.error("type or paste a tweet")
                         else:
                             keyin_text=[keyin_text]
-                            Keyin_text=CategoriseSA(keyin_text)
+                            Keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
                             pred_result=pred_model.predict(keyin_text)
@@ -365,6 +396,7 @@ def main():
                                 pred_cat=CategoriseSA(predata)
                                 #insert pickle model
                                 categorise=classifier_SACat(pred_cat)
+                                categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])
                                 df_cat=pd.DataFreame.concat([pred_cat,df_class],axis=1)
                                 chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Class"),y='count()').interactive()

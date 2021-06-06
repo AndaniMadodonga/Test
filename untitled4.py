@@ -363,7 +363,7 @@ def main():
                             Keyin_text=clean_text(keyin_text)
                 pred_model=pred[0]
                 ##insert pickle model
-                            with open('../directory_name/source_object_name.pkl', 'rb') as f:
+                            with open('https://github.com/AndaniMadodonga/Test/blob/main/classifier_SACat.pkl', 'rb') as f:
                                     pred_model = pickle.load(f)
                             
                             pred_result=pred_model.predict(keyin_text.clean_text)

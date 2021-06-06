@@ -355,7 +355,7 @@ def main():
         #with open('Classifier_xgb.pkl', 'rb') as f:
             #pred_model = pickle.load(f)
         #import joblib
-        xgb_model_latest = xgboost.XGBClassifier()
+        xgb_model_latest = XGBClassifier()
         pred_model = xgb_model_latest.load_model('xgb.json')
         return pred_model
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))

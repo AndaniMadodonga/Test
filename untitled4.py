@@ -373,7 +373,7 @@ def main():
                             st.error("type or paste a tweet")
                         else:
                             keyin_text=[keyin_text]
-                            Keyin_text=clean_text(keyin_text)
+                            keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
                             pred_model=Cat_Model()                            
@@ -392,6 +392,7 @@ def main():
                            else:
                                 predata=Bulk_data(data_load)
                                 clean_cat=CategoriseSA(predata)
+                                clean_cat=clean_cat.reset_index(drop=True)
                                 #insert pickle model
                                 
                                 
@@ -400,6 +401,7 @@ def main():
                                 categorise=pred_model.predict(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])
+                                df_class=df_class.reset_index(drop=True)
                                 df_cat=pd.concat([clean_cat,df_class],axis=1)
                                 st.write(df_cat.head())
                                 chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Class"),y='count()').interactive()

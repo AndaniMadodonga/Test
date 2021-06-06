@@ -400,7 +400,7 @@ def main():
                                 categorise=pred_model.predict(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])
-                                df_cat=pd.DataFreame.concat([clean_cat,df_class],axis=1)
+                                df_cat=pd.DataFrame.concat([clean_cat,df_class],axis=1)
                                 st.write(df_cat.head())
                                 chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Class"),y='count()').interactive()
                                 st.write(chart)

@@ -463,12 +463,13 @@ def main():
                        else:
                         #st.write("import XLSX file")
                             
-                                
+                            import xgboost as xgb   
                             predata=Bulk_data(data_load)
                             influence_model=influncerModel(predata)
                 #insert pickle model
                             inf_model=Inf_Model()
-                            inf_pred=inf_model.predict(influence_model)
+                            t=xgb.DMatrix(influence_model)
+                            inf_pred=inf_model.predict(t)
                             inf_pred=inf_pred.tolist() 
                             k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
                             k=k["Influencer_cat"].astype('category')

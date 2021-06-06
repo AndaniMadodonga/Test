@@ -363,8 +363,7 @@ def main():
                             Keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-                            with open('https://github.com/AndaniMadodonga/Test/blob/main/classifier_SACat.pkl', 'rb') as f:
-                                    pred_model = pickle.load(f)
+
                             
                             pred_result=pred_model.predict(keyin_text.clean_text)
                             if pred_result == 1:
@@ -382,6 +381,8 @@ def main():
                                 predata=Bulk_data(data_load)
                                 clean_cat=CategoriseSA(predata)
                                 #insert pickle model
+                                with open('https://github.com/AndaniMadodonga/Test/blob/main/classifier_SACat.pkl', 'rb') as f:
+                                    pred_model = pickle.load(f)
                                 categorise=classifier_SACat(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])

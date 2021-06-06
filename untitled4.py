@@ -347,7 +347,7 @@ def main():
     
     #data=""
     def load():
-        data_load= load()
+        data_load= st.file_loader("Choose a XLSX file",type="xlsx")
         return data_load
     def Bulk_data(data_load):
         if data_load is not None:

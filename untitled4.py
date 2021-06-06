@@ -389,9 +389,10 @@ def main():
                                 predata=Bulk_data(data_load)
                                 clean_cat=CategoriseSA(predata)
                                 #insert pickle model
-                                import pickle
+                                
                                 
                                 pred_model=Cat_Model() 
+                                st.write(type(pred_model))
                                 categorise=pred_model.predict(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])

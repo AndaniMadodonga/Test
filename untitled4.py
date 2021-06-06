@@ -475,9 +475,14 @@ def main():
                             #st.write(best_preds)
                             best_preds=best_preds.tolist() 
                             k=pd.DataFrame(best_preds,columns=["Influencer_cat"])
+                            col=["Influencer_cat"])
+                            conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
+                            choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
+                            k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
+                            
                             #k=k["Influencer_cat"].astype('category')
                         #st.bar_chart(k.value_counts())
-                            chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat"),y='count()').interactive()
+                            chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
                             st.write(chart2)
 if __name__ == '__main__':
     main()

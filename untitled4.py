@@ -379,7 +379,7 @@ def main():
                             Keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-                            pred_result=pred_model.predict(keyin_text)
+                            pred_result=pred_model.predict(keyin_text.clean_text)
                             if pred_result == 1:
                                 result = 'South African tweet'
                             else:

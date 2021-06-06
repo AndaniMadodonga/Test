@@ -349,7 +349,7 @@ def main():
          #with open('classifier_SACat.pkl', 'rb') as f:
               #pred_model = pickle.load(f)
          import joblib
-         pred_model = joblib.load('classifier_SACat.plk.pkl')
+         pred_model = joblib.load('classifier_SACat.pkl.pkl')
          return pred_model
     
     def Inf_Model():

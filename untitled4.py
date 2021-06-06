@@ -321,12 +321,12 @@ def main():
     """
 
     html_temp2 = """ 
-    <div style ="background-color:red;padding:13px"> 
+    <div style ="background-color:green;padding:13px"> 
     <h1 style ="color:black;text-align:Center;">Tweet Sentiment Analysis</h1>
     </div> 
     """
     html_temp3 = """ 
-    <div style ="background-color:blue;padding:13px"> 
+    <div style ="background-color:Grey;padding:13px"> 
     <h1 style =""color:black;text-align:Center;;"> Influencer's Classification</h1>
     </div> 
     """
@@ -441,6 +441,7 @@ def main():
                             senti=Sent(text.clean_text)  
                             
                             st.success('The Sentiment of the tweet is-{}'.format(senti))
+                            st.write("clean text:- {}".format(text))
                             
                 
   #predata=preprocess(data)

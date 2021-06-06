@@ -428,10 +428,10 @@ def main():
                         st.write("**Import XlSX file**")
                         data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                         
-                        if st.button('Bulk sentiment'):
+                        if st.button('Check Bulk Sentiment'):
                             
                             if data_load is None:
-                                print("Upload XLSX file")
+                                st.write("Upload XLSX file")
                             else:
                                 #pred_cat.head() 
                                 predata=Bulk_data(data_load)
@@ -452,7 +452,7 @@ def main():
                         keyin_text_sent = st.text_input("type or paste a tweet")
                 
                     
-                        if st.button('Check Sentiment'):
+                        if st.button('Check Text Sentiment'):
                             senti=Sent([keyin_text_sent])  
                      
                             st.success('The Sentiment of the tweet is-{}'.format(senti))
@@ -462,19 +462,21 @@ def main():
         
              if task=="Influencer":
                     st.markdown(html_temp3, unsafe_allow_html = True)
-                    if st.button('Influencers'):
-                        st.write("import XLSX file")
-                        data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                    data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                    if data_load is not None:
+                        if st.button('Influencers'):
+                        #st.write("import XLSX file")
+                            data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                                 
-                        predata=Bulk_data(data_load)
-                        influence_model=influncerModel(predata)
+                            predata=Bulk_data(data_load)
+                            influence_model=influncerModel(predata)
                 #insert pickle model
-                        inf_pred=classifier_pickle.predict(influence_model[1])
-                        inf_pred=inf_pred.tolist() 
-                        k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
-                        k=k["Influencer_cat"].astype('category')
+                            inf_pred=classifier_pickle.predict(influence_model[1])
+                            inf_pred=inf_pred.tolist() 
+                            k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
+                            k=k["Influencer_cat"].astype('category')
                         #st.bar_chart(k.value_counts())
-                        chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat"),y='count()').interactive()
-                        st.write(chart2)
+                            chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat"),y='count()').interactive()
+                            st.write(chart2)
 if __name__ == '__main__':
     main()

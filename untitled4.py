@@ -18,6 +18,7 @@ Original file is located at
 #
 import streamlit as st 
 import altair as alt
+import pickle
 from sklearn import preprocessing
 import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs
@@ -343,8 +344,16 @@ def main():
         
             return predata
        
-# #     #SA and Golbal tweets
+
+    def Cat_Model():
+         with open('classifier_SACat.pkl', 'rb') as f:
+              pred_model = pickle.load(f)
+         return pred_model
     
+    def Inf_Model():
+        with open('classifier_Inf.pkl', 'rb') as f:
+            pred_model = pickle.load(f)
+        return pred_model
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":
              task=st.sidebar.selectbox("tasks to Perform", ("<Select option>","Categorise", "Sentiment", "Influencer"))
@@ -363,8 +372,7 @@ def main():
                             Keyin_text=clean_text(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-
-                            
+                            pred_model=Cat_Model()                            
                             pred_result=pred_model.predict(keyin_text.clean_text)
                             if pred_result == 1:
                                 result = 'South African tweet'
@@ -382,8 +390,8 @@ def main():
                                 clean_cat=CategoriseSA(predata)
                                 #insert pickle model
                                 import pickle
-                                with open('classifier_SACat.pkl', 'rb') as f:
-                                    pred_model = pickle.load(f)
+                                
+                                pred_model=Cat_Model() 
                                 categorise=pred_model(clean_cat)
                                 categorise=categorise.tolist()
                                 df_class=pd.DataFrame(categorise,columns=["Class"])
@@ -449,7 +457,8 @@ def main():
                             predata=Bulk_data(data_load)
                             influence_model=influncerModel(predata)
                 #insert pickle model
-                            inf_pred=classifier_pickle.predict(influence_model[1])
+                            inf_model=Inf_Model()
+                            inf_pred=inf_model.predict(influence_model[1])
                             inf_pred=inf_pred.tolist() 
                             k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
                             k=k["Influencer_cat"].astype('category')

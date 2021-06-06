@@ -428,13 +428,7 @@ def main():
                         st.write("**Import XlSX file**")
                         data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
                         if st.button('Bulk sentiment'):
-                            
-                    
-#                     st.title("sentiment analysis for SA tweets")
-#                     st.bar_chart(senti[0].sentiment_class.value_counts())
-#                     st.title("sentiment analysis for International tweets")
-#                     st.bar_chart(senti[1].sentiment_class.value_counts())
-                            
+                            if data_load is not None:                         
                                 #pred_cat.head() 
                                 predata=Bulk_data(data_load)
                                 pred_cat=CategoriseSA(predata)
@@ -448,7 +442,8 @@ def main():
                                 st.write("**Global tweet Sentiment analysis Bar graph**")
                                 chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                                 st.write(chart2)
-                                                                                                                                                                
+                            else:
+                                print("Upload XLSX File")
                    
                     if sent_choice=='Text':
                         keyin_text_sent = st.text_input("type or paste a tweet")

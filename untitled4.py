@@ -32,7 +32,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import string
 import nltk
 import re
-
+from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -41,7 +41,6 @@ from sklearn.naive_bayes import MultinomialNB
 import sklearn.metrics as metrics
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import math
 
 nltk.download('stopwords')
@@ -355,8 +354,9 @@ def main():
     def Inf_Model():
         #with open('Classifier_xgb.pkl', 'rb') as f:
             #pred_model = pickle.load(f)
-        import joblib
-        pred_model = joblib.load('xgb.json')
+        #import joblib
+        xgb_model_latest = xgboost.XGBClassifier()
+        pred_model = xgb_model_latest.load_model('xgb.json')
         return pred_model
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":

@@ -332,28 +332,43 @@ def main():
     
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":
-             task=st.sidebar.selectbox("Different tasks", ("<Select>","Categorise", "Sentiment", "Influencer"))
+             task=st.sidebar.selectbox("tasks to Perform", ("<Select>","Categorise", "Sentiment", "Influencer"))
              if task=='Categorise':
-                
-                
                 st.markdown(html_temp1, unsafe_allow_html = True )
-                result =""
-                keyin_text = st.text_input("type or paste a tweet")
+                cat_choice=st.selectbox("Bulk or Text",("<Select>","Bulk", "Text"))
+                if cat_choice=="Text":
+                    result =""
+                    keyin_text = st.text_input("type or paste a tweet")
             
-                if st.button("Categorise"):
-                   if  len(keyin_text)<2:
-                        st.error("type or paste a tweet")
-                   else:
-                        keyin_text=[keyin_text]
-                        Keyin_text=CategoriseSA(keyin_text)
+                    if st.button("Categorise"):
+                        if  len(keyin_text)<2:
+                            st.error("type or paste a tweet")
+                        else:
+                            keyin_text=[keyin_text]
+                            Keyin_text=CategoriseSA(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
-                        pred_result=pred_model.predict(keyin_text)
-                        if pred_result == 1:
-                            result = 'South African tweet'
-                        else:
-                            result = 'Global tweet'
-                        st.success('The tweet falls under {}'.format(result))
+                            pred_result=pred_model.predict(keyin_text)
+                            if pred_result == 1:
+                                result = 'South African tweet'
+                            else:
+                                result = 'Global tweet'
+                            st.success('The tweet falls under {}'.format(result))
+                   if cat_choice=="Bulk":
+                        st.write("**Import XlSX file**")
+                        data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                        if st.button('Perform Categorisation'):
+                           if data_load is None:
+                                st.error("Upload XLSX file")
+                           else:
+                                predata=Bulk_data(data_load)
+                                pred_cat=CategoriseSA(predata)
+                                #insert pickle model
+                                categorise=classifier_SACat(pred_cat)
+                                df_class=pd.DataFrame(categorise,columns=["Class"])
+                                df_cat=pd.DataFreame.concat([pred_cat,df_class],axis=1)
+                                chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Class"),y='count()').interactive()
+                                st.write(chart)
 
         #
              if task=="Sentiment":

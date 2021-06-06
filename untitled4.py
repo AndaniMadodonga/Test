@@ -375,7 +375,7 @@ def main():
     
     # display the front end aspect
     
-    data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
+    
     #data = pd.read_excel(data_load)
 #     data_load = st.file_picker("Choose a XLSX file",folder="https://github.com/AndaniMadodonga/Test/blob/main/",type="xlsx")
 #     Label_list=labels["field_name"].values.tolist() 
@@ -425,6 +425,8 @@ def main():
                     st.write("**Select the option below to perform bulk or Single tweet sentiment**")
                     sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
                     if sent_choice=='Bulk':
+                        st.write("**Import XlSX file**")
+                        data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
                         if st.button('Bulk sentiment'):
                             
                     
@@ -463,7 +465,8 @@ def main():
              if task=="Influencer":
                     st.markdown(html_temp3, unsafe_allow_html = True)
                     if st.button('Influencers'):
-                     
+                        st.write("import XLSX file")
+                        data_load= st.sidebar.file_uploader("Choose a XLSX file",type="xlsx")
                                 
                         predata=Bulk_data(data_load)
                         influence_model=influncerModel(predata)
@@ -472,6 +475,8 @@ def main():
                         inf_pred=inf_pred.tolist() 
                         k=pd.DataFrame(inf_pred,columns=["Influencer_cat"])
                         k=k["Influencer_cat"].astype('category')
-                        st.bar_chart(k.value_counts())
+                        #st.bar_chart(k.value_counts())
+                        chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat"),y='count()').interactive()
+                        st.write(chart2
 if __name__ == '__main__':
     main()

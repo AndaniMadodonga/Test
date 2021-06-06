@@ -351,7 +351,7 @@ def main():
          return pred_model
     
     def Inf_Model():
-        with open('classifier_XGB.pkl', 'rb') as f:
+        with open('Classifier_XGB.pkl', 'rb') as f:
             pred_model = pickle.load(f)
         return pred_model
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))

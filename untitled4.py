@@ -477,6 +477,6 @@ def main():
                         k=k["Influencer_cat"].astype('category')
                         #st.bar_chart(k.value_counts())
                         chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat"),y='count()').interactive()
-                        st.write(chart2
+                        st.write(chart2)
 if __name__ == '__main__':
     main()

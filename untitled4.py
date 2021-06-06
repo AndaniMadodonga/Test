@@ -468,8 +468,8 @@ def main():
                             influence_model=influncerModel(predata)
                 #insert pickle model
                             inf_model=Inf_Model()
-                            t=xgb.DMatrix(influence_model)
-                            inf_pred=inf_model.predict(t)
+                            #t=xgb.DMatrix(influence_model)
+                            inf_pred=inf_model.predict(influence_model.values)
                             st.write(type(inf_pred))
                             st.write(inf_pred)
                             inf_pred=inf_pred.tolist() 

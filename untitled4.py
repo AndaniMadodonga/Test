@@ -395,16 +395,16 @@ def main():
                                 #clean_cat=clean_cat.reset_index(drop=True)
                                 #insert pickle model
                                 
-                                st.write(clean_cat.head())
+                                #st.write(clean_cat.head())
                                 pred_model=Cat_Model() 
                                 
                                 categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
                                 categorise=categorise.tolist()
-                                df_class=pd.DataFrame(categorise,columns=["Category"])
+                                df_class=pd.DataFrame(categorise,columns=["Tweet_Category"])
                                 df_class=df_class.reset_index(drop=True)
                                 df_cat=pd.concat([clean_cat,df_class],axis=1)
-                                #st.write(df_cat.head())
-                                chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Category"),y='count()').interactive()
+                                st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
+                                chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
                                 st.write(chart)
 
         #

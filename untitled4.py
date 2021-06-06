@@ -409,7 +409,7 @@ def main():
                 if st.button("Categorise"):
                                 
                     keyin_text=[keyin_text]
-                
+                    Keyin_text=CategoriseSA(keyin_text)
                 #pred_model=pred[0]
                 ##insert pickle model
                     pred_result=pred_model.predict(keyin_text)

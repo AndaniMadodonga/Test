@@ -370,7 +370,7 @@ def main():
                 if cat_choice=="Text":
                     result =""
                     keyin_text = st.text_input("type or paste a tweet")
-                    st.write(len(keyin_text))
+                    
                     if st.button("Categorise"):
                         if  len(keyin_text.split())<=2:
                             st.error("type or paste a tweet")

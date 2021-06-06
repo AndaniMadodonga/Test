@@ -356,7 +356,7 @@ def main():
         #with open('Classifier_xgb.pkl', 'rb') as f:
             #pred_model = pickle.load(f)
         import joblib
-        pred_model = joblib.load('Classifier_xgb.pkl')
+        pred_model = joblib.load('xgb.model')
         return pred_model
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":

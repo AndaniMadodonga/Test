@@ -437,8 +437,9 @@ def main():
                 
                     
                         if st.button('Check Text Sentiment'):
-                            senti=Sent([keyin_text_sent])  
-                     
+                            text=clean_text([keyin_text_sent])
+                            senti=Sent(text.clean_text)  
+                            
                             st.success('The Sentiment of the tweet is-{}'.format(senti))
                             
                 

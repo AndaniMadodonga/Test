@@ -321,15 +321,9 @@ def main():
     <h1 style =""color:black;text-align:Center;;">Choose task</h1>
     </div> 
     """
-    #st.markdown(html_temp4, unsafe_allow_html = True) 
+   
     st.sidebar.subheader("Choose Task to perform")
     
-    # display the front end aspect
-    
-    
-    #data = pd.read_excel(data_load)
-#     data_load = st.file_picker("Choose a XLSX file",folder="https://github.com/AndaniMadodonga/Test/blob/main/",type="xlsx")
-#     Label_list=labels["field_name"].values.tolist() 
     img = st.image('wordCloud2.png')
     #st.write(img)
     #data=""
@@ -341,27 +335,23 @@ def main():
             data = pd.read_excel(data_load)
             Label_list=['input_query','statuses_created_at','statuses_id','statuses_text','statuses_truncated','statuses_entities_user_mentions[0]_screen_name','statuses_entities_user_mentions[0]_name','statuses_entities_user_mentions[0]_id','statuses_entities_user_mentions[0]_id_str','statuses_entities_user_mentions[0]_indices[0]','statuses_metadata_iso_language_code','statuses_metadata_result_type','statuses_source','statuses_in_reply_to_status_id','statuses_in_reply_to_status_id_str','statuses_in_reply_to_user_id','statuses_in_reply_to_user_id_str','statuses_in_reply_to_screen_name','statuses_user_id','statuses_user_id_str','statuses_user_name','statuses_user_screen_name','statuses_user_location','statuses_user_description','statuses_user_url','statuses_user_entities_url_urls[0]_url','statuses_user_entities_url_urls[0]_expanded_url','statuses_user_entities_url_urls[0]_display_url','statuses_user_entities_url_urls[0]_indices[0]','statuses_user_entities_description_urls[0]_url','statuses_user_entities_description_urls[0]_expanded_url','statuses_user_entities_description_urls[0]_display_url','statuses_user_entities_description_urls[0]_indices[0]','statuses_user_protected','statuses_user_followers_count','statuses_user_friends_count','statuses_user_listed_count','statuses_user_created_at','statuses_user_favourites_count','statuses_user_statuses_count','statuses_user_profile_background_color','statuses_user_profile_background_image_url','statuses_user_profile_background_image_url_https','statuses_user_profile_background_tile','statuses_user_profile_image_url','statuses_user_profile_image_url_https','statuses_user_profile_banner_url','statuses_user_profile_link_color','statuses_user_profile_sidebar_border_color','statuses_user_profile_sidebar_fill_color','statuses_user_profile_text_color','statuses_user_profile_use_background_image','statuses_user_has_extended_profile','statuses_user_default_profile','statuses_user_default_profile_image','statuses_retweeted_status_created_at','statuses_retweeted_status_id','statuses_retweeted_status_id_str','statuses_retweeted_status_text','statuses_retweeted_status_truncated','statuses_retweeted_status_entities_urls[0]_url','statuses_retweeted_status_entities_urls[0]_expanded_url','statuses_retweeted_status_entities_urls[0]_display_url','statuses_retweeted_status_entities_urls[0]_indices[0]','statuses_retweeted_status_metadata_iso_language_code','statuses_retweeted_status_metadata_result_type','statuses_retweeted_status_source','statuses_retweeted_status_user_id','statuses_retweeted_status_user_id_str','statuses_retweeted_status_user_name','statuses_retweeted_status_user_screen_name','statuses_retweeted_status_user_location','statuses_retweeted_status_user_description','statuses_retweeted_status_user_url','statuses_retweeted_status_user_entities_url_urls[0]_url','statuses_retweeted_status_user_entities_url_urls[0]_expanded_url','statuses_retweeted_status_user_entities_url_urls[0]_display_url','statuses_retweeted_status_user_entities_url_urls[0]_indices[0]','statuses_retweeted_status_user_protected','statuses_retweeted_status_user_followers_count','statuses_retweeted_status_user_friends_count','statuses_retweeted_status_user_listed_count','statuses_retweeted_status_user_created_at','statuses_retweeted_status_user_favourites_count','statuses_retweeted_status_user_utc_offset','statuses_retweeted_status_user_verified','statuses_retweeted_status_user_statuses_count','statuses_retweeted_status_user_contributors_enabled','statuses_retweeted_status_user_is_translator','statuses_retweeted_status_user_is_translation_enabled','statuses_retweeted_status_user_profile_background_color','statuses_retweeted_status_user_profile_background_image_url','statuses_retweeted_status_user_profile_background_image_url_https','statuses_retweeted_status_user_profile_background_tile','statuses_retweeted_status_user_profile_image_url','statuses_retweeted_status_user_profile_image_url_https','statuses_retweeted_status_user_profile_banner_url','statuses_retweeted_status_user_profile_link_color','statuses_retweeted_status_user_profile_sidebar_border_color','statuses_retweeted_status_user_profile_sidebar_fill_color','statuses_retweeted_status_user_profile_text_color','statuses_retweeted_status_user_profile_use_background_image','statuses_retweeted_status_user_has_extended_profile','statuses_retweeted_status_user_default_profile','statuses_retweeted_status_user_default_profile_image','statuses_retweeted_status_retweet_count','statuses_retweeted_status_favorite_count','statuses_retweeted_status_favorited','statuses_retweeted_status_retweeted','statuses_retweeted_status_possibly_sensitive','statuses_retweeted_status_lang','statuses_is_quote_status',	'statuses_retweet_count',	'statuses_favorite_count','statuses_favorited',	'statuses_retweeted','statuses_lang']
             data.columns=Label_list
-            predata=preprocess(data)
-        
+            predata=preprocess(data)  
             return predata
        
 
     def Cat_Model():
-         #with open('classifier_SACat.pkl', 'rb') as f:
-              #pred_model = pickle.load(f)
          import joblib
          pred_model = joblib.load('classifier_SACat.pkl.pkl')
          return pred_model
     
     def Inf_Model():
-        #with open('Classifier_xgb.pkl', 'rb') as f:
-            #pred_model = pickle.load(f)
-        #import joblib
+
         import xgboost as xgb
         pred_model = xgb.Booster()
         #xgb_model_latest = XGBClassifier()
         pred_model.load_model('xgb.bin')
         return pred_model
+    
     task1=st.sidebar.radio("Perform analysis",("Yes","No"))
     if task1=="Yes":
              task=st.sidebar.selectbox("tasks to Perform", ("<Select option>","Categorise", "Sentiment", "Influencer"))
@@ -378,8 +368,7 @@ def main():
                         else:
                             keyin_text=[keyin_text]
                             keyin_text=clean_text(keyin_text)
-                #pred_model=pred[0]
-                ##insert pickle model
+
                             pred_model=Cat_Model()                            
                             pred_result=pred_model.predict(keyin_text.clean_text)
                             if pred_result == 1:
@@ -396,10 +385,7 @@ def main():
                            else:
                                 predata=Bulk_data(data_load)
                                 clean_cat=CategoriseSA(predata)
-                                #clean_cat=clean_cat.reset_index(drop=True)
-                                #insert pickle model
-                                
-                                #st.write(clean_cat.head())
+
                                 pred_model=Cat_Model() 
                                 
                                 categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
@@ -432,8 +418,6 @@ def main():
                                 senti=Sent(pred_cat)
                                 st.write(senti[2][["clean_text","sentiment_class"]].head())
                                 st.write("**SA tweet Sentiment analysis Bar graph**")
-                                #st.write(senti[0].sentiment_class.value_counts().plot(kind='bar',color='green',title="sentiment analysis for SA tweets"))
-                                #st.write(senti[1].sentiment_class.value_counts().plt(kind='bar',color='red',title="sentiment analysis for Global tweets"))
                                 chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                                 st.write(chart1)
                                 st.write("**Global tweet Sentiment analysis Bar graph**")
@@ -481,9 +465,7 @@ def main():
                             conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
                             choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
                             k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
-                            
-                            #k=k["Influencer_cat"].astype('category')
-                        #st.bar_chart(k.value_counts())
+                            st.write('*Influencers categorues Bar graph*')
                             chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
                             st.write(chart2)
 if __name__ == '__main__':

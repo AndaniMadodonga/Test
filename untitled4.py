@@ -19,6 +19,7 @@ Original file is located at
 import streamlit as st 
 import altair as alt
 import pickle
+import joblib
 from sklearn import preprocessing
 import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs

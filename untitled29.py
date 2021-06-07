@@ -857,7 +857,7 @@ def main():
     call=Full_Data()
     call.main_andani
   elif data_option=='Subset':
-        call=subset_Data()
+        call=Subset_Data()
         call.main_yolanda
 
 if __name__=='__main__':

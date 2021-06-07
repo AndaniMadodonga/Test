@@ -474,18 +474,19 @@ class Full_Data:
                                   chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
                                   st.write(chart2)
 class SubSet_Data:
-#       def preprocess_text(text):
-#           # Tokenise words while ignoring punctuation
-#           tokeniser = RegexpTokenizer(r'\w+')
-#           tokens = tokeniser.tokenize(text)
+    
+      def preprocess_text(text):
+          # Tokenise words while ignoring punctuation
+          tokeniser = RegexpTokenizer(r'\w+')
+          tokens = tokeniser.tokenize(text)
           
-#           # Lowercase and lemmatise 
-#           lemmatiser = WordNetLemmatizer()
-#           lemmas = [lemmatiser.lemmatize(token.lower(), pos='v') for token in tokens]
+          # Lowercase and lemmatise 
+          lemmatiser = WordNetLemmatizer()
+          lemmas = [lemmatiser.lemmatize(token.lower(), pos='v') for token in tokens]
           
-#           # Remove stop words
-#           keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
-#           return keywords
+          # Remove stop words
+          keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
+          return keywords
 
       def sub_df(data):
           data['statuses_retweeted_status_user_created_at'] =  pd.to_datetime(data['statuses_retweeted_status_user_created_at'])

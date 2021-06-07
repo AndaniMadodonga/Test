@@ -331,7 +331,7 @@ def main():
 #     data_load = st.file_picker("Choose a XLSX file",folder="https://github.com/AndaniMadodonga/Test/blob/main/",type="xlsx")
 #     Label_list=labels["field_name"].values.tolist() 
     img = st.image('wordCloud2.png')
-    st.write(img)
+    #st.write(img)
     #data=""
     def load():
         data_load= st.file_uploader("Choose a XLSX file",type="xlsx")

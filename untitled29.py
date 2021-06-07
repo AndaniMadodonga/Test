@@ -8,49 +8,48 @@ Original file is located at
 """
 
 # -*- coding: utf-8 -*-
+import streamlit as st 
+import altair as alt
+import pickle
+import joblib
+from sklearn import preprocessing
+import pandas as pd # to read csv/excel formatted data
+import matplotlib.pyplot as plt # to plot graphs
+import numpy as np
+from langdetect import detect
+from deep_translator import GoogleTranslator
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import string
+import nltk
+import re
+from xgboost import XGBClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import MultinomialNB
+import sklearn.metrics as metrics
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+import math
+import datetime
+from datetime import datetime, timezone
+translator = Translator()
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import RegexpTokenizer
+from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict, GridSearchCV
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import SGDClassifier
+from sklearn.pipeline import Pipeline
+import pickle
+import gensim
+import gensim.corpora as corpora
+from gensim.corpora import Dictionary
+from gensim.models import ldamodel
+from gensim.utils import simple_preprocess 
+from gensim.models import CoherenceModel
 
-  import streamlit as st 
-  import altair as alt
-  import pickle
-  import joblib
-  from sklearn import preprocessing
-  import pandas as pd # to read csv/excel formatted data
-  import matplotlib.pyplot as plt # to plot graphs
-  import numpy as np
-  from langdetect import detect
-  from deep_translator import GoogleTranslator
-  from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-  import string
-  import nltk
-  import re
-  from xgboost import XGBClassifier
-  from sklearn.ensemble import RandomForestClassifier
-  from sklearn.naive_bayes import MultinomialNB
-  import sklearn.metrics as metrics
-  from sklearn.feature_extraction.text import TfidfVectorizer
-  from sklearn.model_selection import train_test_split
-  import math
-  import datetime
-  from datetime import datetime, timezone
-  translator = Translator()
-  from nltk.stem import WordNetLemmatizer
-  from nltk.tokenize import RegexpTokenizer
-  from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict, GridSearchCV
-  from sklearn.feature_extraction.text import TfidfVectorizer
-  from sklearn.linear_model import SGDClassifier
-  from sklearn.pipeline import Pipeline
-  import pickle
-  import gensim
-  import gensim.corpora as corpora
-  from gensim.corpora import Dictionary
-  from gensim.models import ldamodel
-  from gensim.utils import simple_preprocess 
-  from gensim.models import CoherenceModel
-
-  nltk.download('stopwords')
-  nltk.download('wordnet')
-  from nltk.corpus import stopwords
-  class Full_Data:
+nltk.download('stopwords')
+nltk.download('wordnet')
+from nltk.corpus import stopwords
+class Full_Data:
       # Data Pre-processing
 
       def preprocess(data_heading):

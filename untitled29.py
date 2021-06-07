@@ -31,6 +31,7 @@ from sklearn.model_selection import train_test_split
 import math
 import datetime
 from datetime import datetime, timezone
+from googletrans import Translator
 translator = Translator()
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer

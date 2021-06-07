@@ -856,9 +856,9 @@ def main():
   if data_option=="Full data":
     call=Full_Data()
     call.main_andani
-#   elif data_option=='Subset':
-#         call=Subset_Data()
-#         call.main_yolanda
+  elif data_option=='Subset':
+    call= SubSet_Data()
+    call.main_yolanda
 
 if __name__=='__main__':
           main()

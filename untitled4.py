@@ -329,7 +329,8 @@ def main():
     #data = pd.read_excel(data_load)
 #     data_load = st.file_picker("Choose a XLSX file",folder="https://github.com/AndaniMadodonga/Test/blob/main/",type="xlsx")
 #     Label_list=labels["field_name"].values.tolist() 
-    
+    img = joblib.load('wordCloud2.png')
+    st.write(img)
     #data=""
     def load():
         data_load= st.file_uploader("Choose a XLSX file",type="xlsx")

@@ -420,7 +420,7 @@ class Full_Data:
                                       #pred_cat.head() 
                                       predata=Bulk_data(data_load)
                                       pred_cat=self.CategoriseSA(predata)
-                                      senti=Sent(pred_cat)
+                                      senti=self.Sent(pred_cat)
                                       st.write(senti[2][["clean_text","sentiment_class"]].head())
                                       st.write("**SA tweet Sentiment analysis Bar graph**")
                                       chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()

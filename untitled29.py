@@ -866,11 +866,11 @@ def main():
   st.sidebar.write("Select the Data that you need to use")
   data_option=st.sidebar.selectbox("<Data Option>",("<Select Option>","Full data","Subset"))
   if data_option=="Full data":
-    call=Full_Data()
-    call.main_andani
+    Full_Data().main_andani()
+    #call.main_andani
   elif data_option=='Subset':
-    call= SubSet_Data()
-    call.main_yolanda
+     SubSet_Data().main_yolanda()
+    #call.main_yolanda
 
 if __name__=='__main__':
           main()

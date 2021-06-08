@@ -327,7 +327,7 @@ class Full_Data:
           </div> 
           """
         
-          st.sidebar.subheader("Menu")
+          #st.sidebar.subheader("Choose")
           
           img = st.image('wordCloud2.png')
           #st.write(img)
@@ -359,7 +359,7 @@ class Full_Data:
           
           task1=st.sidebar.radio("Perform analysis",("Yes","No"))
           if task1=="Yes":
-                  task=st.sidebar.selectbox("tasks to Perform", ("<Select option>","Categorise", "Sentiment", "Influencer"))
+                  task=st.sidebar.selectbox("**Menu**", ("<Select option>","Categorise", "Sentiment", "Influencer"))
                   if task=='Categorise':
                       st.markdown(html_temp1, unsafe_allow_html = True )
                       cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))

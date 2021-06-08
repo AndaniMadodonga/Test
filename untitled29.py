@@ -836,7 +836,7 @@ class SubSet_Data:
                   
                   sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment','Sentiment_Cat','No_Urls','Topic','has_decription']]
                   
-                  pred_cat=Trending_model.predict(sub_data)
+                  pred_cat=self.Trending_model.predict(sub_data)
                   pred_val=list()
                   
                   for i in pred_cat:
@@ -848,7 +848,7 @@ class SubSet_Data:
                       
                   pred_table=pd.DataFrame()
                   
-                  cf_lvl=Trending_model.predict_proba(sub_data)
+                  cf_lvl=self.Trending_model.predict_proba(sub_data)
                   
                   pred_table['Category']=pred_cat
                   pred_table['Projected Status']=pred_val
@@ -861,8 +861,8 @@ class SubSet_Data:
                   st.dataframe(sub_data)
                   st.dataframe(pred_table)
                   
-                  st.write(Trending_model.predict(sub_data))
-                  st.write(Trending_model.predict_proba(sub_data))
+                  st.write(self.Trending_model.predict(sub_data))
+                  st.write(self.Trending_model.predict_proba(sub_data))
           
 def main():
 

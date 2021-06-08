@@ -302,7 +302,7 @@ class Full_Data:
           return Df_sent["sentiment_class"].loc[0]
 
 
-      def main_andani():
+      def main_andani(self):
           import streamlit as st       
           # front end elements of the web page 
           html_temp1 = """ 
@@ -671,7 +671,7 @@ class SubSet_Data:
 
 
 
-      def main_yolanda():
+      def main_yolanda(self):
           
           
           

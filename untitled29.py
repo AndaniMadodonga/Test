@@ -400,7 +400,8 @@ class Full_Data:
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
                               st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                              #st.write("Count of SA tweet and Global tweet are is {} and {} respectively".format(len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])))
+                              df_count=pd.concat(pd.DataFrame(len(df_cat[df_cat['Class_Label']==1])),pd.DataFrame(len(df_cat[df_cat['Class_Label']==0])),columns=["SA Count","Global Count"])
+                              st.write(tk)
                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
                               st.write(chart)
 
@@ -868,13 +869,13 @@ class SubSet_Data:
 def main():
 
   st.sidebar.write("SELECT DATA TO USE")
-  data_option=st.sidebar.selectbox("Data Option",("<Select Option>","Full data","Subset"))
-  if data_option=="Full data":
+  data_option=st.sidebar.selectbox("Data Option",("<Select Option>","Full Dataset","Sub Dataset"))
+  if data_option=="Full Dataset":
     Full_Data().main_full()
-    #call.main_andani
-  elif data_option=='Subset':
+    
+  elif data_option=='Sub Dataset':
      SubSet_Data().main_sub()
-    #call.main_yolanda
+    
 
 if __name__=='__main__':
           main()

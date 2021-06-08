@@ -833,6 +833,7 @@ class SubSet_Data:
                   data['Length']=Length
                   data['DaysActive']=DaysActive
                   
+                  st.write(data[['Sentiment_Cat','Sentiment']].head()) 
                   
                   sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment','Sentiment_Cat','No_Urls','Topic','has_decription']]
                   

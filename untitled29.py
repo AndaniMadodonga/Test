@@ -568,7 +568,7 @@ class SubSet_Data:
       pickle_in = open("Trending_classfier.pkl", "rb") 
       Trending_model=pickle.load(pickle_in)
 
-      #pickle_in = open("Topic2_classfier.pkl", "rb") 
+      pickle_in = open("Topic2_classfier.pkl", "rb") 
       Topic_m=pickle.load(pickle_in)
 
       def Topic_num(corpus_df):

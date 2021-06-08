@@ -787,7 +787,7 @@ class SubSet_Data:
               st.sidebar.subheader("User Information:")
               number_of_followers=st.sidebar.number_input("number of followers",min_value=0, max_value=10000000,step=1)
               number_of_times_listed=st.sidebar.number_input("number of times listed",min_value=0, max_value=10000000,step=1)
-              fav_Count=st.sidebar.number_input("fav Count",min_value=0, max_value=10000000 step=1)
+              fav_Count=st.sidebar.number_input("fav Count",min_value=0, max_value=10000000, step=1)
               status_Count=st.sidebar.number_input("status Count",min_value=0, max_value=10000000, step=1)
               has_image=st.sidebar.number_input("has image (1-yes 0-No)",min_value=0,max_value=1, step=1)
               has_decription=st.sidebar.number_input("has decription (1-yes 0-No)",min_value=0,max_value=1, step=1)

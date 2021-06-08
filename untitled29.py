@@ -53,7 +53,7 @@ from nltk.corpus import stopwords
 class Full_Data:
       # Data Pre-processing
 
-      def preprocess(data_heading):
+      def preprocess(self,data_heading):
         null_dict={}
         nulls_all=data_heading.isnull().sum().to_frame()
         for index, row in nulls_all.iterrows():
@@ -120,7 +120,7 @@ class Full_Data:
       @st.cache()
 
       #Influncer Category
-      def influncerModel(Final_Dataset):
+      def influncerModel(self,Final_Dataset):
           
         def C(row):
           if(row['statuses_retweeted_status_user_followers_count']>1000000):
@@ -158,7 +158,7 @@ class Full_Data:
         return df_normal1.iloc[:,:5] #best_model_xgb
 
       #SA and Global Category Data cleaning
-      def CategoriseSA(Final_Dataset):
+      def CategoriseSA(self,Final_Dataset):
         Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
         Categorisation_dataset=Final_Dataset[(Final_Dataset['input_query']!='nfsas') & (Final_Dataset['input_query']!='#openthechurches')]
 
@@ -270,7 +270,7 @@ class Full_Data:
 
 
       #Sentiment Analysis
-      def Sent(Data_Models):
+      def Sent(self,Data_Models):
         from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
         analyser = SentimentIntensityAnalyzer()
         if len(Data_Models)==1:
@@ -389,7 +389,7 @@ class Full_Data:
                                       st.error("Upload XLSX file")
                                 else:
                                       predata=Bulk_data(data_load)
-                                      clean_cat=CategoriseSA(predata)
+                                      clean_cat=self.CategoriseSA(predata)
 
                                       pred_model=Cat_Model() 
                                       
@@ -419,7 +419,7 @@ class Full_Data:
                                   else:
                                       #pred_cat.head() 
                                       predata=Bulk_data(data_load)
-                                      pred_cat=CategoriseSA(predata)
+                                      pred_cat=self.CategoriseSA(predata)
                                       senti=Sent(pred_cat)
                                       st.write(senti[2][["clean_text","sentiment_class"]].head())
                                       st.write("**SA tweet Sentiment analysis Bar graph**")
@@ -435,8 +435,8 @@ class Full_Data:
                       
                           
                               if st.button('Check Text Sentiment'):
-                                  text=clean_text([keyin_text_sent])
-                                  senti=Sent(text.clean_text)  
+                                  text=self.clean_text([keyin_text_sent])
+                                  senti=self.Sent(text.clean_text)  
                                   
                                   st.success('The Sentiment of the tweet is-{}'.format(senti))
                                   st.write("**clean text:-** {}".format(text.clean_text.loc[0]))
@@ -456,7 +456,7 @@ class Full_Data:
                                   
                                   import xgboost as xgb   
                                   predata=Bulk_data(data_load)
-                                  influence_model=influncerModel(predata)
+                                  influence_model=self.influncerModel(predata)
                       #insert pickle model
                                   inf_model=Inf_Model()
                                   t=xgb.DMatrix(influence_model)
@@ -489,7 +489,7 @@ def preprocess_text(text):
 
 class SubSet_Data:
     
-      def preprocess_text(text):
+      def preprocess_text(self,text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')
           tokens = tokeniser.tokenize(text)
@@ -502,7 +502,7 @@ class SubSet_Data:
           keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
           return keywords
 
-      def sub_df(data):
+      def sub_df(self,data):
           data['statuses_retweeted_status_user_created_at'] =  pd.to_datetime(data['statuses_retweeted_status_user_created_at'])
           data['statuses_retweeted_status_user_created_at'] =  pd.to_datetime(data['statuses_retweeted_status_user_created_at'],format="%Y-%m-%d")
           
@@ -583,7 +583,7 @@ class SubSet_Data:
       pickle_in = open("Topic2_classfier.pkl", "rb") 
       Topic_m=pickle.load(pickle_in)
 
-      def Topic_num(corpus_df):
+      def Topic_num(self,corpus_df):
           corpus_df=corpus_df.to_list()
           Topic_ls=[]
           
@@ -622,12 +622,12 @@ class SubSet_Data:
       from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer 
       import re
         
-      def Find(string):
+      def Find(self,string):
           regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
           url = re.findall(regex,string)      
           return len(url)
 
-      def Sentiment_url(corpus_df):
+      def Sentiment_url(self,corpus_df):
           corpus=corpus_df.to_list()
           sentences = corpus
           sentiment = list()
@@ -708,11 +708,11 @@ class SubSet_Data:
                 if st.button('Predict'):
                   data=pd.read_excel(Data_file)
 
-                  sub_data=sub_df(data)
+                  sub_data=self.sub_df(data)
                   corpus=sub_data['Microblog_text']
                   Tp=Topic_num(corpus)
                 
-                  Senti=Sentiment_url(corpus)
+                  Senti=self.Sentiment_url(corpus)
 
                   sub_data['Sentiment']=Senti["sentiment"]
                   sub_data['Sentiment_Cat']=Senti["Sentiment_Cat"]
@@ -807,7 +807,7 @@ class SubSet_Data:
               if st.button('Predict'):
                   data = pd.DataFrame([features])
                   corpus=data['Microblog_text']
-                  Tp=Topic_num(corpus)
+                  Tp=self.Topic_num(corpus)
                   Senti=Sentiment_url(corpus)
                   
                   Length=len(data['Microblog_text'])

@@ -464,11 +464,19 @@ class Full_Data:
                           #st.write(best_preds)
                           best_preds=best_preds.tolist() 
                           k=pd.DataFrame(best_preds,columns=["Influencer_cat"])
+                          k0=len(k[k['Influencer_cat']==0])
+                          k1=len(k[k['Influencer_cat']==1])
+                          k2=len(k[k['Influencer_cat']==2])
+                          k3=len(k[k['Influencer_cat']==3])
+                          k_count=pd.DataFrame([k0,k1,k2,k3],columns='Count')
+                          choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']  
+                          k_count.index=choices
                           col=["Influencer_cat"]
                           conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
                           choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
                           k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
-                          st.write('*Influencers categorues Bar graph*')
+                          st.write(k_count)  
+                          st.write('*Influencers categories Bar graph*')
                           chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
                           st.write(chart2)
 def preprocess_text(text):

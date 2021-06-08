@@ -468,12 +468,12 @@ class Full_Data:
                           k1=len(k[k['Influencer_cat']==1])
                           k2=len(k[k['Influencer_cat']==2])
                           k3=len(k[k['Influencer_cat']==3])
-                          k_count=pd.DataFrame([k0,k1,k2,k3],columns='Count')
+                          k_count=pd.DataFrame([k0,k1,k2,k3],columns=['Count'])
                           choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']  
                           k_count.index=choices
                           col=["Influencer_cat"]
                           conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
-                          choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
+                          
                           k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
                           st.write(k_count)  
                           st.write('*Influencers categories Bar graph*')

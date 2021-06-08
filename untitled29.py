@@ -359,7 +359,7 @@ class Full_Data:
           
           #task1=st.sidebar.radio("Perform analysis",("Yes","No"))
           #if task1=="Yes":
-          task=st.sidebar.selectbox("**Menu**", ("<Select option>","Categorise", "Sentiment", "Influencer"))
+          task=st.sidebar.selectbox("Menu", ("<Select option>","Categorise", "Sentiment", "Influencer"))
           if task=='Categorise':
               st.markdown(html_temp1, unsafe_allow_html = True )
               cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))
@@ -400,7 +400,7 @@ class Full_Data:
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
                               st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                              st.write("Count of SA tweet and Global tweet are is {} and {} respectively".format(len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])))
+                              #st.write("Count of SA tweet and Global tweet are is {} and {} respectively".format(len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])))
                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
                               st.write(chart)
 
@@ -867,8 +867,8 @@ class SubSet_Data:
           
 def main():
 
-  st.sidebar.write("Select the Data that you need to use")
-  data_option=st.sidebar.selectbox("<Data Option>",("<Select Option>","Full data","Subset"))
+  st.sidebar.write("SELECT DATA TO USE")
+  data_option=st.sidebar.selectbox("Data Option",("<Select Option>","Full data","Subset"))
   if data_option=="Full data":
     Full_Data().main_full()
     #call.main_andani

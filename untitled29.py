@@ -311,7 +311,7 @@ class Full_Data:
           </div> 
           """
           html_temp3 = """ 
-          <div style ="background-color:purple;padding:13px"> 
+          <div style ="background-color:orange;padding:13px"> 
           <h1 style =""color:black;text-align:Center;;"> Influencer's Classification</h1>
           </div> 
           """

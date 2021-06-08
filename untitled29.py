@@ -586,7 +586,7 @@ class SubSet_Data:
       def Topic_num(self,corpus_df):
           corpus_df=corpus_df.to_list()
           Topic_ls=[]
-          
+          global model
           
           for i in range(len(corpus_df)):
               new_text_corpus =  model.id2word.doc2bow(corpus_df[i].split())

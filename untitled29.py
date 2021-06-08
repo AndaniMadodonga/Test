@@ -473,6 +473,18 @@ class Full_Data:
                                   st.write('*Influencers categorues Bar graph*')
                                   chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
                                   st.write(chart2)
+def preprocess_text(text):
+          # Tokenise words while ignoring punctuation
+          tokeniser = RegexpTokenizer(r'\w+')
+          tokens = tokeniser.tokenize(text)
+          
+          # Lowercase and lemmatise 
+          lemmatiser = WordNetLemmatizer()
+          lemmas = [lemmatiser.lemmatize(token.lower(), pos='v') for token in tokens]
+          
+          # Remove stop words
+          keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
+          return keywords
                                 
 
 class SubSet_Data:
@@ -850,18 +862,7 @@ class SubSet_Data:
                   st.write(Trending_model.predict_proba(sub_data))
           
 def main():
-  def preprocess_text(text):
-          # Tokenise words while ignoring punctuation
-          tokeniser = RegexpTokenizer(r'\w+')
-          tokens = tokeniser.tokenize(text)
-          
-          # Lowercase and lemmatise 
-          lemmatiser = WordNetLemmatizer()
-          lemmas = [lemmatiser.lemmatize(token.lower(), pos='v') for token in tokens]
-          
-          # Remove stop words
-          keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
-          return keywords
+
   st.write("Select the Data that you need to use")
   data_option=st.sidebar.selectbox("<select option>","Full data","Subset")
   if data_option=="Full data":

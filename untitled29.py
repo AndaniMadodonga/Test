@@ -141,14 +141,8 @@ class Full_Data:
         df_influencer=Final_Dataset[['statuses_retweeted_status_user_followers_count','statuses_retweeted_status_user_friends_count','statuses_user_statuses_count','statuses_retweeted_status_user_listed_count','statuses_retweeted_status_favorite_count','statuses_retweet_count','Influencer_Cat']]
         df_influencer=df_influencer.fillna(0)
 
-        # df_influencer.loc[(df_influencer['Influencer_Cat']=='Mega Influence'), 'Influencer_class'] = 0
-        # df_influencer.loc[(df_influencer['Influencer_Cat']=='Macro Influencer'), 'Influencer_class'] = 1
-        # df_influencer.loc[(df_influencer['Influencer_Cat']=='Micro Influencer'), 'Influencer_class'] = 2
-        # df_influencer.loc[(df_influencer['Influencer_Cat']=='Non influencer'), 'Influencer_class'] = 3
-
         xx = df_influencer.iloc[:, :6].values 
-        #yy=df_influencer.iloc[:, 7:8]
-
+        
         cols=['statuses_retweeted_status_user_followers_count','statuses_retweeted_status_user_friends_count','statuses_user_statuses_count','statuses_retweeted_status_user_listed_count','statuses_retweeted_status_favorite_count','statuses_retweet_count']
         min_max_scaler = preprocessing.MinMaxScaler()
         x_scaled = min_max_scaler.fit_transform(xx)
@@ -400,7 +394,7 @@ class Full_Data:
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
                               st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                              df_count=pd.concat([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])])
+                              df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["SA Count","Global Count"])
                               #columns=["SA Count","Global Count"]
                               st.write(tk)
                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()

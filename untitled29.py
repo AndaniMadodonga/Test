@@ -851,10 +851,10 @@ class SubSet_Data:
                   
                   cf_lvl=self.Trending_model.predict_proba(sub_data)
                   st.write(pred_cat)
-                  st.write(cf_lvl[0])
+                  st.write(cf_lvl[0][0])
                   pred_table['Category']=pred_cat
                   pred_table['Projected Status']=pred_val
-                  pred_table['Confidence Level']=cf_lvl[0]
+                  pred_table['Confidence Level']=cf_lvl[0][0]
                   
 
                   st.write("Topic number:",pd.DataFrame(Tp))

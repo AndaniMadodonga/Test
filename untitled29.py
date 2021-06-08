@@ -850,7 +850,7 @@ class SubSet_Data:
                   st.write(Trending_model.predict_proba(sub_data))
           
 def main():
- def preprocess_text(text):
+  def preprocess_text(text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')
           tokens = tokeniser.tokenize(text)

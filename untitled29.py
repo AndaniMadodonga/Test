@@ -357,122 +357,123 @@ class Full_Data:
               pred_model.load_model('xgb.bin')
               return pred_model
           
-          task1=st.sidebar.radio("Perform analysis",("Yes","No"))
-          if task1=="Yes":
-                  task=st.sidebar.selectbox("**Menu**", ("<Select option>","Categorise", "Sentiment", "Influencer"))
-                  if task=='Categorise':
-                      st.markdown(html_temp1, unsafe_allow_html = True )
-                      cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))
-                      if cat_choice=="Text":
-                          result =""
-                          keyin_text = st.text_input("type or paste a tweet")
-                          
-                          if st.button("Categorise"):
-                              if  len(keyin_text.split())<=2:
-                                  st.error("type or paste a tweet")
-                              else:
-                                  keyin_text=[keyin_text]
-                                  keyin_text=self.clean_text(keyin_text)
+          #task1=st.sidebar.radio("Perform analysis",("Yes","No"))
+          #if task1=="Yes":
+          task=st.sidebar.selectbox("**Menu**", ("<Select option>","Categorise", "Sentiment", "Influencer"))
+          if task=='Categorise':
+              st.markdown(html_temp1, unsafe_allow_html = True )
+              cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))
+              if cat_choice=="Text":
+                  result =""
+                  keyin_text = st.text_input("type or paste a tweet")
 
-                                  pred_model=Cat_Model()                            
-                                  pred_result=pred_model.predict(keyin_text.clean_text)
-                                  if pred_result == 1:
-                                      result = 'South African tweet'
-                                  else:
-                                      result = 'Global tweet'
-                                  st.success('The tweet falls under {}'.format(result))
-                      if cat_choice=="Bulk":
-                              st.write("**Import XlSX file**")
-                              data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
-                              if st.button('Perform Categorisation'):
-                                if data_load is None:
-                                      st.error("Upload XLSX file")
-                                else:
-                                      predata=Bulk_data(data_load)
-                                      clean_cat=self.CategoriseSA(predata)
+                  if st.button("Categorise"):
+                      if  len(keyin_text.split())<=2:
+                          st.error("type or paste a tweet")
+                      else:
+                          keyin_text=[keyin_text]
+                          keyin_text=self.clean_text(keyin_text)
 
-                                      pred_model=Cat_Model() 
-                                      
-                                      categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
-                                      categorise=categorise.tolist()
-                                      df_class=pd.DataFrame(categorise,columns=["Class_Label"])
-                                      df_class=df_class.reset_index(drop=True)
-                                      df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
-                                      df_cat=pd.concat([clean_cat,df_class],axis=1)
-                                      st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                                      chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
-                                      st.write(chart)
+                          pred_model=Cat_Model()                            
+                          pred_result=pred_model.predict(keyin_text.clean_text)
+                          if pred_result == 1:
+                              result = 'South African tweet'
+                          else:
+                              result = 'Global tweet'
+                          st.success('The tweet falls under {}'.format(result))
+              if cat_choice=="Bulk":
+                      st.write("**Import XlSX file**")
+                      data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
+                      if st.button('Perform Categorisation'):
+                        if data_load is None:
+                              st.error("Upload XLSX file")
+                        else:
+                              predata=Bulk_data(data_load)
+                              clean_cat=self.CategoriseSA(predata)
 
-              #
-                  if task=="Sentiment":
-                          st.markdown(html_temp2, unsafe_allow_html = True) 
-                          st.write("**Select the option below to perform bulk or Single tweet sentiment**")
-                          sent_choice=st.selectbox("Bulk or text", ("<Select option>","Bulk", "Text"))
-                          if sent_choice=='Bulk':
-                              st.write("**Import XlSX file**")
-                              data_load= load()
-                              
-                              if st.button('Check Bulk Sentiment'):
-                                  
-                                  if data_load is None:
-                                      st.error("Upload XLSX file")
-                                  else:
-                                      #pred_cat.head() 
-                                      predata=Bulk_data(data_load)
-                                      pred_cat=self.CategoriseSA(predata)
-                                      senti=self.Sent(pred_cat)
-                                      st.write(senti[2][["clean_text","sentiment_class"]].head())
-                                      st.write("**SA tweet Sentiment analysis Bar graph**")
-                                      chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
-                                      st.write(chart1)
-                                      st.write("**Global tweet Sentiment analysis Bar graph**")
-                                      chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
-                                      st.write(chart2)
-                                  
-                        
-                          if sent_choice=='Text':
-                              keyin_text_sent = st.text_input("type or paste a tweet")
-                      
-                          
-                              if st.button('Check Text Sentiment'):
-                                  text=self.clean_text([keyin_text_sent])
-                                  senti=self.Sent(text.clean_text)  
-                                  
-                                  st.success('The Sentiment of the tweet is-{}'.format(senti))
-                                  st.write("**clean text:-** {}".format(text.clean_text.loc[0]))
-                                  
-                      
-        #predata=preprocess(data)
-              
-                  if task=="Influencer":
-                          st.markdown(html_temp3, unsafe_allow_html = True)
-                          data_load= load()
-                          
-                          if st.button('Influencers'):
-                            if data_load is None:
-                                  st.error("Upload XLSX File")
-                            else:
-                              #st.write("import XLSX file")
-                                  
-                                  import xgboost as xgb   
-                                  predata=Bulk_data(data_load)
-                                  influence_model=self.influncerModel(predata)
-                      #insert pickle model
-                                  inf_model=Inf_Model()
-                                  t=xgb.DMatrix(influence_model)
-                                  inf_pred=inf_model.predict(t)
-                                  best_preds = np.asarray([np.argmax(line) for line in inf_pred])
-                                  #st.write(type(best_preds))
-                                  #st.write(best_preds)
-                                  best_preds=best_preds.tolist() 
-                                  k=pd.DataFrame(best_preds,columns=["Influencer_cat"])
-                                  col=["Influencer_cat"]
-                                  conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
-                                  choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
-                                  k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
-                                  st.write('*Influencers categorues Bar graph*')
-                                  chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
-                                  st.write(chart2)
+                              pred_model=Cat_Model() 
+
+                              categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
+                              categorise=categorise.tolist()
+                              df_class=pd.DataFrame(categorise,columns=["Class_Label"])
+                              df_class=df_class.reset_index(drop=True)
+                              df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
+                              df_cat=pd.concat([clean_cat,df_class],axis=1)
+                              st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
+                              st.write("Count of SA tweet and Global tweet are is {} and {} respectively".format(len(df_cat[df_cat['Tweet_Category']==0]),len(df_cat[df_cat['Tweet_Category']==1])))
+                              chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+                              st.write(chart)
+
+      #
+          if task=="Sentiment":
+                  st.markdown(html_temp2, unsafe_allow_html = True) 
+                  st.write("**Select the option below to perform bulk or Single tweet sentiment**")
+                  sent_choice=st.selectbox("Bulk or text", ("<Select option>","Bulk", "Text"))
+                  if sent_choice=='Bulk':
+                      st.write("**Import XlSX file**")
+                      data_load= load()
+
+                      if st.button('Check Bulk Sentiment'):
+
+                          if data_load is None:
+                              st.error("Upload XLSX file")
+                          else:
+                              #pred_cat.head() 
+                              predata=Bulk_data(data_load)
+                              pred_cat=self.CategoriseSA(predata)
+                              senti=self.Sent(pred_cat)
+                              st.write(senti[2][["clean_text","sentiment_class"]].head())
+                              st.write("**SA tweet Sentiment analysis Bar graph**")
+                              chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                              st.write(chart1)
+                              st.write("**Global tweet Sentiment analysis Bar graph**")
+                              chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                              st.write(chart2)
+
+
+                  if sent_choice=='Text':
+                      keyin_text_sent = st.text_input("type or paste a tweet")
+
+
+                      if st.button('Check Text Sentiment'):
+                          text=self.clean_text([keyin_text_sent])
+                          senti=self.Sent(text.clean_text)  
+
+                          st.success('The Sentiment of the tweet is-{}'.format(senti))
+                          st.write("**clean text:-** {}".format(text.clean_text.loc[0]))
+
+
+#predata=preprocess(data)
+
+          if task=="Influencer":
+                  st.markdown(html_temp3, unsafe_allow_html = True)
+                  data_load= load()
+
+                  if st.button('Influencers'):
+                    if data_load is None:
+                          st.error("Upload XLSX File")
+                    else:
+                      #st.write("import XLSX file")
+
+                          import xgboost as xgb   
+                          predata=Bulk_data(data_load)
+                          influence_model=self.influncerModel(predata)
+              #insert pickle model
+                          inf_model=Inf_Model()
+                          t=xgb.DMatrix(influence_model)
+                          inf_pred=inf_model.predict(t)
+                          best_preds = np.asarray([np.argmax(line) for line in inf_pred])
+                          #st.write(type(best_preds))
+                          #st.write(best_preds)
+                          best_preds=best_preds.tolist() 
+                          k=pd.DataFrame(best_preds,columns=["Influencer_cat"])
+                          col=["Influencer_cat"]
+                          conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
+                          choices     = [ "Mega Influence", 'Macro Influencer', 'Micro Influencer','Non influencer']
+                          k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
+                          st.write('*Influencers categorues Bar graph*')
+                          chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
+                          st.write(chart2)
 def preprocess_text(text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')

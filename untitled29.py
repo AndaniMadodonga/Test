@@ -836,7 +836,7 @@ class SubSet_Data:
                   st.write(data[['Sentiment_Cat','Sentiment']].head()) 
                   
                   sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
-                  
+                  #remove sentiment column from subdata
                   pred_cat=self.Trending_model.predict(sub_data)
                   pred_val=list()
                   
@@ -854,11 +854,11 @@ class SubSet_Data:
                   st.write(cf_lvl[0][0])
                   pred_table['Category']=pred_cat
                   pred_table['Projected Status']=pred_val
-                  pred_table['Confidence Level']=cf_lvl[0][0]
+                  pred_table['Confidence Level']=cf_lvl[0][0] #changed from cf_lvl[0]
                   
 
                   st.write("Topic number:",pd.DataFrame(Tp))
-                  st.write(sub_data['Sentiment'])
+                  st.write(data['Sentiment']) #changed from sub_data[sentiment]
                   
                   st.dataframe(sub_data)
                   st.dataframe(pred_table)

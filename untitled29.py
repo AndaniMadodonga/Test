@@ -238,7 +238,7 @@ class Full_Data:
 
         return  Data_Models #best_model
 
-      def clean_text(text):
+      def clean_text(self,text):
         documents = []
         from nltk.stem import WordNetLemmatizer
 

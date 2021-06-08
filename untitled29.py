@@ -302,7 +302,7 @@ class Full_Data:
           return Df_sent["sentiment_class"].loc[0]
 
 
-      def main_andani(self):
+      def main_full(self):
           import streamlit as st       
           # front end elements of the web page 
           html_temp1 = """ 
@@ -327,7 +327,7 @@ class Full_Data:
           </div> 
           """
         
-          st.sidebar.subheader("Choose Task to perform")
+          st.sidebar.subheader("Menu")
           
           img = st.image('wordCloud2.png')
           #st.write(img)
@@ -407,7 +407,7 @@ class Full_Data:
                   if task=="Sentiment":
                           st.markdown(html_temp2, unsafe_allow_html = True) 
                           st.write("**Select the option below to perform bulk or Single tweet sentiment**")
-                          sent_choice=st.selectbox("Bulk or text", ("<Select>","Bulk", "Text"))
+                          sent_choice=st.selectbox("Bulk or text", ("<Select option>","Bulk", "Text"))
                           if sent_choice=='Bulk':
                               st.write("**Import XlSX file**")
                               data_load= load()
@@ -674,7 +674,7 @@ class SubSet_Data:
 
 
 
-      def main_yolanda(self):
+      def main_sub(self):
           
           
           
@@ -850,7 +850,7 @@ class SubSet_Data:
                   pred_table=pd.DataFrame()
                   
                   cf_lvl=self.Trending_model.predict_proba(sub_data)
-                  st.write(cf_lvl)
+                  st.write(type(cf_lvl))
                   pred_table['Category']=pred_cat
                   pred_table['Projected Status']=pred_val
                   pred_table['Confidence Level']=cf_lvl[0]
@@ -870,10 +870,10 @@ def main():
   st.sidebar.write("Select the Data that you need to use")
   data_option=st.sidebar.selectbox("<Data Option>",("<Select Option>","Full data","Subset"))
   if data_option=="Full data":
-    Full_Data().main_andani()
+    Full_Data().main_full()
     #call.main_andani
   elif data_option=='Subset':
-     SubSet_Data().main_yolanda()
+     SubSet_Data().main_sub()
     #call.main_yolanda
 
 if __name__=='__main__':

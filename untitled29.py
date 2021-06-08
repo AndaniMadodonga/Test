@@ -372,7 +372,7 @@ class Full_Data:
                                   st.error("type or paste a tweet")
                               else:
                                   keyin_text=[keyin_text]
-                                  keyin_text=clean_text(keyin_text)
+                                  keyin_text=self.clean_text(keyin_text)
 
                                   pred_model=Cat_Model()                            
                                   pred_result=pred_model.predict(keyin_text.clean_text)

@@ -864,7 +864,7 @@ class SubSet_Data:
 def main():
 
   st.write("Select the Data that you need to use")
-  data_option=st.sidebar.selectbox("<select option>","Full data","Subset")
+  data_option=st.sidebar.selectbox("<select option>",("Full data","Subset"))
   if data_option=="Full data":
     call=Full_Data()
     call.main_andani

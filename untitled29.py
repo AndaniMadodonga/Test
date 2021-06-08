@@ -808,7 +808,7 @@ class SubSet_Data:
                   data = pd.DataFrame([features])
                   corpus=data['Microblog_text']
                   Tp=self.Topic_num(corpus)
-                  Senti=Sentiment_url(corpus)
+                  Senti=self.Sentiment_url(corpus)
                   
                   Length=len(data['Microblog_text'])
                   

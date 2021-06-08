@@ -400,7 +400,7 @@ class Full_Data:
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
                               st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                              df_count=pd.concat(len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0]),columns=["SA Count","Global Count"])
+                              df_count=pd.concat(len([df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["SA Count","Global Count"])
                               st.write(tk)
                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
                               st.write(chart)

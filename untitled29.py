@@ -639,7 +639,7 @@ class SubSet_Data:
           for sentence in sentences:
               sent_vader = list(SentimentIntensityAnalyzer().polarity_scores(sentence).values())
               sentiment.append(sent_vader[3])
-              hasUrl = Find(sentence)
+              hasUrl = self.Find(sentence)
               url.append(hasUrl)
                   
               sentiment_url= pd.DataFrame({'sentiment':sentiment,'urls':url})

@@ -396,7 +396,7 @@ class Full_Data:
                               st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
                               df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["Count"])
                               #columns=["SA Count","Global Count"]
-                              st.write(tk)
+                              st.write(df_count)
                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
                               st.write(chart)
 

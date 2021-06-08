@@ -835,7 +835,7 @@ class SubSet_Data:
                   
                   st.write(data[['Sentiment_Cat','Sentiment']].head()) 
                   
-                  sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment','Sentiment_Cat','No_Urls','Topic','has_decription']]
+                  sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
                   
                   pred_cat=self.Trending_model.predict(sub_data)
                   pred_val=list()

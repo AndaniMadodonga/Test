@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun  9 06:56:21 2021
-
-@author: yolandankalashe
-"""
-
-# -*- coding: utf-8 -*-
-
 
 # -*- coding: utf-8 -*-
 import streamlit as st 

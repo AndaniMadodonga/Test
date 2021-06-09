@@ -483,7 +483,7 @@ class Full_Data:
                           conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
                           
                           k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
-                          st.write("Table of Influencer's Category Count")
+                          st.write("**Table of Influencer's Category Count**")
                           st.write(k_count)  
                           st.write('*Influencers categories Bar graph*')
                           chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()

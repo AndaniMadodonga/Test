@@ -721,6 +721,7 @@ class SubSet_Data:
                      import matplotlib.pyplot as plt
                      st.write("WordCloud")
                      data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
+                     st.write(data_processed_text.clean_text)
                      wordcloud = WordCloud().generate(data_processed_text.clean_text)
 
 # Display the generated image:

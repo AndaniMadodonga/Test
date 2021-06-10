@@ -397,8 +397,18 @@ class Full_Data:
                               #columns=["SA Count","Global Count"]
                               df_count.index=["SA","Global"]
                               st.write(df_count)
-                              chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
-                              st.write(chart)
+                              #chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+                              ax = sns.countplot(y="Tweet_Category", data=df_cat)
+
+                              for p in ax.patches:
+                                 height = p.get_height() 
+                                 width = p.get_width() 
+                                 ax.text(x = width+3, 
+                                 y = p.get_y()+(height/2),
+                                 s = "{:.0f}".format(width), 
+                                 va = "center")
+                              st.pyplot()
+                              #st.write(chart)
 
       #
           if task=="Sentiment":
@@ -423,8 +433,19 @@ class Full_Data:
                               chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                               st.write(chart1)
                               st.write("**Global tweet Sentiment analysis Bar graph**")
-                              chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
-                              st.write(chart2)
+                              #chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                              ax = sns.countplot(y="sentiment_class", data=senti[1])
+
+                              for p in ax.patches:
+                                 height = p.get_height() 
+                                 width = p.get_width() 
+                                 ax.text(x = width+3, 
+                                 y = p.get_y()+(height/2),
+                                 s = "{:.0f}".format(width), 
+                                 va = "center")
+                              st.pyplot()
+                                
+                              #st.write(chart2)
 
 
                   if sent_choice=='Text':

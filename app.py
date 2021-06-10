@@ -476,8 +476,17 @@ class Full_Data:
                           k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
                           st.write(k_count)  
                           st.write('*Influencers categories Bar graph*')
-                          chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
-                          st.write(chart2)
+                          #chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
+                          ax = sns.countplot(y="Influencer_cat_label", data=k)
+
+                          for p in ax.patches:
+                             height = p.get_height() 
+                             width = p.get_width() 
+                             ax.text(x = width+3, 
+                             y = p.get_y()+(height/2),
+                             s = "{:.0f}".format(width), 
+                             va = "center")
+                          #st.write(chart2)
 def preprocess_text(text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')

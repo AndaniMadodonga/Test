@@ -727,7 +727,7 @@ class SubSet_Data:
                          y = p.get_y()+(height/2),
                          s = "{:.0f}".format(width), 
                          va = "center")
-                         st.pyplot(ax)   
+                         st.pyplot()   
                     
                   wordclo = st.checkbox("Generate WordCloud",value = False)
                   if wordclo:

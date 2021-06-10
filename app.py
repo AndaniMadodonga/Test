@@ -715,7 +715,7 @@ class SubSet_Data:
                   hashbar = st.checkbox("Generate hashtags vs Topics")
                   if hashbar:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
-                  wordclo = st.checkbox("Generate WordCloud",value = True)
+                  wordclo = st.checkbox("Generate WordCloud",value = False)
                   if wordclo:
                      from wordcloud import WordCloud
                      import matplotlib.pyplot as plt

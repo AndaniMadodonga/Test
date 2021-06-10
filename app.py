@@ -694,12 +694,12 @@ class SubSet_Data:
           if choice== "Viaualization/Dashboard":
               st.subheader("Visuals based on Trained data")
                #Full_Data().main_full()
-            
+              Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])  
                 
-              data_call=Full_Data().main_full()
-              t=data_call()
-              fin_data=Full_Data().preprocess(t)
-              st.write(fin_data=Full_Data)
+              data_preprocess=Full_Data().preprocess(Data_file)
+              
+              #fin_data=Full_Data().
+              st.write(data_preprocess.head())
               
           else:
             st.subheader("1. Translate Microblog:")

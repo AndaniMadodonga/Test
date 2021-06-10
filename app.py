@@ -693,6 +693,12 @@ class SubSet_Data:
           
           if choice== "Viaualization/Dashboard":
               st.subheader("Visuals based on Trained data")
+               #Full_Data().main_full()
+            
+                
+                data_load=Full_Data().main_Full().load()
+                fin_data=Full_Data().preprocess(data_load)
+                st.write(fin_data=Full_Data)
               
           else:
             st.subheader("1. Translate Microblog:")
@@ -877,7 +883,9 @@ def main():
     Full_Data().main_full()
     
   elif data_option=='Sub Dataset':
+       
      SubSet_Data().main_sub()
+      
     
 
 if __name__=='__main__':

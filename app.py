@@ -722,7 +722,7 @@ class SubSet_Data:
                      st.write("WordCloud")
                      data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
                      st.write(data_processed_text.clean_text)
-                     wordcloud = WordCloud().generate(data_processed_text.clean_text)
+                     wordcloud = WordCloud(max_words=100).generate(data_processed_text.clean_text[0])
 
 # Display the generated image:
                      plt.imshow(wordcloud, interpolation='bilinear')

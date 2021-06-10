@@ -430,8 +430,18 @@ class Full_Data:
                               senti=self.Sent(pred_cat)
                               st.write(senti[2][["clean_text","sentiment_class"]].head())
                               st.write("**SA tweet Sentiment analysis Bar graph**")
-                              chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
-                              st.write(chart1)
+                              #chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                              ax = sns.countplot(y="sentiment_class", data=senti[0])
+
+                              for p in ax.patches:
+                                 height = p.get_height() 
+                                 width = p.get_width() 
+                                 ax.text(x = width+3, 
+                                 y = p.get_y()+(height/2),
+                                 s = "{:.0f}".format(width), 
+                                 va = "center")
+                              st.pyplot()
+                              #st.write(chart1)
                               st.write("**Global tweet Sentiment analysis Bar graph**")
                               #chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
                               ax = sns.countplot(y="sentiment_class", data=senti[1])

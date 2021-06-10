@@ -717,9 +717,11 @@ class SubSet_Data:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
                   wordclo = st.checkbox("Generate WordCloud")
                   if wordclo:
+                     from wordcloud import WordCloud
+                     import matplotlib.pyplot as plt
                      st.write("WordCloud")
                       
-                     wordcloud = WordCloud().generate(data_processed.text)
+                     wordcloud = WordCloud().generate(data_processed.statuses_text)
 
 # Display the generated image:
                      plt.imshow(wordcloud, interpolation='bilinear')

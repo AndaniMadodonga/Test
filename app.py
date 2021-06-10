@@ -716,7 +716,7 @@ class SubSet_Data:
                   hashbar = st.checkbox("Generate hashtags vs Topics",value = False)
                   if hashbar:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
-                    x = data_processed.groupby('input_query').mean().sort_values()
+                    #x = data_processed.groupby('input_query').mean().sort_values()
                     sns.set(rc={"figure.figsize":(10,5)})
                     ax = sns.countplot(y="input_query", data=Final_Dataset)
  

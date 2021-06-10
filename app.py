@@ -325,7 +325,7 @@ class Full_Data:
           #img = st.image('wordCloud2.png')
           #st.write(img)
           #data=""
-          def load():
+          def load(self):
               data_load= st.file_uploader("Choose a XLSX file",type="xlsx")
               return data_load
           def Bulk_data(data_load):
@@ -696,8 +696,9 @@ class SubSet_Data:
                #Full_Data().main_full()
             
                 
-              data_load=Full_Data().load()
-              fin_data=Full_Data().preprocess(data_load)
+              data_call=Full_Data().main_full()
+              t=data_call.load()
+              fin_data=Full_Data().preprocess(t)
               st.write(fin_data=Full_Data)
               
           else:

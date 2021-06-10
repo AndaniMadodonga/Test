@@ -699,7 +699,7 @@ class SubSet_Data:
           
           if choice== "Viaualization/Dashboard":
                 Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx']) 
-                if data_load is None:
+                if Data_file is None:
                    st.error("Upload XLSX file")
                 else:
                   st.subheader("Visuals based on Trained data")

@@ -486,6 +486,7 @@ class Full_Data:
                              y = p.get_y()+(height/2),
                              s = "{:.0f}".format(width), 
                              va = "center")
+                          st.pyplot()
                           #st.write(chart2)
 def preprocess_text(text):
           # Tokenise words while ignoring punctuation

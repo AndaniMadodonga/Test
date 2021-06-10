@@ -718,7 +718,7 @@ class SubSet_Data:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
                     #x = data_processed.groupby('input_query').mean().sort_values()
                     sns.set(rc={"figure.figsize":(10,5)})
-                    ax = sns.countplot(y="input_query", data=Final_Dataset)
+                    ax = sns.countplot(y="input_query", data=data_processed)
  
                     for p in ax.patches:
                          height = p.get_height() 

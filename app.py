@@ -718,6 +718,13 @@ class SubSet_Data:
                   wordclo = st.checkbox("Generate WordCloud")
                   if wordclo:
                      st.write("WordCloud")
+                     wordcloud = WordCloud().generate(text)
+
+# Display the generated image:
+                    plt.imshow(wordcloud, interpolation='bilinear')
+                    plt.axis("off")
+                    plt.show()
+                    st.pyplot()   
               
           else:
             st.subheader("1. Translate Microblog:")

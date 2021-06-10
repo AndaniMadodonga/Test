@@ -722,10 +722,10 @@ class SubSet_Data:
                      wordcloud = WordCloud().generate(data_processed.text)
 
 # Display the generated image:
-                    plt.imshow(wordcloud, interpolation='bilinear')
-                    plt.axis("off")
-                    plt.show()
-                    st.pyplot()   
+                     plt.imshow(wordcloud, interpolation='bilinear')
+                     plt.axis("off")
+                     plt.show()
+                     st.pyplot()   
               
           else:
             st.subheader("1. Translate Microblog:")

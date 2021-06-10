@@ -696,7 +696,7 @@ class SubSet_Data:
                #Full_Data().main_full()
             
                 
-              data_load=Full_Data().main_Full().load()
+              data_load=Full_Data().main_full().load()
               fin_data=Full_Data().preprocess(data_load)
               st.write(fin_data=Full_Data)
               

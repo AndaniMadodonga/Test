@@ -698,16 +698,22 @@ class SubSet_Data:
           choice=st.sidebar.selectbox("Menu", pick)
           
           if choice== "Viaualization/Dashboard":
-              st.subheader("Visuals based on Trained data")
-               #Full_Data().main_full()
-              Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])  
-                
-              data=Bulk_data(Data_file)
-              st.write(data.head())  
-              data_preprocess=Full_Data().preprocess(data)
-              
-              #fin_data=Full_Data().
-              st.write(data_preprocess.head())
+                if data_load is None:
+                   st.error("Upload XLSX file")
+                else:
+                  st.subheader("Visuals based on Trained data")
+                   #Full_Data().main_full()
+                  Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])  
+
+                  data=Bulk_data(Data_file)
+                    
+                  data_processed=Full_Data().preprocess(data)
+
+                  #fin_data=Full_Data().
+                  st.write(data_processed.head())
+                  st.write( "Hash_Tags vs Topics Bar Graph") 
+                    
+                  st.write("WordCloud")
               
           else:
             st.subheader("1. Translate Microblog:")

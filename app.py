@@ -698,12 +698,13 @@ class SubSet_Data:
           choice=st.sidebar.selectbox("Menu", pick)
           
           if choice== "Viaualization/Dashboard":
+                Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx']) 
                 if data_load is None:
                    st.error("Upload XLSX file")
                 else:
                   st.subheader("Visuals based on Trained data")
                    #Full_Data().main_full()
-                  Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])  
+                   
 
                   data=Bulk_data(Data_file)
                     

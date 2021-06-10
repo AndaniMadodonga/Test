@@ -703,6 +703,7 @@ class SubSet_Data:
               Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])  
                 
               data=Bulk_data(Data_file)
+              st.write(data.head())  
               data_preprocess=Full_Data().preprocess(data)
               
               #fin_data=Full_Data().

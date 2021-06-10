@@ -712,7 +712,7 @@ class SubSet_Data:
 
                   #fin_data=Full_Data().
                   st.write(data_processed.head())
-                  hashbar = st.checkbox("Generate hashtags vs Topics")
+                  hashbar = st.checkbox("Generate hashtags vs Topics",value = False)
                   if hashbar:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
                   wordclo = st.checkbox("Generate WordCloud",value = False)
@@ -729,6 +729,7 @@ class SubSet_Data:
 # Display the generated image:
                      plt.imshow(wordcloud, interpolation='bilinear')
                      plt.axis("off")
+                     plt.tittle('Prevalent words in Tweets')
                      plt.show()
                      st.pyplot()   
               

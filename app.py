@@ -729,7 +729,7 @@ class SubSet_Data:
 # Display the generated image:
                      plt.imshow(wordcloud, interpolation='bilinear')
                      plt.axis("off")
-                     plt.tittle('Prevalent words in Tweets')
+                     plt.title('Prevalent words in Tweets')
                      plt.show()
                      st.pyplot()   
               

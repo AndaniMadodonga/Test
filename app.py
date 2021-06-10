@@ -700,7 +700,7 @@ class SubSet_Data:
                 Data_file=st.file_uploader(label="Upload csv raw file", type=['xlsx']) 
                 
                 if Data_file is None:
-                   st.error("Upload XLSX file")
+                   st.write(" ")
                 else:
                   st.subheader("Visuals based on Trained data")
                    #Full_Data().main_full()
@@ -718,7 +718,8 @@ class SubSet_Data:
                   wordclo = st.checkbox("Generate WordCloud")
                   if wordclo:
                      st.write("WordCloud")
-                     wordcloud = WordCloud().generate(text)
+                      
+                     wordcloud = WordCloud().generate(data_processed.text)
 
 # Display the generated image:
                     plt.imshow(wordcloud, interpolation='bilinear')

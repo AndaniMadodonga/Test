@@ -699,22 +699,26 @@ class SubSet_Data:
           
           if choice== "Viaualization/Dashboard":
                 Data_file=st.file_uploader(label="Upload csv raw file", type=['xlsx']) 
+                
                 if Data_file is None:
                    st.error("Upload XLSX file")
                 else:
                   st.subheader("Visuals based on Trained data")
                    #Full_Data().main_full()
-                   
+
 
                   data=Bulk_data(Data_file)
-                    
+
                   data_processed=Full_Data().preprocess(data)
 
                   #fin_data=Full_Data().
                   st.write(data_processed.head())
-                  st.write( "Hash_Tags vs Topics Bar Graph") 
-                    
-                  st.write("WordCloud")
+                  hashbar = st.checkbox("Generate WordCloud")
+                  if hashbar:
+                    st.write( "Hash_Tags vs Topics Bar Graph") 
+                  wordclo = st.checkbox("Generate WordCloud")
+                  if wordclo:
+                     st.write("WordCloud")
               
           else:
             st.subheader("1. Translate Microblog:")

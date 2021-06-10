@@ -10,6 +10,7 @@ Original file is located at
 import streamlit as st 
 import altair as alt
 import joblib
+import seaborn as sns
 from sklearn import preprocessing
 import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs
@@ -715,12 +716,25 @@ class SubSet_Data:
                   hashbar = st.checkbox("Generate hashtags vs Topics",value = False)
                   if hashbar:
                     st.write( "Hash_Tags vs Topics Bar Graph") 
+                    x = data_processed.groupby('input_query').mean().sort_values()
+                    sns.set(rc={"figure.figsize":(10,5)})
+                    ax = sns.countplot(y="input_query", data=Final_Dataset)
+ 
+                    for p in ax.patches:
+                         height = p.get_height() 
+                         width = p.get_width() 
+                         ax.text(x = width+3, 
+                         y = p.get_y()+(height/2),
+                         s = "{:.0f}".format(width), 
+                         va = "center")
+                    st.pyplot(ax)
                   wordclo = st.checkbox("Generate WordCloud",value = False)
                   if wordclo:
                      from wordcloud import WordCloud
                      import matplotlib.pyplot as plt
                      st.write("**WordCloud**")
                      data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
+
                      
                      st.set_option('deprecation.showPyplotGlobalUse',False)  
                      text=" ".join(clean_text for clean_text in data_processed_text.clean_text)

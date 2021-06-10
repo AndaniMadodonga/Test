@@ -698,7 +698,7 @@ class SubSet_Data:
           choice=st.sidebar.selectbox("Menu", pick)
           
           if choice== "Viaualization/Dashboard":
-                Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx']) 
+                Data_file=st.file_uploader(label="Upload csv raw file", type=['xlsx']) 
                 if Data_file is None:
                    st.error("Upload XLSX file")
                 else:

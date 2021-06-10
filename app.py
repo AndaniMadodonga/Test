@@ -719,9 +719,9 @@ class SubSet_Data:
                   if wordclo:
                      from wordcloud import WordCloud
                      import matplotlib.pyplot as plt
-                     st.write("WordCloud")
+                     st.write("**WordCloud**")
                      data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
-                     st.write(data_processed_text.clean_text)
+                     
                      st.set_option('deprecation.showPyplotGlobalUse',False)  
                      text=" ".join(clean_text for clean_text in data_processed_text.clean_text)
                      wordcloud = WordCloud(max_words=100).generate(text)

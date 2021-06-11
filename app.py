@@ -739,12 +739,12 @@ class SubSet_Data:
           choice=st.sidebar.selectbox("Menu", pick)
           
           if choice== "Viaualization/Dashboard":
-                import urllib.request
-                with urllib.request.urlopen("https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true") as resp:
-                    Data_file = pd.read_excel(resp)
-                #url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
+#                 import urllib.request
+#                 with urllib.request.urlopen("https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true") as resp:
+#                     Data_file = pd.read_excel(resp)
+                url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
                 
-                #Data_file = pd.read_csv(url,encoding='cp1252')
+                Data_file = pd.read_excel(url)
                 
                 if Data_file is None:
                    st.write("Check the data reference link ")

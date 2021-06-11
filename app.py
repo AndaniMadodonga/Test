@@ -807,7 +807,7 @@ class SubSet_Data:
                         df_class=df_class.reset_index(drop=True)
                         df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                         df_cat=pd.concat([clean_cat,df_class],axis=1)
-                        st.write('SA vs Global Bar Graph')
+                        st.write('**SA vs Global Bar Graph**')
                           
                         ax = sns.countplot(y="Tweet_Category", data=df_cat)
 

@@ -761,8 +761,8 @@ class SubSet_Data:
                   st.write(data_processed.head())
                   hashbar = st.checkbox("Generate hashtags vs Topics",value = False)
                   if hashbar:
-                    st.write( "Hash_Tags vs Topics Bar Graph") 
-                    #x = data_processed.groupby('input_query').mean().sort_values()
+                    st.write( "**Hash_Tags vs Topics Bar Graph**") 
+                    
                     sns.set(rc={"figure.figsize":(10,5)})
                     ax = sns.countplot(y="input_query", data=data_processed)
  
@@ -779,7 +779,7 @@ class SubSet_Data:
                   if wordclo:
                      from wordcloud import WordCloud
                      import matplotlib.pyplot as plt
-                     st.write("**WordCloud**")
+                     st.write("**Tweets WordCloud**")
                      data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
 
                      
@@ -807,12 +807,8 @@ class SubSet_Data:
                         df_class=df_class.reset_index(drop=True)
                         df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                         df_cat=pd.concat([clean_cat,df_class],axis=1)
-                          #st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
-                        df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["Count"])
-                          #columns=["SA Count","Global Count"]
-                        df_count.index=["SA","Global"]
-                        st.write(df_count)
-                          #chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+                        st.write('SA vs Global Bar Graph')
+                          
                         ax = sns.countplot(y="Tweet_Category", data=df_cat)
 
                         for p in ax.patches:

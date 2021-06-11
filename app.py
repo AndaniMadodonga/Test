@@ -793,13 +793,13 @@ class SubSet_Data:
                      plt.title('Prevalent words in Tweets')
                      plt.show()
                      st.pyplot() 
-                  cat_check=st.checkbox(" Generate SA vs Global Bar Graph",value = False)
+                  cat_check=st.checkbox("Generate SA vs Global Bar Graph",value = False)
                   if cat_check:
                         def Cat_Model():
                             import joblib
                             pred_model = joblib.load('classifier_SACat.pkl.pkl')
                             return pred_model
-                        clean_cat=Full_Data.CategoriseSA(data_processed)
+                        clean_cat=Full_Data().CategoriseSA(data_processed)
                         pred_model=Cat_Model() 
                         categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
                         categorise=categorise.tolist()

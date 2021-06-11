@@ -298,7 +298,13 @@ class Full_Data:
           return text_Sent_SA, text_Sent_GL,Df_sent
         else: 
           return Df_sent["sentiment_class"].loc[0]
-
+      def csv_downloader(self,data):
+            csvfile = data.to_csv()
+            b64 = base64.b64encode(csvfile.encode()).decode()
+            new_filename = "new_text_file_{}_.csv".format(timestr)
+            st.markdown("#### Download File ###")
+            href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!!</a>'
+            st.markdown(href,unsafe_allow_html=True)
 
       def main_full(self):
           import streamlit as st       
@@ -437,9 +443,11 @@ class Full_Data:
                               predata=Bulk_data(data_load)
                               pred_cat=self.CategoriseSA(predata)
                               senti=self.Sent(pred_cat)
+                              
                               st.write("**Table of Tweet and Predicted Sentiment**")
                               st.write(senti[2][["clean_text","sentiment_class"]].head())
                               st.write("**SA tweet Sentiment analysis Bar graph**")
+                              self.csv_downloader(senti[2][["clean_text","sentiment_class"]])
 #                               chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
 #                               st.write(chart1)
                               ax = sns.countplot(y="sentiment_class", data=senti[0])

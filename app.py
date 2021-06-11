@@ -739,7 +739,7 @@ class SubSet_Data:
           choice=st.sidebar.selectbox("Menu", pick)
           
           if choice== "Viaualization/Dashboard":
-                url=""
+                url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest.xlsx"
                 
                 Data_file = pd.read_csv(url)
                 

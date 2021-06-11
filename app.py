@@ -300,6 +300,7 @@ class Full_Data:
         else: 
           return Df_sent["sentiment_class"].loc[0]
       def csv_downloader(self,data):
+            dateTimeObj = datetime.now()
             timeStr = dateTimeObj.strftime("%H:%M:%S.%f")
             csvfile = data.to_csv()
             b64 = base64.b64encode(csvfile.encode()).decode()

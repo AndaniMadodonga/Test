@@ -1203,7 +1203,7 @@ class SubSet_Data:
 
                        st.dataframe(pred_cat)
 class Dash:
-      def dash_full():
+      def dash_full(self):
                 url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
                 
                 Data_file = pd.read_excel(url)

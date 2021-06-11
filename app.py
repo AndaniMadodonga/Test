@@ -741,7 +741,7 @@ class SubSet_Data:
           if choice== "Viaualization/Dashboard":
                 import urllib.request
                 with urllib.request.urlopen("https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true") as resp:
-                    Data_file = pd.read_csv(resp, encoding="utf8")
+                    Data_file = pd.read_excel(resp, encoding="utf8")
                 #url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
                 
                 #Data_file = pd.read_csv(url,encoding='cp1252')

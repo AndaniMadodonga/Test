@@ -300,9 +300,10 @@ class Full_Data:
         else: 
           return Df_sent["sentiment_class"].loc[0]
       def csv_downloader(self,data):
+            timeStr = dateTimeObj.strftime("%H:%M:%S.%f")
             csvfile = data.to_csv()
             b64 = base64.b64encode(csvfile.encode()).decode()
-            new_filename = "new_text_file.csv"
+            new_filename = "new_text_file_{}.csv".format(timeStr)
             st.markdown("#### Download File ###")
             href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!!</a>'
             st.markdown(href,unsafe_allow_html=True)

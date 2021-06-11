@@ -13,6 +13,7 @@ Created on Wed Jun  9 06:56:21 2021
 import seaborn as sns
 import streamlit as st 
 import altair as alt
+import base64
 import pickle
 import joblib
 import emoji

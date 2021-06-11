@@ -1309,10 +1309,9 @@ def main():
     elif data_option=='Sub Dataset':
         SubSet_Data().main_sub()
         
-    else:
-      st.write('Dashboard')
+
       
-  elif choice=="Visualization/Dashboard"
+  elif choice=="Visualization/Dashboard":
           Dash().dash_full()
     
 

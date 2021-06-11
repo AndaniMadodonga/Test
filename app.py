@@ -392,7 +392,7 @@ class Full_Data:
                               df_class=df_class.reset_index(drop=True)
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
-                              st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
+                              #st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
                               df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["Count"])
                               #columns=["SA Count","Global Count"]
                               df_count.index=["SA","Global"]
@@ -792,7 +792,37 @@ class SubSet_Data:
                      plt.axis("off")
                      plt.title('Prevalent words in Tweets')
                      plt.show()
-                     st.pyplot()   
+                     st.pyplot() 
+                  cat_check=st.checkbox(" Generate SA vs Global Bar Graph",value = False)
+                  if cat_check:
+                        def Cat_Model():
+                            import joblib
+                            pred_model = joblib.load('classifier_SACat.pkl.pkl')
+                            return pred_model
+                        clean_cat=Full_Data.CategoriseSA(data_processed)
+                        pred_model=Cat_Model() 
+                        categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
+                        categorise=categorise.tolist()
+                        df_class=pd.DataFrame(categorise,columns=["Class_Label"])
+                        df_class=df_class.reset_index(drop=True)
+                        df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
+                        df_cat=pd.concat([clean_cat,df_class],axis=1)
+                          #st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
+                        df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["Count"])
+                          #columns=["SA Count","Global Count"]
+                        df_count.index=["SA","Global"]
+                        st.write(df_count)
+                          #chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+                        ax = sns.countplot(y="Tweet_Category", data=df_cat)
+
+                        for p in ax.patches:
+                             height = p.get_height() 
+                             width = p.get_width() 
+                             ax.text(x = width+3, 
+                             y = p.get_y()+(height/2),
+                             s = "{:.0f}".format(width), 
+                             va = "center")
+                        st.pyplot()
               
           else:
             st.subheader("1. Translate Microblog:")

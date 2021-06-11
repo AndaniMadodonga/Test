@@ -1,16 +1,20 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Untitled29.ipynb
-
-
-Original file is located at
-    https://colab.research.google.com/drive/1YcKvfyXr853-DsUghlbtoAZjISrB2PHr
 """
+Created on Wed Jun  9 06:56:21 2021
+
+@author: yolandankalashe
+"""
+
+# -*- coding: utf-8 -*-
+
 
 # -*- coding: utf-8 -*-
 import streamlit as st 
 import altair as alt
+import pickle
 import joblib
-import seaborn as sns
+import emoji
 from sklearn import preprocessing
 import pandas as pd # to read csv/excel formatted data
 import matplotlib.pyplot as plt # to plot graphs
@@ -352,7 +356,7 @@ class Full_Data:
           
           #task1=st.sidebar.radio("Perform analysis",("Yes","No"))
           #if task1=="Yes":
-          task=st.sidebar.selectbox("Menu", ("<Select option>","Categorise", "Sentiment", "Influencer"))
+          task=st.sidebar.selectbox("Prediction Type", ("<Select option>","Categorise", "Sentiment", "Influencer"))
           if task=='Categorise':
               st.markdown(html_temp1, unsafe_allow_html = True )
               cat_choice=st.selectbox("Bulk or Text",("<Select option>","Bulk", "Text"))
@@ -392,12 +396,17 @@ class Full_Data:
                               df_class=df_class.reset_index(drop=True)
                               df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
                               df_cat=pd.concat([clean_cat,df_class],axis=1)
-                              #st.write(df_cat[['statuses_without_stopwords','Tweet_Category']].head())
+                              st.write("**Table of Tweet and Predicted Category**")
+                              r=df_cat[['statuses_without_stopwords','Tweet_Category']]
+                              r.rename(columns={'statuses_without_stopwords':'Tweet','Tweet_Category':'Predicted Category'},inplace=True)
+                              st.write(r.head())
                               df_count=pd.DataFrame([len(df_cat[df_cat['Class_Label']==1]),len(df_cat[df_cat['Class_Label']==0])],columns=["Count"])
                               #columns=["SA Count","Global Count"]
                               df_count.index=["SA","Global"]
+                              st.write("**Table of Tweet Categories Count**")
                               st.write(df_count)
-                              #chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+#                               chart = alt.Chart(df_cat).mark_bar().encode(alt.X("Tweet_Category"),y='count()').interactive()
+#                               st.write(chart)
                               ax = sns.countplot(y="Tweet_Category", data=df_cat)
 
                               for p in ax.patches:
@@ -408,12 +417,11 @@ class Full_Data:
                                  s = "{:.0f}".format(width), 
                                  va = "center")
                               st.pyplot()
-                              #st.write(chart)
 
       #
           if task=="Sentiment":
                   st.markdown(html_temp2, unsafe_allow_html = True) 
-                  st.write("**Select the option below to perform bulk or Single tweet sentiment**")
+                  #st.write("**Select the option below to perform bulk or Single tweet sentiment**")
                   sent_choice=st.selectbox("Bulk or text", ("<Select option>","Bulk", "Text"))
                   if sent_choice=='Bulk':
                       st.write("**Import XlSX file**")
@@ -428,9 +436,11 @@ class Full_Data:
                               predata=Bulk_data(data_load)
                               pred_cat=self.CategoriseSA(predata)
                               senti=self.Sent(pred_cat)
+                              st.write("**Table of Tweet and Predicted Sentiment**")
                               st.write(senti[2][["clean_text","sentiment_class"]].head())
                               st.write("**SA tweet Sentiment analysis Bar graph**")
-                              #chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+#                               chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+#                               st.write(chart1)
                               ax = sns.countplot(y="sentiment_class", data=senti[0])
 
                               for p in ax.patches:
@@ -441,9 +451,9 @@ class Full_Data:
                                  s = "{:.0f}".format(width), 
                                  va = "center")
                               st.pyplot()
-                              #st.write(chart1)
-                              st.write("**Global tweet Sentiment analysis Bar graph**")
-                              #chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+                              st.write("**Global Tweet Sentiment Analysis Bar Graph**")
+#                               chart2 = alt.Chart(senti[1]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
+#                               st.write(chart2)
                               ax = sns.countplot(y="sentiment_class", data=senti[1])
 
                               for p in ax.patches:
@@ -454,8 +464,6 @@ class Full_Data:
                                  s = "{:.0f}".format(width), 
                                  va = "center")
                               st.pyplot()
-                                
-                              #st.write(chart2)
 
 
                   if sent_choice=='Text':
@@ -505,9 +513,11 @@ class Full_Data:
                           conditions  = [ k[col] ==0,k[col]==1,k[col]==2,k[col]==3]
                           
                           k["Influencer_cat_label"] = np.select(conditions, choices, default=np.nan)
+                          st.write("**Table of Influencer's Category Count**")
                           st.write(k_count)  
-                          st.write('*Influencers categories Bar graph*')
-                          #chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
+                          st.write('**Influencers categories Bar graph**')
+#                           chart2 = alt.Chart(k).mark_bar().encode(alt.X("Influencer_cat_label"),y='count()').interactive()
+#                           st.write(chart2)
                           ax = sns.countplot(y="Influencer_cat_label", data=k)
 
                           for p in ax.patches:
@@ -518,7 +528,6 @@ class Full_Data:
                              s = "{:.0f}".format(width), 
                              va = "center")
                           st.pyplot()
-                          #st.write(chart2)
 def preprocess_text(text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')
@@ -620,15 +629,6 @@ class SubSet_Data:
           return MicroblogText_df
           
 
-      pickle_in = open("Topic1_classfier.pkl", "rb") 
-      model=pickle.load(pickle_in)
-
-      pickle_in = open("Trending_classfier.pkl", "rb") 
-      Trending_model=pickle.load(pickle_in)
-
-      pickle_in = open("Topic2_classfier.pkl", "rb") 
-      Topic_m=pickle.load(pickle_in)
-
       def Topic_num(self,corpus_df):
           corpus_df=corpus_df.to_list()
           Topic_ls=[]
@@ -714,8 +714,19 @@ class SubSet_Data:
               
               
           return sentiment_url
+      pickle_in = open("Topic1_classfier.pkl", "rb") 
+      model=pickle.load(pickle_in)
 
-      import emoji
+      pickle_in = open("Trending_classfier.pkl", "rb") 
+      Trending_model=pickle.load(pickle_in)
+
+      pickle_in = open("Topic2_classfier.pkl", "rb") 
+      Topic_m=pickle.load(pickle_in)
+                
+      
+          
+
+      
 
 
 
@@ -723,25 +734,476 @@ class SubSet_Data:
       def main_sub(self):
           
           
-          def Bulk_data(data_load):
-              if data_load is not None:
-                  #data = pd.read_excel(data_load)
-                  Label_list=['input_query','statuses_created_at','statuses_id','statuses_text','statuses_truncated','statuses_entities_user_mentions[0]_screen_name','statuses_entities_user_mentions[0]_name','statuses_entities_user_mentions[0]_id','statuses_entities_user_mentions[0]_id_str','statuses_entities_user_mentions[0]_indices[0]','statuses_metadata_iso_language_code','statuses_metadata_result_type','statuses_source','statuses_in_reply_to_status_id','statuses_in_reply_to_status_id_str','statuses_in_reply_to_user_id','statuses_in_reply_to_user_id_str','statuses_in_reply_to_screen_name','statuses_user_id','statuses_user_id_str','statuses_user_name','statuses_user_screen_name','statuses_user_location','statuses_user_description','statuses_user_url','statuses_user_entities_url_urls[0]_url','statuses_user_entities_url_urls[0]_expanded_url','statuses_user_entities_url_urls[0]_display_url','statuses_user_entities_url_urls[0]_indices[0]','statuses_user_entities_description_urls[0]_url','statuses_user_entities_description_urls[0]_expanded_url','statuses_user_entities_description_urls[0]_display_url','statuses_user_entities_description_urls[0]_indices[0]','statuses_user_protected','statuses_user_followers_count','statuses_user_friends_count','statuses_user_listed_count','statuses_user_created_at','statuses_user_favourites_count','statuses_user_statuses_count','statuses_user_profile_background_color','statuses_user_profile_background_image_url','statuses_user_profile_background_image_url_https','statuses_user_profile_background_tile','statuses_user_profile_image_url','statuses_user_profile_image_url_https','statuses_user_profile_banner_url','statuses_user_profile_link_color','statuses_user_profile_sidebar_border_color','statuses_user_profile_sidebar_fill_color','statuses_user_profile_text_color','statuses_user_profile_use_background_image','statuses_user_has_extended_profile','statuses_user_default_profile','statuses_user_default_profile_image','statuses_retweeted_status_created_at','statuses_retweeted_status_id','statuses_retweeted_status_id_str','statuses_retweeted_status_text','statuses_retweeted_status_truncated','statuses_retweeted_status_entities_urls[0]_url','statuses_retweeted_status_entities_urls[0]_expanded_url','statuses_retweeted_status_entities_urls[0]_display_url','statuses_retweeted_status_entities_urls[0]_indices[0]','statuses_retweeted_status_metadata_iso_language_code','statuses_retweeted_status_metadata_result_type','statuses_retweeted_status_source','statuses_retweeted_status_user_id','statuses_retweeted_status_user_id_str','statuses_retweeted_status_user_name','statuses_retweeted_status_user_screen_name','statuses_retweeted_status_user_location','statuses_retweeted_status_user_description','statuses_retweeted_status_user_url','statuses_retweeted_status_user_entities_url_urls[0]_url','statuses_retweeted_status_user_entities_url_urls[0]_expanded_url','statuses_retweeted_status_user_entities_url_urls[0]_display_url','statuses_retweeted_status_user_entities_url_urls[0]_indices[0]','statuses_retweeted_status_user_protected','statuses_retweeted_status_user_followers_count','statuses_retweeted_status_user_friends_count','statuses_retweeted_status_user_listed_count','statuses_retweeted_status_user_created_at','statuses_retweeted_status_user_favourites_count','statuses_retweeted_status_user_utc_offset','statuses_retweeted_status_user_verified','statuses_retweeted_status_user_statuses_count','statuses_retweeted_status_user_contributors_enabled','statuses_retweeted_status_user_is_translator','statuses_retweeted_status_user_is_translation_enabled','statuses_retweeted_status_user_profile_background_color','statuses_retweeted_status_user_profile_background_image_url','statuses_retweeted_status_user_profile_background_image_url_https','statuses_retweeted_status_user_profile_background_tile','statuses_retweeted_status_user_profile_image_url','statuses_retweeted_status_user_profile_image_url_https','statuses_retweeted_status_user_profile_banner_url','statuses_retweeted_status_user_profile_link_color','statuses_retweeted_status_user_profile_sidebar_border_color','statuses_retweeted_status_user_profile_sidebar_fill_color','statuses_retweeted_status_user_profile_text_color','statuses_retweeted_status_user_profile_use_background_image','statuses_retweeted_status_user_has_extended_profile','statuses_retweeted_status_user_default_profile','statuses_retweeted_status_user_default_profile_image','statuses_retweeted_status_retweet_count','statuses_retweeted_status_favorite_count','statuses_retweeted_status_favorited','statuses_retweeted_status_retweeted','statuses_retweeted_status_possibly_sensitive','statuses_retweeted_status_lang','statuses_is_quote_status',	'statuses_retweet_count',	'statuses_favorite_count','statuses_favorited',	'statuses_retweeted','statuses_lang']
-                  data_load.columns=Label_list
-                  #predata=self.preprocess(data)  
-                  return data_load 
-          # Title
-          st.title("Covid19za Consortium")
-          st.subheader("Analysis and Predictor Models for Covid19 Microblog data ")
-          st.write("This app uses a microblog, twitter data to help identify communication straegy for health and government officials during pandemics in social platforms We use user and microblog content information to predict if a model will Trend  and rate of tranmission of a blog through statistcal distribution approaches, we also further cluster the text between SA and NonSA and determine sentiment betweeen the groups.")
-        
-          pick=["","Viaualization/Dashboard","Prediction"]
-          choice=st.sidebar.selectbox("Menu", pick)
           
-          if choice== "Viaualization/Dashboard":
-#                 import urllib.request
-#                 with urllib.request.urlopen("https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true") as resp:
-#                     Data_file = pd.read_excel(resp)
+          
+            st.subheader("User & Content Based Feature Table:")
+          
+          
+          
+            #Creating side bar to upload the file
+            menu=["<Select option>","Bulk prediction","Single prediction"]
+            choice=st.sidebar.selectbox("bulk/single prediction", menu)
+            
+            if choice=='Bulk prediction':
+                Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])
+                
+                if st.checkbox('Generate User & Content Based Feature Table'):
+                   
+                
+                   st.header("User & Content Based Feature Table Modelling:")
+                   st.subheader("Sub-Table based on input data")
+     
+                   data=pd.read_excel(Data_file)
+
+                   sub_data=self.sub_df(data)
+                   corpus=sub_data['Microblog_text']
+                   Tp=self.Topic_num(corpus)
+                 
+                   Senti=self.Sentiment_url(corpus)
+ 
+                   sub_data['Sentiment']=Senti["sentiment"]
+                   sub_data['Sentiment_Cat']=Senti["Sentiment_Cat"]
+                   sub_data['No_Urls']=Senti["urls"]
+                   sub_data['Topic']=pd.DataFrame(Tp, columns={'Topic'})
+                 
+                   sub_data_pred=sub_data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
+                   
+                   st.dataframe(sub_data_pred)
+                   
+                   st.subheader("Overall Sentiment:")
+                   
+                   sent=sub_data['Sentiment']
+                   face_det=(sent.value_counts()/len(sent))*100
+                   
+                   
+                   emo=[]
+                   for i in face_det:
+                       if i=="Pos":
+                           emoji_=emoji.emojize(':grinning_face_with_big_eyes:')
+                           emo.append(emoji_)
+                       elif i=="Neg":
+                           emoji_=emoji.emojize(':neutral_face:')
+                           emo.append(emoji_)
+                       else:
+                           emoji_=emoji.emojize(':angry_face:')
+                           emo.append(emoji_)
+                           
+                   
+         
+                   st.write("{}:{}".format("Positive Sentiment"+emoji.emojize(':grinning_face_with_big_eyes:'),str(int(face_det[0]))+'%'))
+                   st.write("{}:{}".format("Neutral Sentiment"+ emoji.emojize(':neutral_face:') ,str(int(face_det[1]))+'%'))
+                   st.write("{}:{}".format("Negative Sentiment"+emoji.emojize(':angry_face:') ,str(int(face_det[2]))+'%'))
+                         
+                if st.checkbox('Predict hourly rate of transmission'):
+                    
+                    pred_cat=pd.DataFrame(self.Trending_model.predict(sub_data_pred))
+                    pred_val=[]
+
+                    for i in pred_cat[0]:
+                        if i==0:
+                           val='Trending'
+                           pred_val.append(val)
+                        else:
+                            val='Wont Trending'
+                            pred_val.append(val)
+                                       
+                    cf_lvl=pd.DataFrame(self.Trending_model.predict_proba(sub_data_pred))
+                   
+                    pred_cat['Pred category']=pred_cat[0]
+                    pred_cat['Text']=sub_data['Microblog_text']
+                    pred_cat['Projected Status']=pred_val
+                    pred_cat['Confidence Level']=cf_lvl[0]
+                   
+                    st.write('Topic analysis/prediciton:')
+                    st.write('Topology table')
+                    pred_Topic=self.Topic_m.predict(sub_data['Microblog_text'])
+                    topic_name=[]
+                    
+                    for i in pred_Topic:
+                        if i=='0':
+                          val='T_Vaccine'
+                          topic_name.append(val)
+                        elif i=='1':
+                          val='T_Covid19'
+                          topic_name.append(val)
+                        else:
+                          val='T_SA_lockdown'
+                          topic_name.append(val)
+                          
+                    pred_Topic=pd.DataFrame(pred_Topic)
+                    pred_Topic['Microblog']=sub_data['Microblog_text']
+                    pred_Topic['Topic_Cat']=pred_Topic[0]
+                    pred_Topic['Topic_Name']=topic_name
+            
+                    pred_Topic=pred_Topic[['Microblog','Topic_Cat','Topic_Name']]
+            
+                    st.dataframe(pred_Topic)
+                    lamda_T1=[27,3,11,10,19,0,5,18,2,6,7,6,18,2,4,27,13,7,2,5,6,1,6,6,9,14,2,6,4,3,3,8,4,
+                     3,4,4,2,1,10,3,1,1,1,1,1,3,2,8,2,2,4,1,1,9,3,2,2,3,2,2,1,1,2,5,5,7,8,3,13,
+                     8,4,1]
+                    lamda_T2=[0,1178,2,1,1,359,2,4,1,1,16,74,6,7,2,3,159,3,11,65,12,4,1,22,5,1,1,43,
+                      1,63,2,5,3,1,1,314,357,16,10,21,4,12,2,2,1,3,61,32,1,2,1,1,1,2,3,1,11,
+                      4,1,7,15,17,4,2,65,1,1,1,1,1,22,8]
+            
+                    lamda_T3=[3,3,0,1,3,3,1,1,1,1,1,1,4,1,1,1,6,2,1,1,1,4,1,3,1,1,1,3,1,1,1,1,2,1,1,1,
+                      1,4,2,4,1,1,2,3,1,1,1,1,1,1,1,1,3,2,2,1,3,5,3,1,1,1,1,2,3,1,2,1,1,
+                      1,2,1]
+
+                    plt_dist=pd.DataFrame(lamda_T1,index=pd.RangeIndex(72, name='x'))
+                    plt_dist['T1: #Covid']=plt_dist[0]
+                    plt_dist['T2: #Vaccine']=lamda_T2
+                    plt_dist['T3: #SA_Lockdown']=lamda_T3
+                    plt_dist=plt_dist[['T1: #Covid','T2: #Vaccine','T3: #SA_Lockdown']]
+                    plt1=plt_dist[['T1: #Covid']]
+                    plt2=plt_dist[['T2: #Vaccine']]
+                    plt3=plt_dist[['T3: #SA_Lockdown']]
+                    
+                    plt1 = plt1.reset_index().melt('x', var_name='category', value_name='y')
+                
+                    line_chart1= alt.Chart(plt1).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic1'
+                          )
+
+                
+                    plt2 = plt2.reset_index().melt('x', var_name='category', value_name='y')
+                                
+                    line_chart2= alt.Chart(plt2).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic2'
+                          )
+
+                
+            
+                    plt3 = plt3.reset_index().melt('x', var_name='category', value_name='y')
+                                                
+                    line_chart3= alt.Chart(plt3).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic3'
+                          )   
+                              
+                    plt_dist = plt_dist.reset_index().melt('x', var_name='category', value_name='y') 
+                    line_chart = alt.Chart(plt_dist).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='retweet count distribution in the first 72hours')
+         
+                    st.subheader('Expected distribution plot per topic')
+            
+            
+                    st.subheader("Individual Distrubtion plot")
+                    radi_distribu=st.radio('Show distribution plot', ['Combined plot','Topic1','Topic2','Topic3'])
+                    if radi_distribu=='Combined plot':
+                       st.subheader("Combined Distrubtion plot")
+                       st.altair_chart(line_chart,use_container_width=True)
+                
+                    if radi_distribu=='Topic1':
+                       st.subheader("Topic1 Distrubtion plot")
+                       st.altair_chart(line_chart1,use_container_width=True)
+            
+                    if radi_distribu=='Topic2':
+                       st.subheader("Topic2 Distrubtion plot")
+                       st.altair_chart(line_chart2,use_container_width=True)
+                
+                    if radi_distribu=='Topic3':
+                       st.subheader("Topic3 Distrubtion plot")
+                       st.altair_chart(line_chart2,use_container_width=True)    
+                       
+                    st.subheader('Get probability of retweet count based on topic.')
+                    
+            
+                    Count_tweet = st.slider('Count of Tweet',step=1, max_value=500)
+                    hr_tweet=st.slider('hour since tweeted',max_value=72,step=1)
+                    tweet_topic=st.slider('Topic Number',max_value=3,step=1)
+                    from numpy import random
+                    from scipy.stats import poisson
+                    
+                    if tweet_topic==1:
+                        lambda_dist=lamda_T1
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                
+                    elif tweet_topic==2:
+                        lambda_dist=lamda_T2
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                        
+                    elif tweet_topic==3:
+                        lambda_dist=lamda_T3
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                        
+                    if st.checkbox('Predict probability microblog will trend'):
+                       st.subheader("Likelihood of microblog trending:") 
+                       st.write("Probability split:") 
+
+                       st.dataframe(pred_cat)
+  
+  
+            if choice=="Single prediction":
+              
+              st.sidebar.subheader("User Information:")
+              number_of_followers=st.sidebar.number_input("number of followers",min_value=0, max_value=10000000,step=1)
+              number_of_times_listed=st.sidebar.number_input("number of times listed",min_value=0, max_value=10000000,step=1)
+              fav_Count=st.sidebar.number_input("fav Count",min_value=0, max_value=10000000, step=1)
+              status_Count=st.sidebar.number_input("status Count",min_value=0, max_value=10000000, step=1)
+              has_image=st.sidebar.number_input("has image (1-yes 0-No)",min_value=0,max_value=1, step=1)
+              has_decription=st.sidebar.number_input("has decription (1-yes 0-No)",min_value=0,max_value=1, step=1)
+              user_verified=st.sidebar.number_input(" Verified (1-yes 0-No)",min_value=0,max_value=1, step=1)
+              Date_user_created=st.sidebar.date_input("Date user created")
+              Microblog_text=st.sidebar.text_input("Microblog text")
+              
+              features={'number_of_followers': number_of_followers,
+                  'number_of_times_listed': number_of_times_listed,'fav_Count': fav_Count,'user_verified':user_verified,
+                  'status_Count':status_Count,'has_image': has_image, 'has_decription': has_decription,
+                  'Date_user_created': Date_user_created, 'Microblog_text': Microblog_text,
+                  
+                  }
+              
+              data = pd.DataFrame([features])
+              
+                
+              
+              if st.checkbox('Generate User & Content Based Feature Table'):
+                  
+                  
+                                  
+                   st.header("User & Content Based Feature Table Modelling:")
+                   st.subheader("Sub-Table based on input data")
+                   
+                   corpus=data['Microblog_text']
+                   Tp=self.Topic_m.predict(data['Microblog_text'])
+                 
+                   Senti=self.Sentiment_url(corpus)
+                   
+                   Length=len(data['Microblog_text'])
+                   
+                   import datetime
+              
+                   data['Date_user_created'] =  pd.to_datetime(data['Date_user_created'])
+                   data['Date_user_created'] =  pd.to_datetime(data['Date_user_created'],format="%Y-%m-%d")
+                   
+                   d1 = data['Date_user_created']
+                   Today = datetime.datetime.now()
+
+                   diff_Created=(Today - d1.min())
+                   DaysActive=diff_Created.days
+              
+                   data['Sentiment']=Senti["sentiment"]
+                   data['Sentiment_Cat']=Senti["Sentiment_Cat"]
+                   data['No_Urls']=Senti["urls"]
+                   data['Topic']=pd.DataFrame(Tp, columns={'Topic'})
+                   data['Length']=Length
+                   data['DaysActive']=DaysActive
+
+                   
+                    
+                   sub_data_pred=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
+                   st.dataframe(data)
+                   
+                   st.subheader("Overall Sentiment:")
+                   
+                   
+                   if data['Sentiment'][0]=='Pos':
+                        st.write("{} : {}".format("Positive Sentiment",emoji.emojize(':grinning_face_with_big_eyes:') ))
+                   elif data['Sentiment'][0]=='Neg':    
+                        st.write("{} : {}".format("Negative Sentiment",emoji.emojize(':angry_face:') ))
+                   else:    
+                        st.write("{} : {}".format("Nuetral Sentiment",emoji.emojize(':neutral_face:') ))
+              
+            
+              if st.checkbox('Predict hourly rate of transmission'):
+                  
+                  pred_cat=self.Trending_model.predict(sub_data_pred)
+                  
+                  st.write(pred_cat[0])
+                  pred_val=""
+
+                  if pred_cat==0:
+                       pred_val ='Trending'
+
+                  else:
+                       pred_val='Wont Trending'
+
+                                       
+                  cf_lvl=pd.DataFrame(self.Trending_model.predict_proba(sub_data_pred))
+                  s_clf=pd.Series(cf_lvl.max(axis=0))
+                  pred_cat=pd.DataFrame(pred_cat) 
+ 
+                  pred_cat=pd.DataFrame(data['Microblog_text'])
+                  pred_cat['Confidence Level']=s_clf.max()
+                  pred_cat['Projected Status']=pred_val                   
+                    
+                  st.write('Topic analysis/prediciton:')
+                  st.write('Topology table')
+                  pred_Topic=self.Topic_m.predict(data['Microblog_text'])
+                  name=[]
+                  
+
+                  if pred_Topic=='0':
+                        topic_name='T_Vaccine'
+                        name.append(topic_name)
+                  elif pred_Topic=='1':
+                          topic_name='T_Covid19'
+                          name.append(topic_name)
+                  else:
+                          topic_name='T_SA_lockdown'
+                          name.append(topic_name)
+
+                          
+                  pred_Topic=pd.DataFrame(pred_Topic)
+                  pred_Topic['Microblog']=data['Microblog_text']
+                  pred_Topic['Topic_Cat']=pred_Topic[0]
+                  pred_Topic['Topic_Name']=name[0]
+                  
+                  pred_Topic=pred_Topic[['Microblog','Topic_Cat','Topic_Name']]
+                   
+                  st.dataframe(pred_Topic)
+                  
+                  lamda_T1=[27,3,11,10,19,0,5,18,2,6,7,6,18,2,4,27,13,7,2,5,6,1,6,6,9,14,2,6,4,3,3,8,4,
+                     3,4,4,2,1,10,3,1,1,1,1,1,3,2,8,2,2,4,1,1,9,3,2,2,3,2,2,1,1,2,5,5,7,8,3,13,
+                     8,4,1]
+                  lamda_T2=[0,1178,2,1,1,359,2,4,1,1,16,74,6,7,2,3,159,3,11,65,12,4,1,22,5,1,1,43,
+                      1,63,2,5,3,1,1,314,357,16,10,21,4,12,2,2,1,3,61,32,1,2,1,1,1,2,3,1,11,
+                      4,1,7,15,17,4,2,65,1,1,1,1,1,22,8]
+            
+                  lamda_T3=[3,3,0,1,3,3,1,1,1,1,1,1,4,1,1,1,6,2,1,1,1,4,1,3,1,1,1,3,1,1,1,1,2,1,1,1,
+                      1,4,2,4,1,1,2,3,1,1,1,1,1,1,1,1,3,2,2,1,3,5,3,1,1,1,1,2,3,1,2,1,1,
+                      1,2,1]
+                  
+                  
+                  
+                  plt_dist=pd.DataFrame(lamda_T1,index=pd.RangeIndex(72, name='x'))
+                  plt_dist['T1: #Covid']=plt_dist[0]
+                  plt_dist['T2: #Vaccine']=lamda_T2
+                  plt_dist['T3: #SA_Lockdown']=lamda_T3
+                  plt_dist=plt_dist[['T1: #Covid','T2: #Vaccine','T3: #SA_Lockdown']]
+                  plt1=plt_dist[['T1: #Covid']]
+                  plt2=plt_dist[['T2: #Vaccine']]
+                  plt3=plt_dist[['T3: #SA_Lockdown']]
+                    
+                  plt1 = plt1.reset_index().melt('x', var_name='category', value_name='y')
+                  
+                
+                  line_chart1= alt.Chart(plt1).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic1'
+                          )
+
+                
+                  plt2 = plt2.reset_index().melt('x', var_name='category', value_name='y')
+                                
+                  line_chart2= alt.Chart(plt2).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic2'
+                          )
+
+                
+            
+                  plt3 = plt3.reset_index().melt('x', var_name='category', value_name='y')
+                                                
+                  line_chart3= alt.Chart(plt3).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='Topic3'
+                          )   
+                              
+                  plt_dist = plt_dist.reset_index().melt('x', var_name='category', value_name='y') 
+                  line_chart = alt.Chart(plt_dist).mark_line(interpolate='basis').encode(
+                          alt.X('x', title='hour'),
+                          alt.Y('y', title='count of retweets'),
+                          color='category:N'
+                          ).properties(
+                           title='retweet count distribution in the first 72hours')
+                              
+                
+                  st.subheader("Individual Distrubtion plot")
+                  
+                  st.write(pred_Topic['Topic_Cat'][0])
+    
+                  if pred_Topic['Topic_Cat'][0]=='1':
+                       st.subheader("Topic1 Distrubtion plot")
+                       st.altair_chart(line_chart1,use_container_width=True)
+            
+                  elif pred_Topic['Topic_Cat'][0]=='2':
+                       st.subheader("Topic2 Distrubtion plot")
+                       st.altair_chart(line_chart2,use_container_width=True)
+                
+                  elif pred_Topic['Topic_Cat'][0]=='3':
+                       st.subheader("Topic3 Distrubtion plot")
+                       st.altair_chart(line_chart3,use_container_width=True)    
+                       
+                  st.subheader('Get probability of retweet count based on topic.')
+               
+     
+                  from numpy import random
+                  from scipy.stats import poisson
+                    
+                  if pred_Topic['Topic_Cat'][0]=='1':
+                        lambda_dist=lamda_T1
+                        Count_tweet = st.slider('Count of Tweet',step=1, max_value=50)
+                        hr_tweet=st.slider('hour since tweeted',max_value=72,step=1)
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                
+                  elif pred_Topic['Topic_Cat'][0]=='2':
+                        lambda_dist=lamda_T2
+                        Count_tweet = st.slider('Count of Tweet',step=1, max_value=1200)
+                        hr_tweet=st.slider('hour since tweeted',max_value=72,step=1)
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                        
+                  elif pred_Topic['Topic_Cat'][0]=='3':
+                        lambda_dist=lamda_T3
+                        Count_tweet = st.slider('Count of Tweet',step=1, max_value=20)
+                        hr_tweet=st.slider('hour since tweeted',max_value=72,step=1)
+                        lambda_val=lambda_dist[hr_tweet]
+                        prob=poisson.pmf(Count_tweet,lambda_val)
+                
+                        st.write('Probabilty of retweet count is:')
+                        st.write(prob)
+                        
+                  if st.checkbox('Predict probability microblog will trend'):
+                       st.subheader("Likelihood of microblog trending:") 
+                       st.write("Probability split:") 
+
+                       st.dataframe(pred_cat)
+class Dash:
+      def dash_full():
                 url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
                 
                 Data_file = pd.read_excel(url)
@@ -819,193 +1281,39 @@ class SubSet_Data:
                              s = "{:.0f}".format(width), 
                              va = "center")
                         st.pyplot()
-              
-          else:
-            st.subheader("1. Translate Microblog:")
-          
-            st.subheader("2. Determine SA vs International:")
-          
-            st.subheader("3. User Influencer Status:")
-          
-            st.subheader("4. User & Content Based Feature Table:")
-          
-          
-          
-            #Creating side bar to upload the file
-            st.sidebar.subheader("Model and Visualization Headings")
-            menu=["","Bulk prediction","Single prediction"]
-            choice=st.sidebar.selectbox("Choose data load method", menu)
-          
-            if choice== "Bulk prediction":
-                Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])
-              
-                if st.button('Predict'):
-                  data=pd.read_excel(Data_file)
 
-                  sub_data=self.sub_df(data)
-                  corpus=sub_data['Microblog_text']
-                  Tp=Topic_num(corpus)
-                
-                  Senti=self.Sentiment_url(corpus)
-
-                  sub_data['Sentiment']=Senti["sentiment"]
-                  sub_data['Sentiment_Cat']=Senti["Sentiment_Cat"]
-                  sub_data['No_Urls']=Senti["urls"]
-                  sub_data['Topic']=pd.DataFrame(Tp, columns={'Topic'})
-                
-                  sub_data_pred=sub_data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
-                  
-                  sent=sub_data['Sentiment']
-                  face_det=(sent.value_counts()/len(sent))*100
-                  
-                  
-                  emo=[]
-                  for i in face_det:
-                      if i=="Pos":
-                          emoji_=emoji.emojize(':grinning_face_with_big_eyes:')
-                          emo.append(emoji_)
-                      elif i=="Neg":
-                          emoji_=emoji.emojize(':neutral_face:')
-                          emo.append(emoji_)
-                      else:
-                          emoji_=emoji.emojize(':angry_face:')
-                          emo.append(emoji_)
-                          
-                  pred_cat=pd.DataFrame(Trending_model.predict(sub_data_pred))
-                  pred_val=[]
-                  
-                  for i in pred_cat[0]:
-                      if i==0:
-                          val='Trending'
-                          pred_val.append(val)
-                      else:
-                          val='Wont Trending'
-                          pred_val.append(val)
-                      
-
-                  
-                  cf_lvl=pd.DataFrame(Trending_model.predict_proba(sub_data_pred))
-                  
-                  pred_cat['Pred category']=pred_cat[0]
-                  pred_cat['Text']=sub_data['Microblog_text']
-                  pred_cat['Projected Status']=pred_val
-                  pred_cat['Confidence Level']=cf_lvl[0]
-                  
-                  st.write('4.1. Topic analysis/prediciton:')
-                  
-                  st.write(Topic_m.predict(sub_data['Microblog_text']))
-
-                          
-                
-                  st.write("User & Content based Table based on input data")
-                  st.dataframe(sub_data_pred)
-                  
-                  st.write("Overall Sentiment:")
-        
-                  st.write("{}: {} : {}".format("Positive Sentiment" ,str(int(face_det[0]))+'%',emoji.emojize(':grinning_face_with_big_eyes:')))
-                  st.write("{}: {} : {}".format("Neutral Sentiment" ,str(int(face_det[1]))+'%',emoji.emojize(':neutral_face:')))
-                  st.write("{}: {} : {}".format("Negative Sentiment" ,str(int(face_det[2]))+'%',emoji.emojize(':angry_face:')))
-                                          
-                
-                  st.write("4.2. Likelihood of microblog trending:") 
-                  
-                
-                  st.write("Probability split:") 
-                  #
-                  
-                  st.dataframe(pred_cat)
-        
-                
-            if choice=="Single prediction":
-              
-              st.sidebar.subheader("User Information:")
-              number_of_followers=st.sidebar.number_input("number of followers",min_value=0, max_value=10000000,step=1)
-              number_of_times_listed=st.sidebar.number_input("number of times listed",min_value=0, max_value=10000000,step=1)
-              fav_Count=st.sidebar.number_input("fav Count",min_value=0, max_value=10000000, step=1)
-              status_Count=st.sidebar.number_input("status Count",min_value=0, max_value=10000000, step=1)
-              has_image=st.sidebar.number_input("has image (1-yes 0-No)",min_value=0,max_value=1, step=1)
-              has_decription=st.sidebar.number_input("has decription (1-yes 0-No)",min_value=0,max_value=1, step=1)
-              user_verified=st.sidebar.number_input(" Verified (1-yes 0-No)",min_value=0,max_value=1, step=1)
-              Date_user_created=st.sidebar.date_input("Date user created")
-              Microblog_text=st.sidebar.text_input("Microblog text")
-              
-              features={'number_of_followers': number_of_followers,
-                  'number_of_times_listed': number_of_times_listed,'fav_Count': fav_Count,'user_verified':user_verified,
-                  'status_Count':status_Count,'has_image': has_image, 'has_decription': has_decription,
-                  'Date_user_created': Date_user_created, 'Microblog_text': Microblog_text,
-                  
-                  }
-              
-              data = pd.DataFrame([features])
-              
-              if st.button('Predict'):
-                  data = pd.DataFrame([features])
-                  corpus=data['Microblog_text']
-                  Tp=self.Topic_num(corpus)
-                  Senti=self.Sentiment_url(corpus)
-                  
-                  Length=len(data['Microblog_text'])
-                  
-                  import datetime
-              
-                  data['Date_user_created'] =  pd.to_datetime(data['Date_user_created'])
-                  data['Date_user_created'] =  pd.to_datetime(data['Date_user_created'],format="%Y-%m-%d")
-
-                  d1 = data['Date_user_created']
-                  Today = datetime.datetime.now() 
-                  
-                  diff_Created=(Today - d1.min())
-                  DaysActive=diff_Created.days
-              
-                  data['Sentiment']=Senti["sentiment"]
-                  data['Sentiment_Cat']=Senti["Sentiment_Cat"]
-                  data['No_Urls']=Senti["urls"]
-                  data['Topic']=pd.DataFrame(Tp, columns={'Topic'})
-                  data['Length']=Length
-                  data['DaysActive']=DaysActive
-                  
-                  st.write(data[['Sentiment_Cat','Sentiment']].head()) 
-                  
-                  sub_data=data[['number_of_followers','number_of_times_listed','Length','fav_Count','user_verified','status_Count','has_image','DaysActive','Sentiment_Cat','No_Urls','Topic','has_decription']]
-                  #remove sentiment column from subdata
-                  pred_cat=self.Trending_model.predict(sub_data)
-                  pred_val=list()
-                  
-                  for i in pred_cat:
-                      if i==0:
-                          val='Trending'
-                      else:
-                          val='Wont Trending'
-                      pred_val.append(val)
-                      
-                  pred_table=pd.DataFrame()
-                  
-                  cf_lvl=self.Trending_model.predict_proba(sub_data)
-                  pred_table['Category']=pred_cat
-                  pred_table['Projected Status']=pred_val
-                  pred_table['Confidence Level']=cf_lvl[0][0] #changed from cf_lvl[0]
-                  
-
-                  st.write("Topic number:",pd.DataFrame(Tp))
-                  st.write(data['Sentiment']) #changed from sub_data[sentiment]
-                  
-                  st.dataframe(sub_data)
-                  st.dataframe(pred_table)
-                  
-                  st.write(self.Trending_model.predict(sub_data))
-                  st.write(self.Trending_model.predict_proba(sub_data))
-          
 def main():
-
-  st.sidebar.write("SELECT DATA TO USE")
-  data_option=st.sidebar.selectbox("Data Option",("<Select Option>","Full Dataset","Sub Dataset"))
-  if data_option=="Full Dataset":
-    Full_Data().main_full()
     
-  elif data_option=='Sub Dataset':
-       
-     SubSet_Data().main_sub()
+  st.sidebar.header('Model and Visualization Selection')
+  pick=["","Visualization/Dashboard","Prediction"]
+  choice=st.sidebar.selectbox("Select Page to view", pick)
+  
+  if choice=='Prediction':
+    st.title("Covid19za Consortium")
+    st.subheader("Analysis and Predictor Models for Covid19 Microblog data ")
+    st.write("This app uses a microblog, twitter data to help identify communication straegy for health and government officials during pandemics in social platforms. The dataset used contains user, retweet and microblog content information. ")
+  
+    st.write("The app will:")
+    st.write('1. Predict if microblog text is SA or International, and identify sentiment between the two clusters.')
+    st.write('2. Predict influncer status of user')
+    st.write('3. Identify distribution of microblog based on predicted topic')
+    st.write('4. Predict if Microblog will trend.')
+  
+    st.markdown('The first two predictions uses original dataset for predicitons whilst the rest uses the subset   **select data to achieve required prediction**.')  
+  
+    st.sidebar.subheader("SELECT DATA TO USE")
+    data_option=st.sidebar.selectbox("Data Option",("<Select Option>","Original Dataset","Sub Dataset"))
+    if data_option=="Original Dataset":
+        Full_Data().main_full()
+    
+    elif data_option=='Sub Dataset':
+        SubSet_Data().main_sub()
+        
+    else:
+      st.write('Dashboard')
       
+  elif choice=="Visualization/Dashboard"
+          Dash().dash_full()
     
 
 if __name__=='__main__':

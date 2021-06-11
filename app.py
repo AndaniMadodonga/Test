@@ -447,8 +447,9 @@ class Full_Data:
                               
                               st.write("**Table of Tweet and Predicted Sentiment**")
                               st.write(senti[2][["clean_text","sentiment_class"]].head())
-                              st.write("**SA tweet Sentiment analysis Bar graph**")
                               self.csv_downloader(senti[2][["clean_text","sentiment_class"]])
+                              st.write("**SA tweet Sentiment analysis Bar graph**")
+                              
 #                               chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
 #                               st.write(chart1)
                               ax = sns.countplot(y="sentiment_class", data=senti[0])

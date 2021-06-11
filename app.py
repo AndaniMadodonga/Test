@@ -302,7 +302,7 @@ class Full_Data:
       def csv_downloader(self,data):
             csvfile = data.to_csv()
             b64 = base64.b64encode(csvfile.encode()).decode()
-            new_filename = "new_text_file_{}_.csv".format(timestr)
+            new_filename = "new_text_file.csv"
             st.markdown("#### Download File ###")
             href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!!</a>'
             st.markdown(href,unsafe_allow_html=True)

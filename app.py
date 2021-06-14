@@ -6,10 +6,6 @@ Created on Wed Jun  9 06:56:21 2021
 @author: yolandankalashe
 """
 
-# -*- coding: utf-8 -*-
-
-
-# -*- coding: utf-8 -*-
 import seaborn as sns
 import streamlit as st 
 import altair as alt
@@ -1229,7 +1225,7 @@ class Dash:
                 Data_file = pd.read_excel(url)
                 
                 if Data_file is None:
-                   st.write("Check the data reference link ")
+                   st.write("Check the data reference link")
                 else:
                   st.subheader("Visuals based on Trained data")
                    #Full_Data().main_full()
@@ -1241,7 +1237,7 @@ class Dash:
 
                   #fin_data=Full_Data().
                   st.write(data_processed.head())
-                  hashbar = st.checkbox("Generate hashtags vs Topics",value = False)
+                  hashbar = st.checkbox("Generate Hashtags vs Topics",value = False)
                   if hashbar:
                     st.write( "**Hash_Tags vs Topics Bar Graph**") 
                     
@@ -1252,7 +1248,7 @@ class Dash:
                          height = p.get_height() 
                          width = p.get_width() 
                          ax.text(x = width+3, 
-                         y = p.get_y()+(height/2),
+                         y = p.get_y()+(height/1),
                          s = "{:.0f}".format(width), 
                          va = "center")
                     st.pyplot()   
@@ -1297,7 +1293,7 @@ class Dash:
                              height = p.get_height() 
                              width = p.get_width() 
                              ax.text(x = width+3, 
-                             y = p.get_y()+(height/2),
+                             y = p.get_y()+(height/1),
                              s = "{:.0f}".format(width), 
                              va = "center")
                         st.pyplot()

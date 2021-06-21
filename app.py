@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun  9 06:56:21 2021
 
-@author: yolandankalashe
-"""
 
+# -*- coding: utf-8 -*-
+
+
+# -*- coding: utf-8 -*-
 import seaborn as sns
 import streamlit as st 
 import altair as alt
@@ -53,7 +53,7 @@ nltk.download('wordnet')
 from nltk.corpus import stopwords
 class Full_Data:
       # Data Pre-processing
-
+      
       def preprocess(self,data_heading):
         null_dict={}
         nulls_all=data_heading.isnull().sum().to_frame()
@@ -153,6 +153,7 @@ class Full_Data:
         return df_normal1.iloc[:,:5] #best_model_xgb
 
       #SA and Global Category Data cleaning
+      
       def CategoriseSA(self,Final_Dataset):
         Final_Dataset['statuses_text'] = Final_Dataset['statuses_text'].str.lower()
         Categorisation_dataset=Final_Dataset[(Final_Dataset['input_query']!='nfsas') & (Final_Dataset['input_query']!='#openthechurches')]
@@ -232,7 +233,7 @@ class Full_Data:
         Data_Models['clean_text']=df_lem['clean_text']
 
         return  Data_Models #best_model
-
+    
       def clean_text(self,text):
         documents = []
         from nltk.stem import WordNetLemmatizer
@@ -295,6 +296,8 @@ class Full_Data:
           return text_Sent_SA, text_Sent_GL,Df_sent
         else: 
           return Df_sent["sentiment_class"].loc[0]
+      
+
       def csv_downloader(self,data):
             dateTimeObj = datetime.now()
             timeStr = dateTimeObj.strftime("%H:%M:%S.%f")
@@ -304,6 +307,7 @@ class Full_Data:
             st.markdown("#### Download File ###")
             href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!!</a>'
             st.markdown(href,unsafe_allow_html=True)
+            
 
       def main_full(self):
           import streamlit as st       
@@ -442,12 +446,10 @@ class Full_Data:
                               predata=Bulk_data(data_load)
                               pred_cat=self.CategoriseSA(predata)
                               senti=self.Sent(pred_cat)
-                              
                               st.write("**Table of Tweet and Predicted Sentiment**")
-                              st.write(senti[2][["clean_text",'Class',"sentiment_class"]].head())
-                              self.csv_downloader(senti[2][["clean_text",'Class',"sentiment_class"]])
+                              st.write(senti[2][["clean_text","sentiment_class"]].head())
+                              self.csv_downloader(senti[2][["clean_text","sentiment_class"]])
                               st.write("**SA tweet Sentiment analysis Bar graph**")
-                              
 #                               chart1 = alt.Chart(senti[0]).mark_bar().encode(alt.X("sentiment_class"),y='count()').interactive()
 #                               st.write(chart1)
                               ax = sns.countplot(y="sentiment_class", data=senti[0])
@@ -536,7 +538,8 @@ class Full_Data:
                              y = p.get_y()+(height/2),
                              s = "{:.0f}".format(width), 
                              va = "center")
-                          st.pyplot()
+
+
 def preprocess_text(text):
           # Tokenise words while ignoring punctuation
           tokeniser = RegexpTokenizer(r'\w+')
@@ -565,7 +568,8 @@ class SubSet_Data:
           # Remove stop words
           keywords= [lemma for lemma in lemmas if lemma not in stopwords.words('english')]
           return keywords
-
+      
+     
       def sub_df(self,data):
           data['statuses_retweeted_status_user_created_at'] =  pd.to_datetime(data['statuses_retweeted_status_user_created_at'])
           data['statuses_retweeted_status_user_created_at'] =  pd.to_datetime(data['statuses_retweeted_status_user_created_at'],format="%Y-%m-%d")
@@ -637,7 +641,7 @@ class SubSet_Data:
           
           return MicroblogText_df
           
-
+ 
       def Topic_num(self,corpus_df):
           corpus_df=corpus_df.to_list()
           Topic_ls=[]
@@ -683,6 +687,7 @@ class SubSet_Data:
           url = re.findall(regex,string)      
           return len(url)
 
+  
       def Sentiment_url(self,corpus_df):
           import vaderSentiment
           from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer   
@@ -739,7 +744,7 @@ class SubSet_Data:
 
 
 
-
+   
       def main_sub(self):
           
           
@@ -755,8 +760,12 @@ class SubSet_Data:
             
             if choice=='Bulk prediction':
                 Data_file=st.sidebar.file_uploader(label="Upload csv raw file", type=['xlsx'])
-                
-                if st.checkbox('Generate User & Content Based Feature Table'):
+                if Data_file is None:
+                    st.warning("Please load data")
+                    st.stop()
+                else:
+                    
+                 if st.checkbox('Generate User & Content Based Feature Table'):
                    
                 
                    st.header("User & Content Based Feature Table Modelling:")
@@ -803,7 +812,7 @@ class SubSet_Data:
                    st.write("{}:{}".format("Neutral Sentiment"+ emoji.emojize(':neutral_face:') ,str(int(face_det[1]))+'%'))
                    st.write("{}:{}".format("Negative Sentiment"+emoji.emojize(':angry_face:') ,str(int(face_det[2]))+'%'))
                          
-                if st.checkbox('Predict hourly rate of transmission'):
+                   if st.checkbox('Predict hourly rate of transmission'):
                     
                     pred_cat=pd.DataFrame(self.Trending_model.predict(sub_data_pred))
                     pred_val=[]
@@ -1212,7 +1221,10 @@ class SubSet_Data:
 
                        st.dataframe(pred_cat)
 class Dash:
+      
+    
       def dash_full(self):
+                
                 def Bulk_data(data_load):
                     if data_load is not None:
                         #data = pd.read_excel(data_load)
@@ -1220,83 +1232,158 @@ class Dash:
                         data_load.columns=Label_list
                         #predata=self.preprocess(data)  
                         return data_load
-                url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
+                url='https://github.com/YolandaNkalashe25/MIT805-Exam/blob/main/EDA_sample4%20(1).xlsx?raw=true'
+                #url="https://github.com/AndaniMadodonga/Test/blob/main/Tweetdatatest%20-%20Copy.xlsx?raw=true"
                 
                 Data_file = pd.read_excel(url)
-                
+                html_temp1 = """ 
+                           <div style ="background-color:yellow;padding:13px"> 
+                          <h1 style ="color:black;text-align:Center;;">Visualization/Dashboard based on Trained data</h1> 
+                          </div> 
+                           """
                 if Data_file is None:
-                   st.write("Check the data reference link")
+                   st.write("Check the data reference link ")
                 else:
-                  st.subheader("Visuals based on Trained data")
+                  st.markdown(html_temp1, unsafe_allow_html=True)
                    #Full_Data().main_full()
+                   
+                  #data=Bulk_data(Data_file)
 
+                  #data_processed=Full_Data().preprocess(data)
 
+                  #size=len(data_processed['statuses_retweeted_status_id'].unique())
+                  #st.markdown('<p class="big-font">Count of unique tweets</p>', unsafe_allow_html=True)
+                  #st.write(size)
+                  
+                  #st.write(data_processed.head())
+                  
                   data=Bulk_data(Data_file)
 
-                  data_processed=Full_Data().preprocess(data)
-
-                  #fin_data=Full_Data().
+                  data_processed=data
+                  
                   st.write(data_processed.head())
-                  hashbar = st.checkbox("Generate Hashtags vs Topics",value = False)
-                  if hashbar:
-                    st.write( "**Hash_Tags vs Topics Bar Graph**") 
-                    
-                    sns.set(rc={"figure.figsize":(10,5)})
-                    ax = sns.countplot(y="input_query", data=data_processed)
+                  
+                  data_cat=pd.DataFrame(data_processed['input_query'])
+
+                  def hastag(row):
+                      if(row['input_query']=='vaccine AND "South Africa"' or row['input_query']=='#vaccineSA' or row['input_query']=='#covidvaccine' or row['input_query']=='#VaccineforSouthAfrica' or row['input_query']=='#VaccineRolloutSA' or row['input_query']=='vaccine' ):
+                        val="#T_Vaccine"
+                      elif(row['input_query']=='"South Africa"' or row['input_query']=='#southafrica' or row['input_query']=='#SAlockdown'):  
+                        val="#T_SA"
+                      elif(row['input_query']=='Covid' or row['input_query']=='covid' or row['input_query']=='#openthechurches'):  
+                        val="#T_Covid19"
+                      else:
+                        val="Other"
+        
+                      return val
+                   
+                  data_cat['input_query']=data_processed.apply(hastag,axis=1)
+
+                  my_expander = st.beta_expander("Show Category and SA Catogory visual", expanded=True)
+                  with my_expander:
+                   st.subheader( "**Hash_Tags vs Topics Bar Graph**") 
+                   
+                   
+                   import matplotlib.pyplot as plt
+                   
+                   # PLotting category input query
+                   sns.set(rc={"figure.figsize":(10,5)})
+                   fig= plt.figure()
+                   ax = sns.countplot(y="input_query", data=data_cat,order=data_cat['input_query'].value_counts().index)
+                   plt.xticks(rotation=45)
  
-                    for p in ax.patches:
+                   for p in ax.patches:
                          height = p.get_height() 
                          width = p.get_width() 
                          ax.text(x = width+3, 
-                         y = p.get_y()+(height/1),
+                         y = p.get_y()+(height/2),
                          s = "{:.0f}".format(width), 
                          va = "center")
-                    st.pyplot()   
+
+                   st.pyplot(fig)    
+                  
+                   def Cat_Model():
+                             import joblib
+                             pred_model = joblib.load('classifier_SACat.pkl.pkl')
+                             return pred_model
+ 
+                   clean_cat=Full_Data().CategoriseSA(data_processed)
+   
+      
+                   pred_model=Cat_Model() 
+                   
+                   categorise=pred_model.predict(clean_cat['statuses_without_stopwords'])
+                   categorise=categorise.tolist()
                     
-                  wordclo = st.checkbox("Generate WordCloud",value = False)
-                  if wordclo:
-                     from wordcloud import WordCloud
-                     import matplotlib.pyplot as plt
-                     st.write("**Tweets WordCloud**")
-                     data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
+                   df_class=pd.DataFrame(categorise,columns=["Class_Label"])
+                   df_class=df_class.reset_index(drop=True)
+                    
+                   import numpy as np
+                    
+                   df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
+        
+                   df_cat=pd.concat([clean_cat,df_class],axis=1)
 
-                     
-                     st.set_option('deprecation.showPyplotGlobalUse',False)  
-                     text=" ".join(clean_text for clean_text in data_processed_text.clean_text)
-                     wordcloud = WordCloud(max_words=100).generate(text)
+                   
 
-# Display the generated image:
-                     plt.imshow(wordcloud, interpolation='bilinear')
-                     plt.axis("off")
-                     plt.title('Prevalent words in Tweets')
-                     plt.show()
-                     st.pyplot() 
-                  cat_check=st.checkbox("Generate SA vs Global Bar Graph",value = False)
-                  if cat_check:
-                        def Cat_Model():
-                            import joblib
-                            pred_model = joblib.load('classifier_SACat.pkl.pkl')
-                            return pred_model
-                        clean_cat=Full_Data().CategoriseSA(data_processed)
-                        pred_model=Cat_Model() 
-                        categorise=pred_model.predict(clean_cat.statuses_without_stopwords)
-                        categorise=categorise.tolist()
-                        df_class=pd.DataFrame(categorise,columns=["Class_Label"])
-                        df_class=df_class.reset_index(drop=True)
-                        df_class['Tweet_Category'] = np.where((df_class['Class_Label'] ==0), 'Global Tweet', 'S.A Tweet')
-                        df_cat=pd.concat([clean_cat,df_class],axis=1)
-                        st.write('**SA vs Global Bar Graph**')
-                          
-                        ax = sns.countplot(y="Tweet_Category", data=df_cat)
+                   st.write('**SA vs Global Bar Graph**')
+                   fig1= plt.figure()
+                   ax = sns.countplot(y="Tweet_Category", data=df_cat)
 
-                        for p in ax.patches:
+                   for p in ax.patches:
                              height = p.get_height() 
                              width = p.get_width() 
                              ax.text(x = width+3, 
-                             y = p.get_y()+(height/1),
+                             y = p.get_y()+(height/2),
                              s = "{:.0f}".format(width), 
                              va = "center")
-                        st.pyplot()
+                   st.pyplot(fig1)
+                      
+                my_expander_Text = st.beta_expander("Show Text Analytics", expanded=True)
+                with my_expander_Text:
+  
+                   from wordcloud import WordCloud
+                   import matplotlib.pyplot as plt
+                   
+                   st.subheader("**Tweets WordCloud**")
+                   data_processed_text=Full_Data().clean_text(data_processed.statuses_text)
+   
+                   st.set_option('deprecation.showPyplotGlobalUse',False)  
+                   text=" ".join(clean_text for clean_text in data_processed_text.clean_text)
+                   wordcloud = WordCloud(max_words=100).generate(text)
+ 
+#                   # Display the generated image:
+                   plt.imshow(wordcloud, interpolation='bilinear')
+                   plt.axis("off")
+                   plt.title('Prevalent words in Tweets')
+                   plt.show()
+                   st.pyplot() 
+                   
+                   from PIL import Image
+                   st.subheader('Visual common words in each topic')
+                   st.write('The below visual shows the top salinent words in each topic. To have the interactive plot please click on link below visual')
+                   t_num=st.slider('Show most common words in each topic',max_value=3)
+                   if t_num==1:
+                       image = Image.open('Topic 2.jpg')
+                       st.image(image, caption='Topic 1 most used words')
+                   elif t_num==2:
+                       image = Image.open('Topic3.jpg')
+                       st.image(image, caption='Topic 2 most used words')
+                   elif t_num==3:
+                       image = Image.open('Topic1.jpg')
+                       st.image(image, caption='Topic 3 most used words')
+                   else:
+                      image = Image.open('Topic0.jpg')
+                      st.image(image, caption='Topic 3 most used words')
+             
+ 
+                   url = 'https://htmlpreview.github.io/?https://github.com/YolandaNkalashe25/COS802-Project/blob/main/output_lda.html'
+                   #vis=loads(vis)
+                   import webbrowser
+                   if st.button('Open browser'):
+                     webbrowser.open_new_tab(url)
+
+                  
 
 def main():
     
